@@ -1,13 +1,66 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+/* Site fonts: latin subsets only, matching the weights the original site requests. */
+@import "@fontsource/inter/latin-300.css";
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-400-italic.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter/latin-700.css";
+@import "@fontsource/inter/latin-700-italic.css";
+@import "@fontsource/inter/latin-900.css";
+@import "@fontsource/inter/latin-ext-400.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-300.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-400.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-500.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-700.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-900.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-ext-400.css";
+@import "@fontsource/zen-kaku-gothic-new/latin-ext-700.css";
+@import "@fontsource/plus-jakarta-sans/latin-400.css";
+@import "@fontsource/plus-jakarta-sans/latin-500.css";
+@import "@fontsource/plus-jakarta-sans/latin-600.css";
+@import "@fontsource/plus-jakarta-sans/latin-700.css";
+@import "@fontsource/plus-jakarta-sans/latin-800.css";
+@import "@fontsource/plus-jakarta-sans/latin-ext-400.css";
+@import "@fontsource/archivo/latin-600.css";
+@import "@fontsource/archivo/latin-700.css";
+@import "@fontsource/archivo/latin-800.css";
+@import "@fontsource/archivo/latin-900.css";
+@import "@tabler/icons-webfont/dist/tabler-icons.min.css";
+@import "./styles/theme.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-heading: var(--font-zen);
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-zen: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-jakarta: "Plus Jakarta Sans", sans-serif;
+    --font-archivo: "Archivo", sans-serif;
+    /* Site palette (theme + landing tokens from the original) */
+    --color-body: #626262;
+    --color-heading: #12263a;
+    --color-brand-navy: #181349;
+    --color-brand-indigo: #211a8e;
+    --color-brand-indigo-hover: #5862ce;
+    --color-link: #003fff;
+    --color-link-hover: #5274fe;
+    --color-theme-blue: #0026ff;
+    --color-lp-ink: #0b1e47;
+    --color-lp-muted: #54648a;
+    --color-lp-dim: #8995b4;
+    --color-lp-line: #e1e9f8;
+    --color-lp-soft: #f3f7ff;
+    --color-lp-soft2: #e8f1ff;
+    --color-lp-blue: #2563eb;
+    --color-lp-blue-d: #1b4dd8;
+    --color-lp-blue-soft: #e8f0ff;
+    --color-lp-navy: #0a1c44;
+    --color-lp-azure: #3b82f6;
+    --color-lp-gold: #f5a623;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -120,9 +173,6 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
     }
   html {
     @apply font-sans;

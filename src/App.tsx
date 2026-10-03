@@ -1,27 +1,34 @@
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Route, Routes } from 'react-router'
+import { SiteLayout } from '@/components/site/SiteLayout'
+import Home from '@/pages/Home'
+import Pricing from '@/pages/Pricing'
+import Services from '@/pages/Services'
+import Download from '@/pages/Download'
+import Contact from '@/pages/Contact'
+import Product from '@/pages/Product'
+import Legal from '@/pages/Legal'
+import Checkout from '@/pages/Checkout'
+import NotFound from '@/pages/NotFound'
 
+// Paths mirror the original site's URLs.
 function App() {
   return (
-    <main className="flex min-h-svh items-center justify-center p-6">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>King</CardTitle>
-          <CardDescription>
-            React + Vite + Tailwind CSS + shadcn/ui
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button className="w-full">Get started</Button>
-        </CardContent>
-      </Card>
-    </main>
+    <Routes>
+      <Route element={<SiteLayout />}>
+        <Route index element={<Home />} />
+        <Route path="pricing" element={<Pricing />} />
+        <Route path="services" element={<Services />} />
+        <Route path="muffin-builder-83" element={<Download />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="produit/:slug" element={<Product />} />
+        <Route path="conditions-dutilisation" element={<Legal doc="cgu" />} />
+        <Route path="conditions-generales-de-vente" element={<Legal doc="cgv" />} />
+        <Route path="politique-de-confidentialite" element={<Legal doc="privacy" />} />
+        <Route path="politique-de-remboursement" element={<Legal doc="refund" />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   )
 }
 
