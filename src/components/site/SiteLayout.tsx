@@ -24,6 +24,13 @@ export function SiteLayout() {
     document.body.classList.toggle('sc-side-open', sideOpen)
   }, [sideOpen])
 
+  // The original blocks the browser context menu on every page; mirrored here (delete to re-enable).
+  useEffect(() => {
+    const block = (e: MouseEvent) => e.preventDefault()
+    document.addEventListener('contextmenu', block)
+    return () => document.removeEventListener('contextmenu', block)
+  }, [])
+
   const addToCart = useCallback<ChromeState['addToCart']>((item, qty = 1) => {
     setCartItems((items) => {
       const existing = items.find((i) => i.id === item.id)
