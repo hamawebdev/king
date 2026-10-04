@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import { SiteHeader } from './SiteHeader'
 import { SideSlide } from './SideSlide'
@@ -47,7 +47,9 @@ export function SiteLayout() {
       <div className="sc-wrapper" id="Wrapper">
         <SiteHeader />
         <main id="Content">
-          <Outlet />
+          <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
+            <Outlet />
+          </Suspense>
         </main>
         <SiteFooter />
       </div>

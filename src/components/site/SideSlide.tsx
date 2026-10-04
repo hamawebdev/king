@@ -19,18 +19,20 @@ export function SideSlide() {
           </button>
         </div>
         <div className="sc-side__extras">
-          <button
-            type="button"
-            className="sc-side__cart"
-            aria-label="Panier"
-            onClick={() => {
-              setSideOpen(false)
-              setCartOpen(true)
-            }}
-          >
-            <CartIcon />
-            <span>{formatEuro(total)}</span>
-          </button>
+          <div className="sc-side__extras-wrapper">
+            <button
+              type="button"
+              className="sc-side__cart"
+              aria-label="Panier"
+              onClick={() => {
+                setSideOpen(false)
+                setCartOpen(true)
+              }}
+            >
+              <CartIcon />
+              <span className="sc-side__cart-total">{formatEuro(total)}</span>
+            </button>
+          </div>
         </div>
         <nav aria-label="Menu principal">
           <ul className="sc-side__menu">
