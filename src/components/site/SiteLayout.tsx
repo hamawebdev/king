@@ -44,9 +44,13 @@ export function SiteLayout() {
     setCartItems((items) => items.filter((i) => i.id !== id))
   }, [])
 
+  const setQty = useCallback((id: string, qty: number) => {
+    setCartItems((items) => items.map((i) => (i.id === id ? { ...i, qty: Math.max(1, qty) } : i)))
+  }, [])
+
   const value = useMemo<ChromeState>(
-    () => ({ sideOpen, setSideOpen, cartOpen, setCartOpen, cartItems, addToCart, removeFromCart }),
-    [sideOpen, cartOpen, cartItems, addToCart, removeFromCart],
+    () => ({ sideOpen, setSideOpen, cartOpen, setCartOpen, cartItems, addToCart, removeFromCart, setQty }),
+    [sideOpen, cartOpen, cartItems, addToCart, removeFromCart, setQty],
   )
 
   return (

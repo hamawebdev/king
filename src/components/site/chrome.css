@@ -446,6 +446,11 @@
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.01);
 }
+.sc-cart__product-image {
+  flex-shrink: 0;
+  margin-right: 15px;
+  line-height: 0;
+}
 .sc-cart__product-info {
   display: flex;
   flex: 1;
@@ -463,10 +468,65 @@
   font-weight: 700;
   color: #12263a;
 }
+.sc-cart__product-info p {
+  margin: 0 0 5px;
+  font-size: 14px;
+  line-height: 22px;
+}
 .sc-cart__product-price {
   flex-shrink: 0;
   margin-left: 15px;
   font-weight: 700;
+}
+.sc-cart__remove {
+  color: inherit;
+}
+.sc-cart__remove:hover {
+  color: #12263a;
+}
+/* Quantity stepper (theme style: 120px wide, buttons inside the field). */
+.sc-qty {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+}
+.sc-qty input {
+  width: 100%;
+  margin: 0;
+  padding: 10px 30px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #626262;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.sc-qty input::-webkit-inner-spin-button,
+.sc-qty input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+.sc-qty button {
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+.sc-qty button:first-child {
+  left: 0;
+}
+.sc-qty button:last-child {
+  right: 0;
 }
 .sc-cart__product-footer {
   display: flex;

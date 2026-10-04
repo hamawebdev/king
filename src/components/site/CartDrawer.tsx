@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
 import { BRAND_UPPER } from '@/lib/site'
 import { CartIcon } from './icons'
+import { Placeholder } from './Placeholder'
 import { formatEuro, useChrome } from './chrome-context'
 
 // Side cart that slides in from the right. Front-end only: it lists items added locally.
 export function CartDrawer() {
-  const { cartOpen, setCartOpen, cartItems, removeFromCart } = useChrome()
+  const { cartOpen, setCartOpen, cartItems, removeFromCart, setQty } = useChrome()
   const total = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0)
 
   return (
@@ -43,17 +44,39 @@ export function CartDrawer() {
             ) : (
               cartItems.map((item) => (
                 <div key={item.id} className="sc-cart__product">
+                  <div className="sc-cart__product-image">
+                    <Placeholder tone="product" label={item.name} className="h-[120px] w-[100px]" />
+                  </div>
                   <div className="sc-cart__product-info">
                     <h6>{item.name}</h6>
+                    <p>
+                      {item.qty} × {formatEuro(item.price)}
+                    </p>
                   </div>
                   <div className="sc-cart__product-price">{formatEuro(item.price * item.qty)}</div>
                   <div className="sc-cart__product-footer">
-                    <span>Quantité : {item.qty}</span>
-                    <span>
-                      <button type="button" onClick={() => removeFromCart(item.id)}>
-                        Retirer
+                    <div>
+                      <div className="sc-qty">
+                        <button type="button" aria-label="Diminuer la quantité" onClick={() => setQty(item.id, item.qty - 1)}>
+                          −
+                        </button>
+                        <input
+                          type="number"
+                          min={1}
+                          value={item.qty}
+                          aria-label="Quantité"
+                          onChange={(e) => setQty(item.id, Number(e.target.value) || 1)}
+                        />
+                        <button type="button" aria-label="Augmenter la quantité" onClick={() => setQty(item.id, item.qty + 1)}>
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <button type="button" className="sc-cart__remove" onClick={() => removeFromCart(item.id)}>
+                        Supprimer
                       </button>
-                    </span>
+                    </div>
                   </div>
                 </div>
               ))

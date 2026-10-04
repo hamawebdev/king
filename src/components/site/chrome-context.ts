@@ -16,6 +16,7 @@ export type ChromeState = {
   /** Front-end only: adds an item locally and opens the cart drawer. Nothing is submitted. */
   addToCart: (item: Omit<CartItem, 'qty'>, qty?: number) => void
   removeFromCart: (id: string) => void
+  setQty: (id: string, qty: number) => void
 }
 
 export const ChromeContext = createContext<ChromeState | null>(null)
