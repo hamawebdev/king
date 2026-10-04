@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { FOOTER_NAV, LEGAL_NAV, SITE_DOMAIN } from '@/lib/site'
 import { ChevronUpIcon } from './icons'
 
@@ -17,8 +17,11 @@ function LinkLines({ items }: { items: typeof FOOTER_NAV }) {
 }
 
 export function SiteFooter() {
+  const { pathname } = useLocation()
+  const elementorPage = pathname === '/' || pathname.startsWith('/produit/')
+
   return (
-    <footer className="sc-footer" id="Footer">
+    <footer className={`sc-footer${elementorPage ? ' sc-footer--elementor' : ''}`} id="Footer">
       <div className="sc-footer__widgets">
         <div className="sc-footer__container">
           <div className="sc-footer__col">

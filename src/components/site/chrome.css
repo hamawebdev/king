@@ -20,6 +20,8 @@
   z-index: 30;
   width: 100%;
   height: 110px;
+  box-sizing: content-box;
+  border-bottom: 1px solid transparent;
   background: #ffffff;
   font-family: var(--font-inter);
 }
@@ -580,7 +582,7 @@
 .sc-footer__copy-inner {
   max-width: 1260px;
   margin: 0 auto;
-  padding: 30px 12px 24px;
+  padding: 30px 12px 25px;
   box-sizing: border-box;
 }
 .sc-footer__copy-inner::after {
@@ -634,6 +636,10 @@
     width: 100%;
   }
   .sc-footer__logo {
+    margin-bottom: 1px;
+  }
+  /* Elementor-built pages (home, products) render the logo block 5px taller on mobile. */
+  .sc-footer--elementor .sc-footer__logo {
     margin-bottom: 6px;
   }
   .sc-footer__copy-inner {

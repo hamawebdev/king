@@ -13,7 +13,7 @@ export function SiteHeader() {
   useEffect(() => {
     const onScroll = () => {
       // Desktop bar is 110px, mobile mini bar is 60px; it turns sticky once scrolled past itself.
-      const h = window.innerWidth < 768 ? 60 : 110
+      const h = window.innerWidth < 768 ? 61 : 111
       setBarHeight(h)
       setSticky(window.scrollY > h)
     }
