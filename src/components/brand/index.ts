@@ -1,7 +1,7 @@
 // Brand kit « Réserve » (DIRECTION.md §12). Import everything from '@/components/brand'.
 export { Section, Container, VaultPanel } from './Section'
 export { Eyebrow, SectionHead, Kw, TextLink, TextA, Breadcrumb } from './Type'
-export { Button, ButtonLink, ButtonA, WhatsAppButton } from './Button'
+export { Button, ButtonLink, ButtonA, CtaButton, WhatsAppButton } from './Button'
 export {
   Ribbon,
   SavingChip,
@@ -20,6 +20,7 @@ export { Price, PaymentRow, TrustRow, GuaranteeRow, InfoRow, StatStrip } from '.
 export {
   Card,
   CheckList,
+  FeatureGrid,
   FeatureCard,
   LedgerList,
   LedgerItem,
@@ -43,6 +44,7 @@ export { Reveal } from './Reveal'
 export { useReveal, useInView, enableMotionGate } from './motion'
 export {
   SCOPE,
+  fixedRootClass,
   zoneClass,
   containerClass,
   rhythmClass,
@@ -53,6 +55,16 @@ export {
   buttonIconSize,
   linkClass,
   navLinkClass,
+  headerClass,
+  headerNavLinkClass,
+  navCurrentClass,
+  sideLinkClass,
+  drawerClass,
+  sideMenuClass,
+  panelClosedClass,
+  overlayClass,
+  overlayClosedClass,
+  cookieBarClass,
   cardClass,
   tileClass,
   checkIconClass,

@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import {
   cartCountClass,
@@ -31,9 +31,22 @@ export function SavingChip({ children, size = 'md', className }: { children: Rea
   return <span className={cn(savingChipVariants({ size }), className)}>{children}</span>
 }
 
+type TagProps = {
+  children: ReactNode
+  tone?: 'neutral' | 'saving'
+  /** Saving tone only: lg (30px, 16px text) on the featured plan; md (26px) elsewhere. Neutral tags have one size. */
+  size?: 'md' | 'lg'
+  className?: string
+}
+
 /** Plan tag: neutral (Découverte, Tarif le plus bas) or saving (Économisez 40%). */
-export function Tag({ children, tone = 'neutral', className }: { children: ReactNode; tone?: 'neutral' | 'saving'; className?: string }) {
-  if (tone === 'saving') return <SavingChip className={className}>{children}</SavingChip>
+export function Tag({ children, tone = 'neutral', size = 'md', className }: TagProps) {
+  if (tone === 'saving')
+    return (
+      <SavingChip size={size} className={className}>
+        {children}
+      </SavingChip>
+    )
   return <span className={cn(neutralTagClass, className)}>{children}</span>
 }
 
@@ -41,16 +54,17 @@ type ChipProps = {
   children: ReactNode
   icon?: IconName
   size?: 'md' | 'sm'
-  /** Filter chip selected state (ink fill). */
+  /** Filter chip selected state (ink fill). As a button, also pass aria-pressed. */
   selected?: boolean
+  /** Root element (default span; 'button' for a filter chip: pass type, onClick, aria-pressed). */
   as?: ElementType
   className?: string
-}
+} & Omit<ComponentPropsWithoutRef<'button'>, 'className' | 'children'>
 
-/** Static label chip (themes, players, model tags). Zone-aware. */
-export function Chip({ children, icon, size = 'md', selected, as: Tag = 'span', className }: ChipProps) {
+/** Static label chip (themes, players, model tags). Zone-aware. Extra props (id, data-*, onClick, aria-*) go on the root. */
+export function Chip({ children, icon, size = 'md', selected, as: Tag = 'span', className, ...rest }: ChipProps) {
   return (
-    <Tag className={cn(chipVariants({ size, selected: !!selected }), className)}>
+    <Tag {...rest} className={cn(chipVariants({ size, selected: !!selected }), className)}>
       {icon && <i className={iconClass(icon, cn(chipIconClass, selected && 'text-current'))} aria-hidden="true" />}
       {children}
     </Tag>
@@ -69,12 +83,23 @@ export function QualityStamp({ tier, className }: { tier: QualityTier; className
 
 const STAR_SIZE = { 14: 'text-[14px]', 15: 'text-[15px]', 16: 'text-[16px]' } as const
 
-/** Five decorative stars (brass-700 on light, brass-500 on vault). The rating text beside them carries the meaning. */
-export function Stars({ size, className }: { size?: 14 | 15 | 16; className?: string }) {
+type StarsProps = {
+  size?: 14 | 15 | 16
+  /**
+   * Accessible name when no visible rating text sits beside the stars (content string, e.g. "Note 5.00 sur 5"):
+   * renders role="img" aria-label. Without it the stars are aria-hidden.
+   */
+  label?: string
+  className?: string
+}
+
+/** Five stars (brass-700 on light, brass-500 on vault), 14 → 15px by default. Decorative unless `label` is given. */
+export function Stars({ size, label, className }: StarsProps) {
+  const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true as const }
   return (
-    <span aria-hidden="true" className={cn('inline-flex shrink-0 gap-0.5 leading-none text-z-star', size ? STAR_SIZE[size] : 'text-[14px] md:text-[15px]', className)}>
+    <span {...a11y} className={cn('inline-flex shrink-0 gap-0.5 leading-none text-z-star', size ? STAR_SIZE[size] : 'text-[14px] md:text-[15px]', className)}>
       {[0, 1, 2, 3, 4].map((i) => (
-        <i key={i} className="ti ti-star-filled" />
+        <i key={i} className="ti ti-star-filled" aria-hidden="true" />
       ))}
     </span>
   )
@@ -117,9 +142,16 @@ export function Monogram({ name, size = 40, className }: { name: string; size?: 
   )
 }
 
-/** Brass cart count, absolutely placed on its (relative) icon button. */
+/**
+ * Brass cart count, absolutely placed on its (relative) icon button. aria-hidden: put the count in the
+ * button's name instead, e.g. aria-label={`Panier (${n})`}.
+ */
 export function CartCount({ count, className }: { count: number; className?: string }) {
-  return <span className={cn(cartCountClass, className)}>{count}</span>
+  return (
+    <span aria-hidden="true" className={cn(cartCountClass, className)}>
+      {count}
+    </span>
+  )
 }
 
 const TILE_SIZE = {

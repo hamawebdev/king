@@ -3,7 +3,7 @@ import { Link, type LinkProps } from 'react-router'
 import { WHATSAPP_HREF } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { buttonIconSize, buttonVariants, iconClass } from './recipes'
-import type { ButtonSize, ButtonVariant, IconName } from './types'
+import type { ButtonSize, ButtonVariant, Cta, IconName } from './types'
 
 type ButtonLookProps = {
   variant?: ButtonVariant
@@ -108,6 +108,35 @@ export function ButtonA({ variant, size, iconStart, iconEnd, full, loading, clas
         {children}
       </Inner>
     </a>
+  )
+}
+
+type CtaButtonProps = Omit<ButtonLookProps, 'children'> & { cta: Cta }
+
+/**
+ * Renders a Cta with the right element: ButtonLink when `to` is set, ButtonA when `href` is set, otherwise
+ * a <button>. Used by PlanCard, Recap and BuyBar; use it for any `{ label, to | href, onClick }` object.
+ */
+export function CtaButton({ cta, ...look }: CtaButtonProps) {
+  const { label, to, href, onClick, ariaLabel, target, rel } = cta
+  if (to) {
+    return (
+      <ButtonLink {...look} to={to} onClick={onClick} aria-label={ariaLabel} target={target} rel={rel}>
+        {label}
+      </ButtonLink>
+    )
+  }
+  if (href) {
+    return (
+      <ButtonA {...look} href={href} onClick={onClick} aria-label={ariaLabel} target={target} rel={rel}>
+        {label}
+      </ButtonA>
+    )
+  }
+  return (
+    <Button {...look} onClick={onClick} aria-label={ariaLabel}>
+      {label}
+    </Button>
   )
 }
 

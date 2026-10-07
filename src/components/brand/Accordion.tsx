@@ -1,7 +1,17 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode, type SyntheticEvent } from 'react'
 import { cn } from '@/lib/utils'
 import { Chip, IconTile } from './Labels'
 import type { IconName } from './types'
+
+/**
+ * Open state of a native <details>, mirrored as an explicit aria-expanded on its <summary> (same value the
+ * platform exposes; tests and scripts can read it as an attribute).
+ */
+function useDetailsOpen(defaultOpen?: boolean) {
+  const [open, setOpen] = useState(!!defaultOpen)
+  const onToggle = (e: SyntheticEvent<HTMLDetailsElement>) => setOpen(e.currentTarget.open)
+  return { open, onToggle }
+}
 
 /** FAQ list: hairline on top, each row closes with a hairline. */
 export function FaqList({ children, className }: { children: ReactNode; className?: string }) {
@@ -12,7 +22,11 @@ type FaqItemProps = {
   question: ReactNode
   children: ReactNode
   defaultOpen?: boolean
-  /** Wrap the question in a heading element (keeps the page outline when the original had one). */
+  /**
+   * Wrap the question in a heading element. Leave it unset for FAQ rows: VoiceOver and some NVDA/Chrome
+   * combinations flatten <summary> into a button, so a heading inside it drops out of heading navigation.
+   * Keep the outline through the section H2 instead.
+   */
   headingAs?: 'h3' | 'h4'
   className?: string
 }
@@ -23,9 +37,10 @@ type FaqItemProps = {
  */
 export function FaqItem({ question, children, defaultOpen, headingAs, className }: FaqItemProps) {
   const Q = headingAs ?? 'span'
+  const { open, onToggle } = useDetailsOpen(defaultOpen)
   return (
-    <details open={defaultOpen} className={cn('brand-disclosure group border-b border-z-line', className)}>
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-[22px] font-sans text-faq text-z-fg">
+    <details open={defaultOpen} onToggle={onToggle} className={cn('brand-disclosure group border-b border-z-line', className)}>
+      <summary aria-expanded={open} className="flex cursor-pointer list-none items-start justify-between gap-6 py-[22px] font-sans text-faq text-z-fg">
         <Q className="font-sans text-faq text-z-fg">{question}</Q>
         <i
           className="ti ti-plus mt-0.5 shrink-0 text-[20px] text-evergreen-700 transition-transform duration-260 ease-calm group-open:rotate-45 vault:text-brass-300"
@@ -55,8 +70,10 @@ export function Code({ children, className }: { children: ReactNode; className?:
 type GuideAccordionProps = {
   icon: IconName
   title: ReactNode
-  /** Device tags as small chips (hidden below md). */
+  /** Device tags as small chips (content strings: shown on every width, wrapping under the title on phone). */
   tags?: string[]
+  /** Hide the tags below md, only when they would wrap past two lines on phone (§6.3-9). */
+  hideTagsOnPhone?: boolean
   steps: ReactNode[]
   tip?: ReactNode
   defaultOpen?: boolean
@@ -67,15 +84,16 @@ type GuideAccordionProps = {
 }
 
 /** Guide accordion card: tile 44, serif title, device chips, chevron; numbered steps and an optional tip. */
-export function GuideAccordion({ icon, title, tags, steps, tip, defaultOpen, as: H = 'h3', className, children }: GuideAccordionProps) {
+export function GuideAccordion({ icon, title, tags, hideTagsOnPhone, steps, tip, defaultOpen, as: H = 'h3', className, children }: GuideAccordionProps) {
+  const { open, onToggle } = useDetailsOpen(defaultOpen)
   return (
-    <details open={defaultOpen} className={cn('brand-disclosure group rounded-card border border-z-line bg-z-card', className)}>
-      <summary className="flex cursor-pointer list-none items-center gap-4 rounded-card p-5 md:px-6">
+    <details open={defaultOpen} onToggle={onToggle} className={cn('brand-disclosure group rounded-card border border-z-line bg-z-card', className)}>
+      <summary aria-expanded={open} className="flex cursor-pointer list-none items-center gap-4 rounded-card p-5 md:px-6">
         <IconTile icon={icon} size={44} />
         <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-2">
           <H className="font-display text-title text-z-fg">{title}</H>
           {tags && tags.length > 0 && (
-            <span className="hidden flex-wrap gap-2 md:flex">
+            <span className={cn('flex flex-wrap gap-2', hideTagsOnPhone && 'max-md:hidden')}>
               {tags.map((t) => (
                 <Chip key={t} size="sm">
                   {t}

@@ -57,8 +57,9 @@ export function SectionHead({
   return (
     <header
       className={cn(
-        'max-w-[56rem]',
-        center && 'mx-auto flex flex-col items-center text-center',
+        // flex column: the inline-flex eyebrow becomes a flex item, so no line-box strut adds to the 16px gap
+        'flex max-w-[56rem] flex-col',
+        center && 'mx-auto items-center text-center',
         sticky && 'lg:sticky lg:top-24 lg:self-start',
         className,
       )}

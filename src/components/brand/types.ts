@@ -30,8 +30,19 @@ export type IconName = string
 /** Icon + label pair (trust rows, guarantee rows). */
 export type IconText = { icon: IconName; label: string }
 
-/** A call to action: a route (`to`), a plain href, or a click handler. */
-export type Cta = { label: string; to?: string; href?: string; onClick?: (e: MouseEvent<HTMLElement>) => void }
+/**
+ * A call to action. `to` renders a router link, `href` a plain <a> (anchors, external, "/checkout/"),
+ * neither a <button>. Both link forms keep role=link. `ariaLabel`, `target`, `rel` pass through.
+ */
+export type Cta = {
+  label: string
+  to?: string
+  href?: string
+  onClick?: (e: MouseEvent<HTMLElement>) => void
+  ariaLabel?: string
+  target?: string
+  rel?: string
+}
 
 export type QualityTier = '4K' | 'FHD' | 'HD' | 'SD'
 

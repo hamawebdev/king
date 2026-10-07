@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from 'react'
 import { cn } from '@/lib/utils'
-import { Button, ButtonLink } from './Button'
+import { CtaButton } from './Button'
 import { Ribbon, SavingChip } from './Labels'
 import { GuaranteeRow, InfoRow, PaymentRow, Price } from './Price'
 import { cardClass } from './recipes'
@@ -37,7 +37,7 @@ type RecapProps = {
   mosaicStrip?: boolean
   /** Heading level of the plan name (default h2). */
   as?: 'h2' | 'h3' | 'p'
-  /** Ref for the phone BuyBar `watch`. */
+  /** Optional ref. Not needed for the BuyBar: the Recap marks itself with data-buybar-watch. */
   ref?: Ref<HTMLElement>
   className?: string
 }
@@ -68,7 +68,7 @@ export function Recap({
   className,
 }: RecapProps) {
   return (
-    <article ref={ref} className={cn(cardClass.recap, sticky && 'lg:sticky lg:top-24', className)}>
+    <article ref={ref} data-buybar-watch="" className={cn(cardClass.recap, sticky && 'lg:sticky lg:top-24', className)}>
       {ribbon && <Ribbon icon="ti-award">{ribbon}</Ribbon>}
       {mosaicStrip && <ChannelMosaic rows={2} cols={6} selected={9} osd={false} fill={false} className="mb-5 -mx-[3px] opacity-50 lg:hidden" />}
       <H className="border-b border-vault-line pb-5 font-display text-title-lg text-on-vault">{plan}</H>
@@ -92,15 +92,7 @@ export function Recap({
         ))}
       </ul>
       <div className="relative z-[1] mt-6">
-        {cta.to ? (
-          <ButtonLink to={cta.to} variant="brass" size="lg" full iconEnd="arrow" onClick={cta.onClick}>
-            {cta.label}
-          </ButtonLink>
-        ) : (
-          <Button variant="brass" size="lg" full iconEnd="arrow" onClick={cta.onClick}>
-            {cta.label}
-          </Button>
-        )}
+        <CtaButton cta={cta} variant="brass" size="lg" full iconEnd="arrow" />
         {guarantees && guarantees.length > 0 && <GuaranteeRow items={guarantees} className="mt-3.5" />}
       </div>
       {payment && (

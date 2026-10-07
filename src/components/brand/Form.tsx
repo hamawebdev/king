@@ -8,8 +8,18 @@ export function FormCard({ children, className }: { children: ReactNode; classNa
 }
 
 type FieldMeta = {
-  /** Visible label (content string). */
+  /**
+   * Label (content string). Never invent label copy: when the content only has a placeholder
+   * ("Votre Nom*"), pass that same string with `labelHidden`.
+   */
   label: ReactNode
+  /** Render the label sr-only (it still names the control). For placeholder-only forms. */
+  labelHidden?: boolean
+  /**
+   * Show the "*" mark after the label when `required`/`aria-required`. Default: on, except when the label
+   * string already ends with "*" (no doubled mark).
+   */
+  requiredMark?: boolean
   /** Helper line under the control. */
   helper?: ReactNode
   /** Error message: sets aria-invalid and links it with aria-describedby. */
@@ -24,11 +34,22 @@ type FieldProps = FieldMeta & {
   children: ReactNode
 }
 
+function showMark(label: ReactNode, required: boolean | undefined, requiredMark: boolean | undefined) {
+  if (!required) return false
+  if (requiredMark != null) return requiredMark
+  return !(typeof label === 'string' && label.trimEnd().endsWith('*'))
+}
+
+/** True for required or aria-required="true" controls. */
+function isRequired(rest: { required?: boolean; 'aria-required'?: boolean | 'true' | 'false' }) {
+  return !!rest.required || rest['aria-required'] === true || rest['aria-required'] === 'true'
+}
+
 /** Label + control + helper + error. Use it to wrap a custom control; Input/Select/Textarea use it already. */
-export function Field({ id, label, helper, error, required, className, children }: FieldProps) {
+export function Field({ id, label, labelHidden, requiredMark, helper, error, required, className, children }: FieldProps) {
   return (
     <div className={cn(fieldClass.field, className)}>
-      <label htmlFor={id} className={cn(fieldClass.label, required && fieldClass.required)}>
+      <label htmlFor={id} className={cn(labelHidden ? 'sr-only' : fieldClass.label, !labelHidden && showMark(label, required, requiredMark) && fieldClass.required)}>
         {label}
       </label>
       {children}
@@ -54,11 +75,11 @@ function describedBy(id: string, helper: unknown, error: unknown, own?: string) 
 type InputProps = FieldMeta & Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> & { inputClassName?: string }
 
 /** Text input (16px, no iOS zoom) with label, helper and error wiring. */
-export function Input({ label, helper, error, className, inputClassName, id, ...rest }: InputProps) {
+export function Input({ label, labelHidden, requiredMark, helper, error, className, inputClassName, id, ...rest }: InputProps) {
   const auto = useId()
   const fid = id ?? auto
   return (
-    <Field id={fid} label={label} helper={helper} error={error} required={rest.required} className={className}>
+    <Field id={fid} label={label} labelHidden={labelHidden} requiredMark={requiredMark} helper={helper} error={error} required={isRequired(rest)} className={className}>
       <input
         {...rest}
         id={fid}
@@ -73,11 +94,11 @@ export function Input({ label, helper, error, className, inputClassName, id, ...
 type SelectProps = FieldMeta & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className'> & { selectClassName?: string }
 
 /** Native select with a chevron. */
-export function Select({ label, helper, error, className, selectClassName, id, children, ...rest }: SelectProps) {
+export function Select({ label, labelHidden, requiredMark, helper, error, className, selectClassName, id, children, ...rest }: SelectProps) {
   const auto = useId()
   const fid = id ?? auto
   return (
-    <Field id={fid} label={label} helper={helper} error={error} required={rest.required} className={className}>
+    <Field id={fid} label={label} labelHidden={labelHidden} requiredMark={requiredMark} helper={helper} error={error} required={isRequired(rest)} className={className}>
       <span className="relative block">
         <select
           {...rest}
@@ -97,11 +118,11 @@ export function Select({ label, helper, error, className, selectClassName, id, c
 type TextareaProps = FieldMeta & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'> & { textareaClassName?: string }
 
 /** Multi-line field (min 140px). */
-export function Textarea({ label, helper, error, className, textareaClassName, id, ...rest }: TextareaProps) {
+export function Textarea({ label, labelHidden, requiredMark, helper, error, className, textareaClassName, id, ...rest }: TextareaProps) {
   const auto = useId()
   const fid = id ?? auto
   return (
-    <Field id={fid} label={label} helper={helper} error={error} required={rest.required} className={className}>
+    <Field id={fid} label={label} labelHidden={labelHidden} requiredMark={requiredMark} helper={helper} error={error} required={isRequired(rest)} className={className}>
       <textarea
         {...rest}
         id={fid}

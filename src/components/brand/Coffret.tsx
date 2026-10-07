@@ -17,6 +17,11 @@ type CoffretProps = {
   size?: 'lg' | 'sm' | 'thumb'
   /** Seal text (product: ACCÈS EN 20 MIN · ESSAI 2H · SERVICE 7J/7 ·), top-right corner, lg only. */
   seal?: string
+  /**
+   * Accessible image name, only where the original box shot had one (product hero: the product name).
+   * Renders role="img" aria-label; without it the coffret is aria-hidden.
+   */
+  label?: string
   className?: string
 }
 
@@ -32,14 +37,15 @@ const FILL: Record<CoffretVariant, string> = {
  * Product box shot: a dark certificate box with a mosaic strip, the brand eyebrow, the duration numeral and
  * the plan name. Every word is pseudo-content from data-label (no new text nodes). Decorative (aria-hidden).
  */
-export function Coffret({ months, plan, unit = 'Mois', variant = '12', size = 'lg', seal, className }: CoffretProps) {
+export function Coffret({ months, plan, unit = 'Mois', variant = '12', size = 'lg', seal, label, className }: CoffretProps) {
   const light = variant === 'renew'
+  const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true as const }
   const accent = light ? 'text-brass-700' : 'text-brass-300'
 
   if (size === 'thumb') {
     return (
       <span
-        aria-hidden="true"
+        {...a11y}
         className={cn('pointer-events-none relative grid h-11 w-14 shrink-0 place-items-center rounded-control', FILL[variant], 'after:hidden', className)}
       >
         <span data-label={months} className={cn('font-display text-xl leading-none italic before:content-[attr(data-label)]', accent)} />
@@ -49,7 +55,7 @@ export function Coffret({ months, plan, unit = 'Mois', variant = '12', size = 'l
 
   const lg = size === 'lg'
   return (
-    <div aria-hidden="true" className={cn('pointer-events-none relative isolate w-full', lg ? 'max-w-[420px]' : '', className)}>
+    <div {...a11y} className={cn('pointer-events-none relative isolate w-full', lg ? 'max-w-[420px]' : '', className)}>
       <span
         className={cn(
           'absolute inset-0 -z-10 translate-x-3.5 translate-y-3.5 rounded-panel',

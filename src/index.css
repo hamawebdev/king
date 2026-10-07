@@ -70,11 +70,29 @@
   descent-override: 30.8%;
   line-gap-override: 0%;
 }
+/* Android has none of the faces above: second fallbacks tuned for Noto Serif / Droid Serif and Roboto
+   (separate family names, so a failed local() falls through to them instead of to an untuned face). */
+@font-face {
+  font-family: "Newsreader Fallback Android";
+  src: local("Noto Serif"), local("NotoSerif"), local("Droid Serif"), local("DroidSerif");
+  size-adjust: 96.3%;
+  ascent-override: 76.3%;
+  descent-override: 27.5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Hanken Fallback Android";
+  src: local("Roboto"), local("Roboto-Regular"), local("Roboto Regular");
+  size-adjust: 97.6%;
+  ascent-override: 102.5%;
+  descent-override: 31%;
+  line-gap-override: 0%;
+}
 
 @theme {
   /* Faces */
-  --font-display: "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
-  --font-sans: "Hanken Grotesk Variable", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Newsreader Variable", "Newsreader Fallback", "Newsreader Fallback Android", Georgia, serif;
+  --font-sans: "Hanken Grotesk Variable", "Hanken Fallback", "Hanken Fallback Android", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 
   /* Grounds and lines */
   --color-paper: #F6F2EA;
@@ -389,8 +407,9 @@
     --z-raised: var(--color-paper);
   }
 
-  /* Brand page defaults. The legacy theme.css body rule (legacy layer) still wins on unredesigned pages;
-     redesigned sections get the brand type through .brand-scope (components layer). */
+  /* Brand page defaults. The legacy theme.css html/body rules (legacy layer, white ground, Inter #626262)
+     still win until the last section migrates (KIT.md "Final cleanup"); until then page grounds come only
+     from Sections, and redesigned roots get the brand type through .brand-scope (components layer). */
   html {
     background: var(--color-paper);
     color: var(--z-body);
@@ -495,7 +514,8 @@
     --border: var(--color-hairline-deep);
   }
   .zone-vault,
-  .panel-vault {
+  .panel-vault,
+  .vault-plain {
     --z-fg: var(--color-on-vault);
     --z-body: var(--color-on-vault-muted);
     --z-soft: var(--color-on-vault-muted);
@@ -512,7 +532,9 @@
     background-color: var(--color-vault);
     color-scheme: dark;
   }
-  /* Cheque-moiré texture (never on sticky/fixed elements: those use plain bg-vault). */
+  /* .vault-plain = the vault variables and ground WITHOUT texture or glow: cookie bar, toasts and any
+     fixed or sticky dark element (DIRECTION §7.2). Light fixed roots use `zone-paper bg-ivory` instead.
+     Cheque-moiré texture below: contained panels and bands only. */
   .panel-vault {
     background-image:
       repeating-radial-gradient(circle at 0% 0%, rgb(226 204 156 / 0.09) 0 1px, transparent 1px 8px),
@@ -610,6 +632,31 @@
     opacity: 0;
     transform: translateY(12px);
   }
+  /* Never leave focused or targeted content invisible (keyboard focus can land below the IO margin). */
+  .reveal:focus-within,
+  .reveal:target {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ── Phone buy bar spacing: <BuyBar> adds html.has-buybar while mounted. A vault spacer after the
+     footer keeps the last row clear of the bar. Fixed elements key off the same class
+     (cookie bar: `[.has-buybar_&]:max-md:bottom-[88px]`). ── */
+  @media (max-width: 767.98px) {
+    html.has-buybar body::after {
+      content: "";
+      display: block;
+      height: calc(88px + env(safe-area-inset-bottom));
+      background-color: var(--color-vault);
+    }
+  }
+}
+
+@media print {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @utility eyebrow {
@@ -688,8 +735,8 @@
   overflow-wrap: anywhere;
 }
 
-/* vault: style only when inside a vault zone or panel (e.g. vault:text-brass-300). */
-@custom-variant vault (&:where(.zone-vault, .zone-vault *, .panel-vault, .panel-vault *));
+/* vault: style only when inside a vault zone, panel or plain vault root (e.g. vault:text-brass-300). */
+@custom-variant vault (&:where(.zone-vault, .zone-vault *, .panel-vault, .panel-vault *, .vault-plain, .vault-plain *));
 
 @media (prefers-reduced-motion: reduce) {
   *,

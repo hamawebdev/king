@@ -7,6 +7,16 @@ import type { ButtonSize, ButtonVariant, ContainerSize, Rhythm, Zone } from './t
 /** Reset scope: redesigned markup starts from brand defaults even inside .bt / .mfp / .co-page wrappers. */
 export const SCOPE = 'brand-scope'
 
+/**
+ * Roots of fixed / sticky chrome (no <Section>): reset scope + zone variables, never the vault texture.
+ * dark = cookie bar, toasts, any fixed vault element; light = buy bar, drawer, side menu (no zone-ivory
+ * hairlines: `.zone-ivory` adds a 1px border-block).
+ */
+export const fixedRootClass = {
+  dark: 'brand-scope vault-plain',
+  light: 'brand-scope zone-paper bg-ivory',
+} as const
+
 export const zoneClass: Record<Zone, string> = {
   paper: 'zone-paper',
   ivory: 'zone-ivory',
@@ -74,6 +84,10 @@ const VAULT_DISABLED =
 const LINK =
   'min-h-11 border-0 px-0 py-3 text-[0.9375rem] underline decoration-1 underline-offset-4 hover:decoration-2 ' +
   'disabled:text-ink-muted aria-disabled:text-ink-muted aria-disabled:no-underline'
+/** The vault disabled set, applied only when a light-ground variant sits on vault (whatsapp, secondary). */
+const VAULT_DISABLED_IN_ZONE =
+  'vault:disabled:bg-vault-raised vault:disabled:text-on-vault-muted vault:disabled:border-vault-line ' +
+  'vault:aria-disabled:bg-vault-raised vault:aria-disabled:text-on-vault-muted vault:aria-disabled:border-vault-line'
 
 export const buttonVariants = cva(BUTTON_BASE, {
   variants: {
@@ -85,13 +99,19 @@ export const buttonVariants = cva(BUTTON_BASE, {
     },
     variant: {
       primary:
-        'bg-ink text-ivory border-ink hover:bg-evergreen-800 hover:border-evergreen-800 hover:shadow-lift motion-safe:hover:-translate-y-px ' +
+        'bg-ink text-ivory border-ink hover:bg-evergreen-800 hover:border-evergreen-800 not-disabled:hover:shadow-lift motion-safe:not-disabled:hover:-translate-y-px ' +
         'active:bg-vault active:border-vault active:translate-y-0 active:shadow-none ' +
         LIGHT_DISABLED,
-      secondary: 'bg-transparent text-ink border-ink hover:bg-ink/6 active:bg-ink/10 ' + LIGHT_DISABLED,
-      link: LINK + ' text-evergreen-700 hover:text-ink',
+      // On vault, secondary and link fall back to the outline-vault / link-vault look (prefer those names).
+      secondary:
+        'bg-transparent text-ink border-ink hover:bg-ink/6 active:bg-ink/10 ' +
+        'vault:text-on-vault vault:border-vault-outline vault:hover:bg-on-vault/8 vault:active:bg-on-vault/12 ' +
+        LIGHT_DISABLED +
+        ' ' +
+        VAULT_DISABLED_IN_ZONE,
+      link: LINK + ' text-evergreen-700 hover:text-ink vault:text-brass-300 vault:hover:text-on-vault vault:disabled:text-on-vault-muted vault:aria-disabled:text-on-vault-muted',
       brass:
-        'bg-brass-500 text-vault border-brass-500 hover:bg-brass-400 hover:border-brass-400 hover:shadow-lift motion-safe:hover:-translate-y-px ' +
+        'bg-brass-500 text-vault border-brass-500 hover:bg-brass-400 hover:border-brass-400 not-disabled:hover:shadow-lift motion-safe:not-disabled:hover:-translate-y-px ' +
         'active:bg-brass-press active:border-brass-press active:translate-y-0 active:shadow-none ' +
         VAULT_DISABLED,
       ivory: 'bg-ivory text-ink border-ivory hover:bg-paper hover:border-paper active:bg-sand ' + VAULT_DISABLED,
@@ -99,7 +119,10 @@ export const buttonVariants = cva(BUTTON_BASE, {
         'bg-transparent text-on-vault border-vault-outline hover:bg-on-vault/8 active:bg-on-vault/12 ' + VAULT_DISABLED,
       'link-vault': LINK + ' text-brass-300 hover:text-on-vault',
       whatsapp:
-        'bg-whatsapp text-vault border-whatsapp hover:bg-whatsapp-hover hover:border-whatsapp-hover ' + LIGHT_DISABLED,
+        'bg-whatsapp text-vault border-whatsapp hover:bg-whatsapp-hover hover:border-whatsapp-hover ' +
+        LIGHT_DISABLED +
+        ' ' +
+        VAULT_DISABLED_IN_ZONE,
       icon:
         'size-11 min-h-0 p-0 text-[20px] bg-transparent text-ink border-hairline hover:bg-ivory hover:border-hairline-strong ' +
         'vault:text-on-vault vault:border-vault-line vault:hover:bg-vault-raised vault:hover:border-vault-line',
@@ -131,6 +154,47 @@ export const linkClass =
 
 /** Footer and nav links: no underline at rest. */
 export const navLinkClass = 'hover:underline underline-offset-4'
+
+// ── Chrome (§9.0, §8 drawer and side menu) ──────────────────────────────────────────────────────
+
+/** Sticky header bar. Add `headerClass.scrolled` once scrollY > 8 (the hairline always shows). */
+export const headerClass = {
+  base:
+    'brand-scope zone-paper sticky top-0 z-40 border-b border-hairline transition-[background-color,box-shadow] duration-180 ease-calm',
+  inner: 'mx-auto flex h-16 w-full max-w-wide items-center gap-6 px-gutter lg:h-[72px]',
+  scrolled: 'bg-ivory shadow-lift',
+} as const
+
+/** Header nav link: Hanken 500 15px ink, underline on hover. Pair with navCurrentClass and aria-current="page". */
+export const headerNavLinkClass =
+  'inline-flex min-h-11 items-center font-sans text-[0.9375rem] leading-none font-medium text-ink decoration-1 transition-colors duration-180 ease-calm ' +
+  'hover:underline underline-offset-4'
+
+/** Current main-nav link (needs aria-current="page"): semibold, 1px brass-500 underline at offset 6px. */
+export const navCurrentClass =
+  'aria-[current=page]:font-semibold aria-[current=page]:underline aria-[current=page]:decoration-brass-500 aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-[6px]'
+
+/** Side-menu link: serif 28px, 56px rows with hairline separators; current = italic brass-700 (aria-current="page"). */
+export const sideLinkClass =
+  'flex min-h-14 items-center border-b border-hairline font-display text-[1.75rem] leading-tight font-medium text-ink ' +
+  'transition-colors duration-180 ease-calm hover:text-evergreen-700 aria-[current=page]:italic aria-[current=page]:text-brass-700'
+
+/**
+ * Sliding panels from the right (z 70), 320ms ease-drawer. Closed: add `panelClosedClass`
+ * (translate-x-full + invisible, so nothing inside is focusable). Trap focus, Esc closes, focus returns to the trigger.
+ */
+export const drawerClass =
+  'brand-scope zone-paper bg-ivory fixed inset-y-0 right-0 z-[70] flex w-[min(420px,100vw)] flex-col border-l border-hairline shadow-float ' +
+  'transition-[transform,visibility] duration-320 ease-drawer'
+/** Mobile side menu panel: from the right, w-[min(86vw,360px)], ivory. */
+export const sideMenuClass =
+  'brand-scope zone-paper bg-ivory fixed inset-y-0 right-0 z-[70] flex w-[min(86vw,360px)] flex-col ' +
+  'transition-[transform,visibility] duration-320 ease-drawer'
+export const panelClosedClass = 'invisible translate-x-full'
+
+/** Overlay under a drawer or side menu (z 60): vault at 48%, fades over 200ms. Closed: add `overlayClosedClass`. */
+export const overlayClass = 'fixed inset-0 z-[60] bg-vault/48 transition-[opacity,visibility] duration-200 ease-calm'
+export const overlayClosedClass = 'invisible pointer-events-none opacity-0'
 
 // ── Cards (§6.3) ────────────────────────────────────────────────────────────────────────────────
 
@@ -233,10 +297,12 @@ export const fieldClass = {
   required: "after:ml-0.5 after:text-ink-muted after:content-['*']",
   helper: 'font-sans text-micro text-ink-muted',
   error: 'inline-flex items-center gap-1.5 font-sans text-micro text-alert',
+  // The brand focus ring (2px evergreen-700, offset 3px) stays on every control; border and halo add to it.
   control:
     'min-h-12 w-full rounded-control border border-hairline-strong bg-[var(--field-bg,var(--color-ivory))] px-3.5 py-3 font-sans text-base text-ink-body ' +
-    'placeholder:text-ink-muted outline-2 outline-transparent transition-[border-color,box-shadow] duration-180 ease-calm ' +
-    'focus:border-evergreen-700 focus:shadow-[0_0_0_3px_rgb(31_77_64/0.18)] focus-visible:outline-transparent ' +
+    'placeholder:text-ink-muted transition-[border-color,box-shadow] duration-180 ease-calm ' +
+    'focus:border-evergreen-700 focus:shadow-[0_0_0_3px_rgb(31_77_64/0.18)] ' +
+    'focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-evergreen-700 ' +
     'aria-invalid:border-alert disabled:cursor-not-allowed disabled:bg-sand-deep disabled:text-ink-muted',
   select: 'appearance-none pr-10',
   textarea: 'min-h-[140px] resize-y',
@@ -250,8 +316,14 @@ export const noticeClass = {
   error: 'flex gap-3 rounded-card bg-alert-100 px-4 py-3.5 font-sans text-[0.9375rem] font-medium text-alert',
 } as const
 
-/** Toast (sonner): plain vault, no texture (fixed element). */
-export const toastClass = 'rounded-card bg-vault text-on-vault shadow-float px-4 py-3.5 font-sans text-[0.9375rem] [&_i]:text-brass-300'
+/** Toast (sonner): plain vault (vault-plain: zone variables, brass focus ring, no texture), z 90 via the toaster. */
+export const toastClass =
+  'brand-scope vault-plain rounded-card shadow-float px-4 py-3.5 font-sans text-[0.9375rem] text-on-vault [&_i]:text-brass-300'
+
+/** Cookie bar root (fixed, centred, above the buy bar when one is present). */
+export const cookieBarClass =
+  'brand-scope vault-plain fixed inset-x-4 bottom-4 z-[80] mx-auto max-w-[720px] rounded-panel shadow-float px-6 py-5 ' +
+  '[.has-buybar_&]:max-md:bottom-[88px]'
 
 // ── Imagery (§7) ────────────────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 // Motion helpers (DIRECTION §8): the js-motion gate and the reveal-once hook.
-import { useLayoutEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
+import { useCallback, useLayoutEffect, useState, type CSSProperties, type RefCallback, type RefObject } from 'react'
 import { revealDelay } from './recipes'
 
 /**
@@ -20,33 +20,39 @@ function motionAllowed() {
 
 /**
  * Reveal once on scroll: opacity 0 → 1 and translateY(12px → 0) over 600 ms, threshold .15,
- * rootMargin "0px 0px -10% 0px". Elements already in view at mount are never hidden.
- * Spread `ref`, `className` and `style` on one element. The revealed state is a DOM attribute
- * (data-reveal="in") that React never rewrites, so re-renders cannot hide the element again.
+ * rootMargin "0px 0px -10% 0px". Elements already in view at mount are never hidden; keyboard focus inside
+ * (focusin) reveals at once, and index.css also shows `.reveal:focus-within` / `:target` and print.
+ * Spread `ref`, `className` and `style` on one element. `ref` is a callback ref, so an element that mounts
+ * later (conditional, async) is still observed. The revealed state is a DOM attribute (data-reveal="in")
+ * that React never rewrites, so re-renders cannot hide the element again.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>(
   index = 0,
-): { ref: RefObject<T | null>; className: string; style: CSSProperties } {
-  const ref = useRef<T | null>(null)
-
-  useLayoutEffect(() => {
-    const el = ref.current
+): { ref: RefCallback<T>; className: string; style: CSSProperties } {
+  const ref = useCallback((el: T | null) => {
     if (!el) return
     const show = () => el.setAttribute('data-reveal', 'in')
+    if (el.getAttribute('data-reveal') === 'in') return
     if (!motionAllowed() || typeof IntersectionObserver === 'undefined') return show()
     const r = el.getBoundingClientRect()
     if (r.top < window.innerHeight && r.bottom > 0) return show()
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          show()
-          io.disconnect()
-        }
+        if (entries.some((e) => e.isIntersecting)) done()
       },
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
     )
+    const done = () => {
+      show()
+      cleanup()
+    }
+    const cleanup = () => {
+      io.disconnect()
+      el.removeEventListener('focusin', done)
+    }
+    el.addEventListener('focusin', done)
     io.observe(el)
-    return () => io.disconnect()
+    return cleanup
   }, [])
 
   return { ref, className: 'reveal', style: { '--reveal-delay': revealDelay(index) } as CSSProperties }

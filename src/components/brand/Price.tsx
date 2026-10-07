@@ -29,7 +29,7 @@ type PriceProps = {
 /** The one price block: old price above, statement-style serif figure with its unit, then the per-month line. */
 export function Price({ old, value, unit, perMonth, size = 'lg', inline, className }: PriceProps) {
   const s = PRICE_SIZE[size]
-  const oldEl = old ? <s className={cn('price-old block w-fit leading-tight', s.old)}>{old}</s> : null
+  const oldEl = old ? <s className={cn('price-old block w-fit', s.old, 'leading-tight')}>{old}</s> : null
   return (
     <div className={cn('font-sans', className)}>
       {!inline && oldEl}
@@ -142,7 +142,7 @@ export function StatStrip({ items, size = 'lg', className }: StatStripProps) {
         >
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             {it.value && <span className={cn('price-num text-z-fg', size === 'lg' ? 'text-stat-lg' : 'text-stat-md')}>{it.value}</span>}
-            {it.star && <Stars size={16} />}
+            {it.star && <Stars />}
           </span>
           <span className="font-sans text-meta font-semibold text-z-muted">{it.label}</span>
         </li>
