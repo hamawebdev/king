@@ -1,6 +1,5 @@
 import { BRAND } from '@/lib/site'
-import { BAND, COLUMN, QUAD_GRID, TILE, TITLE, cx } from '../styles'
-import { Accent, SectionHead } from '../ui'
+import { ChannelMosaic, DeviceFrame, FeatureCard, FeatureGrid, Kw, Reveal, Section, SectionHead } from '@/components/brand'
 
 const COMPAT = {
   eyebrow: 'Compatibilité',
@@ -15,26 +14,31 @@ const COMPAT = {
   ],
 }
 
-type Device = { icon: string; title: string; text: string; tags: string[] }
-
-/** Device family card with model tags. */
-function DeviceCard({ device }: { device: Device }) {
+/**
+ * "Every screen" lineup: the four device families as one quiet still life — a TV with its box,
+ * a tablet and a phone, all showing the channel mosaic. Decorative only (no text nodes).
+ */
+function ScreenLineup({ className }: { className?: string }) {
   return (
-    <div className={cx(TILE, 'rounded-[18px] p-[26px]')}>
-      <div className="mb-[14px] grid size-[48px] place-items-center rounded-[12px] bg-lp-blue-soft text-[23px] text-lp-blue">
-        <i className={cx('ti', device.icon)} />
-      </div>
-      <h4 className={cx(TITLE, 'mb-[7px] text-[17px]')}>{device.title}</h4>
-      <p className="mb-[14px] text-[13.5px] text-lp-muted">{device.text}</p>
-      <div className="flex flex-wrap gap-[7px]">
-        {device.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-[8px] border border-lp-line bg-lp-soft px-[11px] py-[5px] text-[12.5px] font-bold text-lp-muted"
-          >
-            {tag}
-          </span>
-        ))}
+    <div aria-hidden="true" className={className}>
+      <div className="pointer-events-none relative aspect-[16/11] w-full">
+        <DeviceFrame kind="tv" className="absolute top-0 right-0 w-[78%]">
+          <ChannelMosaic osd={false} />
+        </DeviceFrame>
+        {/* set-top box beside the TV stand, with its status light */}
+        <span className="absolute top-[74%] right-[5%] flex h-[6%] w-[28%] items-center justify-end rounded-tag bg-ink pr-[4%] shadow-lift">
+          <span className="size-1.5 rounded-full bg-brass-500" />
+        </span>
+        <DeviceFrame kind="tablet" className="absolute bottom-0 left-0 w-[36%]" screenClassName="p-[2px]">
+          <ChannelMosaic cols={4} rows={3} selected={0} osd={false} icons={['ti-movie', 'ti-world', 'ti-music']} />
+        </DeviceFrame>
+        <DeviceFrame
+          kind="phone"
+          className="absolute bottom-0 left-[39%] w-[13%] rounded-[18px] p-1 [&>span]:top-1.5 [&>span]:h-1.5"
+          screenClassName="rounded-[14px] pt-3"
+        >
+          <ChannelMosaic cols={2} rows={5} selected={0} osd={false} icons={[]} />
+        </DeviceFrame>
       </div>
     </div>
   )
@@ -43,24 +47,37 @@ function DeviceCard({ device }: { device: Device }) {
 /** Device compatibility. */
 export function HomeCompat() {
   return (
-    <section data-section="home-compat" className={BAND}>
-      <div className={COLUMN}>
+    <Section zone="paper" dataSection="home-compat">
+      <div className="grid gap-y-10 md:grid-cols-12 md:items-end md:gap-x-grid">
         <SectionHead
+          className="md:col-span-7"
           eyebrow={COMPAT.eyebrow}
           title={
             <>
               {COMPAT.titleStart}
-              <Accent>{COMPAT.titleBlue}</Accent>
+              <Kw>{COMPAT.titleBlue}</Kw>
             </>
           }
-          text={COMPAT.text}
+          lead={COMPAT.text}
         />
-        <div className={cx(QUAD_GRID, 'gap-[18px]')}>
-          {COMPAT.items.map((device) => (
-            <DeviceCard key={device.title} device={device} />
-          ))}
-        </div>
+        <Reveal className="max-md:hidden md:col-span-5 lg:col-start-8">
+          <ScreenLineup className="ml-auto w-full max-w-[440px] pb-1.5" />
+        </Reveal>
       </div>
-    </section>
+      <Reveal className="mt-head">
+        <FeatureGrid>
+          {COMPAT.items.map((device) => (
+            <FeatureCard
+              key={device.title}
+              root="li"
+              icon={device.icon}
+              title={device.title}
+              text={device.text}
+              tags={device.tags}
+            />
+          ))}
+        </FeatureGrid>
+      </Reveal>
+    </Section>
   )
 }
