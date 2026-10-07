@@ -1,6 +1,0 @@
-/* Product page: only the keyframes the utilities can't express (no layered rules needed). */
-@keyframes product-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
