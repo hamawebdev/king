@@ -20,7 +20,7 @@ import './home/decor.css'
 /** Home landing page: every band lives in its own module under ./home/sections, in page order here. */
 export default function Home() {
   return (
-    <div className="overflow-x-hidden scroll-smooth bg-white font-jakarta leading-[1.6] text-lp-ink antialiased lp-md:pb-[76px]">
+    <div className="overflow-x-clip scroll-smooth bg-paper font-sans leading-[1.65] text-ink-body antialiased lp-md:pb-[76px]">
       <HomeHero />
       <HomeFeatures />
       <HomeApp />

@@ -4,128 +4,130 @@
  * Breakpoints follow the theme: 1240 / 960 / 768 / 480.
  */
 
-html {
-  background-color: #ffffff;
-  -webkit-text-size-adjust: 100%;
-}
+@layer legacy {
+  html {
+    background-color: #ffffff;
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  margin: 0;
-  background-color: #ffffff;
-  font-family: var(--font-inter);
-  font-size: 16px;
-  line-height: 26px;
-  font-weight: 400;
-  color: #626262;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
+  body {
+    margin: 0;
+    background-color: #ffffff;
+    font-family: var(--font-inter);
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #626262;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
 
-/* Theme headings (used by the theme-built pages: shop, reseller, downloads, contact, legal). */
-.bt h1,
-.bt h2,
-.bt h3,
-.bt h4,
-.bt h5,
-.bt h6 {
-  font-family: var(--font-zen);
-  font-weight: 700;
-  letter-spacing: 0;
-  color: #12263a;
-  margin: 0 0 15px;
-}
-.bt h1 { font-size: 80px; line-height: 84px; }
-.bt h2 { font-size: 55px; line-height: 60px; }
-.bt h3 { font-size: 48px; line-height: 55px; }
-.bt h4 { font-size: 32px; line-height: 42px; }
-.bt h5 { font-size: 24px; line-height: 38px; }
-.bt h6 { font-size: 16px; line-height: 26px; }
-.bt p { margin: 0 0 15px; }
+  /* Theme headings (used by the theme-built pages: shop, reseller, downloads, contact, legal). */
+  .bt h1,
+  .bt h2,
+  .bt h3,
+  .bt h4,
+  .bt h5,
+  .bt h6 {
+    font-family: var(--font-zen);
+    font-weight: 700;
+    letter-spacing: 0;
+    color: #12263a;
+    margin: 0 0 15px;
+  }
+  .bt h1 { font-size: 80px; line-height: 84px; }
+  .bt h2 { font-size: 55px; line-height: 60px; }
+  .bt h3 { font-size: 48px; line-height: 55px; }
+  .bt h4 { font-size: 32px; line-height: 42px; }
+  .bt h5 { font-size: 24px; line-height: 38px; }
+  .bt h6 { font-size: 16px; line-height: 26px; }
+  .bt p { margin: 0 0 15px; }
 
-.bt a,
-a.bt-link {
-  color: #003fff;
-  text-decoration: none;
-  transition: color 0.1s ease-in-out;
-}
-.bt a:hover,
-a.bt-link:hover {
-  color: #5274fe;
-}
+  .bt a,
+  a.bt-link {
+    color: #003fff;
+    text-decoration: none;
+    transition: color 0.1s ease-in-out;
+  }
+  .bt a:hover,
+  a.bt-link:hover {
+    color: #5274fe;
+  }
 
-/* Theme container: 1260 wide on desktop, centred. */
-.bt-container {
-  position: relative;
-  max-width: 1260px;
-  margin: 0 auto;
-}
+  /* Theme container: 1260 wide on desktop, centred. */
+  .bt-container {
+    position: relative;
+    max-width: 1260px;
+    margin: 0 auto;
+  }
 
-/* Theme buttons (button-custom). */
-.bt-button {
-  display: inline-block;
-  position: relative;
-  font-family: var(--font-zen);
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: 700;
-  letter-spacing: 0;
-  padding: 16px 32px;
-  border: 1px solid #1f1a8e;
-  border-radius: 12px;
-  color: #ffffff;
-  background-color: #211a8e;
-  cursor: pointer;
-  text-decoration: none;
-  transition:
-    color 0.1s ease-in-out,
-    background-color 0.1s ease-in-out,
-    border-color 0.1s ease-in-out;
-}
-.bt .bt-button,
-.bt .bt-button:hover {
-  color: #ffffff;
-}
-.bt-button:hover {
-  background-color: #5862ce;
-  border-color: #586cce;
-}
+  /* Theme buttons (button-custom). */
+  .bt-button {
+    display: inline-block;
+    position: relative;
+    font-family: var(--font-zen);
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0;
+    padding: 16px 32px;
+    border: 1px solid #1f1a8e;
+    border-radius: 12px;
+    color: #ffffff;
+    background-color: #211a8e;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      color 0.1s ease-in-out,
+      background-color 0.1s ease-in-out,
+      border-color 0.1s ease-in-out;
+  }
+  .bt .bt-button,
+  .bt .bt-button:hover {
+    color: #ffffff;
+  }
+  .bt-button:hover {
+    background-color: #5862ce;
+    border-color: #586cce;
+  }
 
-@media only screen and (min-width: 960px) and (max-width: 1239px) {
-  .bt-container { max-width: 940px; }
-}
+  @media only screen and (min-width: 960px) and (max-width: 1239px) {
+    .bt-container { max-width: 940px; }
+  }
 
-@media only screen and (min-width: 768px) and (max-width: 959px) {
-  body { font-size: 14px; line-height: 22px; }
-  .bt-container { max-width: 728px; }
-  .bt h1 { font-size: 68px; line-height: 71px; }
-  .bt h2 { font-size: 47px; line-height: 51px; }
-  .bt h3 { font-size: 41px; line-height: 47px; }
-  .bt h4 { font-size: 27px; line-height: 36px; }
-  .bt h5 { font-size: 20px; line-height: 32px; }
-  .bt h6 { font-size: 14px; line-height: 22px; }
-}
+  @media only screen and (min-width: 768px) and (max-width: 959px) {
+    body { font-size: 14px; line-height: 22px; }
+    .bt-container { max-width: 728px; }
+    .bt h1 { font-size: 68px; line-height: 71px; }
+    .bt h2 { font-size: 47px; line-height: 51px; }
+    .bt h3 { font-size: 41px; line-height: 47px; }
+    .bt h4 { font-size: 27px; line-height: 36px; }
+    .bt h5 { font-size: 20px; line-height: 32px; }
+    .bt h6 { font-size: 14px; line-height: 22px; }
+  }
 
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  body { font-size: 13px; line-height: 20px; }
-  .bt h1 { font-size: 60px; line-height: 63px; }
-  .bt h2 { font-size: 41px; line-height: 45px; }
-  .bt h3 { font-size: 36px; line-height: 41px; }
-  .bt h4 { font-size: 24px; line-height: 32px; }
-  .bt h5 { font-size: 18px; line-height: 29px; }
-  .bt h6 { font-size: 13px; line-height: 20px; }
-}
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    body { font-size: 13px; line-height: 20px; }
+    .bt h1 { font-size: 60px; line-height: 63px; }
+    .bt h2 { font-size: 41px; line-height: 45px; }
+    .bt h3 { font-size: 36px; line-height: 41px; }
+    .bt h4 { font-size: 24px; line-height: 32px; }
+    .bt h5 { font-size: 18px; line-height: 29px; }
+    .bt h6 { font-size: 13px; line-height: 20px; }
+  }
 
-@media only screen and (max-width: 767px) {
-  .bt-container { max-width: 550px; }
-}
+  @media only screen and (max-width: 767px) {
+    .bt-container { max-width: 550px; }
+  }
 
-@media only screen and (max-width: 479px) {
-  body { font-size: 13px; line-height: 19px; }
-  .bt h1 { font-size: 48px; line-height: 50px; }
-  .bt h2 { font-size: 33px; line-height: 36px; }
-  .bt h3 { font-size: 29px; line-height: 33px; }
-  .bt h4 { font-size: 19px; line-height: 25px; }
-  .bt h5 { font-size: 14px; line-height: 23px; }
-  .bt h6 { font-size: 13px; line-height: 19px; }
+  @media only screen and (max-width: 479px) {
+    body { font-size: 13px; line-height: 19px; }
+    .bt h1 { font-size: 48px; line-height: 50px; }
+    .bt h2 { font-size: 33px; line-height: 36px; }
+    .bt h3 { font-size: 29px; line-height: 33px; }
+    .bt h4 { font-size: 19px; line-height: 25px; }
+    .bt h5 { font-size: 14px; line-height: 23px; }
+    .bt h6 { font-size: 13px; line-height: 19px; }
+  }
 }

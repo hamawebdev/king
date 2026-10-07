@@ -1,7 +1,11 @@
+/* Cascade order: legacy CSS (theme.css, chrome.css, muffin.css, checkout.css, legal.css, decor.css) sits in
+   `legacy`, after Tailwind's base and before components/utilities, so any utility overrides it. */
+@layer theme, base, legacy, components, utilities;
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-/* Site fonts: latin subsets only, matching the weights the original site requests. */
+/* Legacy site fonts (unredesigned sections; removed once every section has migrated): latin subsets only, matching the weights the original site requests. */
 @import "@fontsource/inter/latin-300.css";
 @import "@fontsource/inter/latin-400.css";
 @import "@fontsource/inter/latin-400-italic.css";
@@ -29,6 +33,10 @@
 @import "@fontsource/archivo/latin-800.css";
 @import "@fontsource/archivo/latin-900.css";
 @import "@tabler/icons-webfont/dist/tabler-icons.min.css";
+/* Brand fonts (DIRECTION §3.1): Newsreader roman (wght + opsz), Newsreader italic (wght), Hanken Grotesk (wght). */
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/wght-italic.css";
+@import "@fontsource-variable/hanken-grotesk/wght.css";
 @import "./styles/theme.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -42,9 +50,185 @@
 @custom-variant bt-sm (@media (max-width: 767px));
 @custom-variant bt-xs (@media (max-width: 479px));
 
+
+/* ───────────────────────── Brand « Réserve » (DIRECTION.md, Appendix A) ───────────────────────── */
+
+/* Metric-matched fallbacks: limit layout shift on display sizes while the variable fonts load. */
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Times New Roman"), local("Liberation Serif"), local("Times");
+  size-adjust: 110%;
+  ascent-override: 66.8%;
+  descent-override: 24.1%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Hanken Fallback";
+  src: local("Arial"), local("Liberation Sans"), local("Helvetica");
+  size-adjust: 98.4%;
+  ascent-override: 101.6%;
+  descent-override: 30.8%;
+  line-gap-override: 0%;
+}
+
+@theme {
+  /* Faces */
+  --font-display: "Newsreader Variable", "Newsreader Fallback", Georgia, serif;
+  --font-sans: "Hanken Grotesk Variable", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Grounds and lines */
+  --color-paper: #F6F2EA;
+  --color-ivory: #FCFAF6;
+  --color-sand: #EDE6D9;
+  --color-sand-deep: #E4DACA;
+  --color-hairline: #DDD4C3;
+  --color-hairline-deep: #CFC4AF;
+  --color-hairline-strong: #7A7364;
+  /* Ink and evergreen */
+  --color-ink: #0E2B23;
+  --color-ink-body: #26302B;
+  --color-ink-soft: #3D4741;
+  --color-ink-muted: #59625C;
+  --color-vault: #0A1F19;
+  --color-evergreen-900: #12332A;
+  --color-evergreen-800: #173A30;
+  --color-evergreen-700: #1F4D40;
+  --color-evergreen-600: #2B6150;
+  --color-evergreen-100: #E1EAE4;
+  /* Brass (the one accent) */
+  --color-brass-100: #F2E8D2;
+  --color-brass-300: #E2CC9C;
+  --color-brass-400: #D6B677;
+  --color-brass-500: #C8A258;
+  --color-brass-press: #B8924A;
+  --color-brass-700: #7F5D1C;
+  --color-brass-800: #6B4D15;
+  /* On vault */
+  --color-on-vault: #F6F2EA;
+  --color-on-vault-muted: #B3C2BA;
+  --color-vault-line: rgb(246 242 234 / 0.14);
+  --color-vault-raised: rgb(246 242 234 / 0.06);
+  --color-vault-outline: rgb(246 242 234 / 0.5);
+  /* Functional */
+  --color-alert: #A3382A;
+  --color-alert-100: #F6E3DE;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #1EBE5A;
+
+  /* Type scale: each text-* sets size, leading, tracking and weight. */
+  --text-display-xl: clamp(2.625rem, 1.836rem + 3.238vw, 4.75rem);
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.022em;
+  --text-display-xl--font-weight: 500;
+  --text-display-lg: clamp(2.25rem, 1.6rem + 2.667vw, 4rem);
+  --text-display-lg--line-height: 1.06;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 500;
+  --text-display-md: clamp(2rem, 1.536rem + 1.905vw, 3.25rem);
+  --text-display-md--line-height: 1.08;
+  --text-display-md--letter-spacing: -0.016em;
+  --text-display-md--font-weight: 500;
+  --text-display-sm: clamp(1.625rem, 1.393rem + 0.952vw, 2.25rem);
+  --text-display-sm--line-height: 1.15;
+  --text-display-sm--letter-spacing: -0.01em;
+  --text-display-sm--font-weight: 500;
+  --text-title-lg: clamp(1.375rem, 1.282rem + 0.381vw, 1.625rem);
+  --text-title-lg--line-height: 1.2;
+  --text-title-lg--letter-spacing: -0.006em;
+  --text-title-lg--font-weight: 600;
+  --text-title: clamp(1.1875rem, 1.118rem + 0.286vw, 1.375rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.004em;
+  --text-title--font-weight: 600;
+  --text-lead: clamp(1.0625rem, 0.993rem + 0.286vw, 1.25rem);
+  --text-lead--line-height: 1.55;
+  --text-copy: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);
+  --text-copy--line-height: 1.65;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+  --text-meta: 0.875rem;
+  --text-meta--line-height: 1.45;
+  --text-micro: 0.8125rem;
+  --text-micro--line-height: 1.4;
+  --text-badge: 0.6875rem;
+  --text-badge--line-height: 1;
+  --text-badge--letter-spacing: 0.08em;
+  --text-badge--font-weight: 700;
+  --text-faq: clamp(1.0625rem, 1.04rem + 0.1vw, 1.125rem);
+  --text-faq--line-height: 1.35;
+  --text-faq--font-weight: 600;
+  /* Numerals (use with price-num) */
+  --text-price-xl: clamp(3.5rem, 2.757rem + 3.048vw, 5.5rem);
+  --text-price-xl--line-height: 1;
+  --text-price-xl--letter-spacing: -0.02em;
+  --text-price-xl--font-weight: 500;
+  --text-price-lg: clamp(2.75rem, 2.471rem + 1.143vw, 3.5rem);
+  --text-price-lg--line-height: 1;
+  --text-price-lg--letter-spacing: -0.02em;
+  --text-price-lg--font-weight: 500;
+  --text-price-md: clamp(1.875rem, 1.736rem + 0.571vw, 2.25rem);
+  --text-price-md--line-height: 1;
+  --text-price-md--letter-spacing: -0.015em;
+  --text-price-md--font-weight: 500;
+  --text-price-sm: 1.5rem;
+  --text-price-sm--line-height: 1;
+  --text-price-sm--letter-spacing: -0.01em;
+  --text-price-sm--font-weight: 500;
+  --text-stat-lg: clamp(2.25rem, 1.971rem + 1.143vw, 3rem);
+  --text-stat-lg--line-height: 1;
+  --text-stat-lg--letter-spacing: -0.02em;
+  --text-stat-lg--font-weight: 500;
+  --text-stat-md: clamp(1.75rem, 1.611rem + 0.571vw, 2.125rem);
+  --text-stat-md--line-height: 1.05;
+  --text-stat-md--letter-spacing: -0.015em;
+  --text-stat-md--font-weight: 500;
+
+  /* Layout: containers (max-w-*), gutter, rhythm and card padding (px-gutter, py-section, mt-head, gap-grid, p-card …) */
+  --container-content: 75rem;
+  --container-wide: 82.5rem;
+  --container-text: 47.5rem;
+  --spacing-gutter: clamp(1rem, 0.443rem + 2.286vw, 2.5rem);
+  --spacing-section: clamp(4.5rem, 3.2rem + 5.333vw, 8rem);
+  --spacing-section-sm: clamp(2.5rem, 1.943rem + 2.286vw, 4rem);
+  --spacing-hero: clamp(2.5rem, 1.386rem + 4.571vw, 5.5rem);
+  --spacing-head: clamp(2rem, 1.443rem + 2.286vw, 3.5rem);
+  --spacing-grid: clamp(1rem, 0.814rem + 0.762vw, 1.5rem);
+  --spacing-card: clamp(1.25rem, 0.971rem + 1.143vw, 2rem);
+
+  /* Shape and elevation */
+  --radius-tag: 2px;
+  --radius-control: 4px;
+  --radius-card: 8px;
+  --radius-panel: 12px;
+  --shadow-lift: 0 1px 2px rgb(10 31 25 / 0.05), 0 6px 16px -8px rgb(10 31 25 / 0.14);
+  --shadow-float: 0 2px 4px rgb(10 31 25 / 0.05), 0 18px 40px -20px rgb(10 31 25 / 0.28);
+  --shadow-bar: 0 -12px 32px -16px rgb(10 31 25 / 0.25);
+
+  /* Motion */
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-drawer: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Zone aliases → utilities: text-z-fg, text-z-body, text-z-soft, text-z-muted, text-z-accent, border-z-line,
+   bg-z-card, bg-z-raised, text-z-icon, text-z-star, outline-z-focus (values set per zone below). */
 @theme inline {
-    --font-heading: var(--font-zen);
-    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --color-z-fg: var(--z-fg);
+  --color-z-body: var(--z-body);
+  --color-z-soft: var(--z-soft);
+  --color-z-muted: var(--z-muted);
+  --color-z-accent: var(--z-accent);
+  --color-z-line: var(--z-line);
+  --color-z-card: var(--z-card);
+  --color-z-raised: var(--z-raised);
+  --color-z-icon: var(--z-icon);
+  --color-z-star: var(--z-star);
+  --color-z-focus: var(--z-focus);
+}
+
+/* Legacy tokens below stay until every section has migrated (DIRECTION §0.3 forbids them in new code). */
+@theme inline {
+    /* shadcn/ui headings map to the brand serif (the old Zen alias is retired). */
+    --font-heading: var(--font-display);
     --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     --font-zen: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     --font-jakarta: "Plus Jakarta Sans", sans-serif;
@@ -113,30 +297,31 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    /* shadcn/ui variables, retinted to the brand (DIRECTION Appendix A). */
+    --background: #F6F2EA;
+    --foreground: #26302B;
+    --card: #FCFAF6;
+    --card-foreground: #26302B;
+    --popover: #FCFAF6;
+    --popover-foreground: #26302B;
+    --primary: #0E2B23;
+    --primary-foreground: #FCFAF6;
+    --secondary: #EDE6D9;
+    --secondary-foreground: #0E2B23;
+    --muted: #EDE6D9;
+    --muted-foreground: #59625C;
+    --accent: #E1EAE4;
+    --accent-foreground: #0E2B23;
+    --destructive: #A3382A;
+    --border: #DDD4C3;
+    --input: #7A7364;
+    --ring: #1F4D40;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
+    --radius: 0.5rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
     --sidebar-primary: oklch(0.205 0 0);
@@ -184,8 +369,339 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
+
+  /* Zone variables: light defaults everywhere (zones override them in components). */
+  :root,
+  .zone-paper,
+  .zone-ivory,
+  .zone-sand {
+    --z-fg: var(--color-ink);
+    --z-body: var(--color-ink-body);
+    --z-soft: var(--color-ink-soft);
+    --z-muted: var(--color-ink-muted);
+    --z-accent: var(--color-brass-700);
+    --z-line: var(--color-hairline);
+    --z-focus: var(--color-evergreen-700);
+    --z-icon: var(--color-evergreen-600);
+    --z-star: var(--color-brass-700);
+    --z-card: var(--color-ivory);
+    --z-raised: var(--color-paper);
+  }
+
+  /* Brand page defaults. The legacy theme.css body rule (legacy layer) still wins on unredesigned pages;
+     redesigned sections get the brand type through .brand-scope (components layer). */
   html {
-    @apply font-sans;
-    }
+    background: var(--color-paper);
+    color: var(--z-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+
+  /* The one focus style (2px, offset 3px, zone-aware: evergreen-700 on light, brass-300 on vault). */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--z-focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-brass-100);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* ── Reset scope ──────────────────────────────────────────────────────────────────────────────
+     Applied by <Section> (or by hand on any redesigned root). Inside it, markup starts from brand
+     defaults even under a legacy page wrapper (.bt, .mfp, .co-page, .legal-page): this layer sits
+     after `legacy`, so it beats `.bt h2`, `.bt p`, `.bt a` …, while utilities still beat it. */
+  .brand-scope {
+    font-family: var(--font-sans);
+    font-size: var(--text-copy);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: start;
+    text-transform: none;
+    color: var(--z-body);
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  .brand-scope :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: var(--z-fg);
+    text-wrap: balance;
+  }
+  .brand-scope :where(p, li, blockquote, figure, dl, dd) {
+    margin: 0;
+  }
+  .brand-scope :where(p, li) {
+    text-wrap: pretty;
+  }
+  .brand-scope :where(ul, ol) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: inherit;
+  }
+  .brand-scope :where(strong, b) {
+    font-weight: 600;
+    color: inherit;
+  }
+  .brand-scope :where(a),
+  .brand-scope :where(a):hover {
+    color: inherit;
+    text-decoration: inherit;
+    transition: none;
+  }
+  .brand-scope :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--z-focus);
+    outline-offset: 3px;
+  }
+  .brand-scope :where(summary) {
+    list-style: none;
+  }
+  .brand-scope :where(summary)::-webkit-details-marker {
+    display: none;
+  }
+
+  /* ── Zones (exactly one per section root) ── */
+  .zone-paper {
+    background-color: var(--color-paper);
+    --border: var(--z-line);
+  }
+  .zone-ivory {
+    background-color: var(--color-ivory);
+    border-block: 1px solid var(--color-hairline);
+    --z-card: var(--color-paper);
+    --z-raised: var(--color-ivory);
+    --border: var(--z-line);
+  }
+  .zone-sand {
+    background-color: var(--color-sand);
+    --z-line: var(--color-hairline-deep);
+    --border: var(--color-hairline-deep);
+  }
+  .zone-vault,
+  .panel-vault {
+    --z-fg: var(--color-on-vault);
+    --z-body: var(--color-on-vault-muted);
+    --z-soft: var(--color-on-vault-muted);
+    --z-muted: var(--color-on-vault-muted);
+    --z-accent: var(--color-brass-300);
+    --z-line: var(--color-vault-line);
+    --z-focus: var(--color-brass-300);
+    --z-icon: var(--color-brass-300);
+    --z-star: var(--color-brass-500);
+    --z-card: var(--color-evergreen-800);
+    --z-raised: var(--color-vault-raised);
+    --border: var(--color-vault-line);
+    color: var(--z-body);
+    background-color: var(--color-vault);
+    color-scheme: dark;
+  }
+  /* Cheque-moiré texture (never on sticky/fixed elements: those use plain bg-vault). */
+  .panel-vault {
+    background-image:
+      repeating-radial-gradient(circle at 0% 0%, rgb(226 204 156 / 0.09) 0 1px, transparent 1px 8px),
+      repeating-radial-gradient(circle at 100% 100%, rgb(226 204 156 / 0.07) 0 1px, transparent 1px 8px);
+  }
+  .zone-vault {
+    background-image:
+      radial-gradient(90% 120% at 100% 0%, rgb(31 77 64 / 0.55), transparent 60%),
+      repeating-radial-gradient(circle at 0% 0%, rgb(226 204 156 / 0.06) 0 1px, transparent 1px 8px),
+      repeating-radial-gradient(circle at 100% 100%, rgb(226 204 156 / 0.05) 0 1px, transparent 1px 8px);
+  }
+
+  /* ── Keyword (<Kw>) ── */
+  .kw {
+    font-style: italic;
+    color: var(--z-accent);
+  }
+  .kw-caps {
+    font-style: normal;
+    color: var(--z-fg);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Disclosure (<details> FAQ rows and guides): height animates where ::details-content is supported ── */
+  .brand-disclosure {
+    interpolate-size: allow-keywords;
+  }
+  .brand-disclosure > summary {
+    list-style: none;
+  }
+  .brand-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+  .brand-disclosure::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 260ms var(--ease-calm),
+      content-visibility 260ms var(--ease-calm) allow-discrete;
+  }
+  .brand-disclosure[open]::details-content {
+    block-size: auto;
+  }
+
+  /* ── Checkbox / radio (20px, 1.5px hairline-strong, ink when checked with an ivory tick / dot) ── */
+  .brand-check,
+  .brand-radio {
+    appearance: none;
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    border: 1.5px solid var(--color-hairline-strong);
+    background: var(--color-ivory) center / 100% 100% no-repeat;
+    cursor: pointer;
+    transition:
+      background-color 180ms var(--ease-calm),
+      border-color 180ms var(--ease-calm);
+  }
+  .brand-check {
+    border-radius: 3px;
+  }
+  .brand-radio {
+    border-radius: 9999px;
+  }
+  .brand-check:checked,
+  .brand-radio:checked {
+    background-color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .brand-check:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-7' fill='none' stroke='%23FCFAF6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .brand-radio:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23FCFAF6'/%3E%3C/svg%3E");
+  }
+  .brand-check[aria-invalid="true"],
+  .brand-radio[aria-invalid="true"] {
+    border-color: var(--color-alert);
+  }
+  .brand-check:disabled,
+  .brand-radio:disabled {
+    background-color: var(--color-sand-deep);
+    cursor: not-allowed;
+  }
+
+  /* ── Reveal (hidden state only when JS set html.js-motion, i.e. motion is allowed) ── */
+  .reveal {
+    transition:
+      opacity 600ms var(--ease-calm),
+      transform 600ms var(--ease-calm);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  html.js-motion .reveal:not(.is-in):not([data-reveal="in"]) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 0.75rem/1 var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--z-accent);
+  &::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass-500);
+    flex: none;
+  }
+}
+@utility eyebrow-center {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 0.75rem/1 var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--z-accent);
+  &::before,
+  &::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass-500);
+    flex: none;
+  }
+}
+/* Banknote frame on vault panels: 1px brass at .28, inset 8px, radius 6. */
+@utility cert-frame {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgb(200 162 88 / 0.28);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+}
+@utility price-num {
+  font-family: var(--font-display);
+  font-variant-numeric: proportional-nums;
+  color: var(--z-fg);
+}
+/* Struck price: muted serif, line-through, plus a hidden "Prix initial :" label for screen readers. */
+@utility price-old {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--z-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: max(1px, 0.06em);
+  &::before {
+    content: "Prix initial : ";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@utility ledger {
+  border-top: 1px solid var(--color-ink);
+  padding-top: 24px;
+}
+@utility break-anywhere {
+  overflow-wrap: anywhere;
+}
+
+/* vault: style only when inside a vault zone or panel (e.g. vault:text-brass-300). */
+@custom-variant vault (&:where(.zone-vault, .zone-vault *, .panel-vault, .panel-vault *));
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

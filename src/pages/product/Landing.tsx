@@ -14,7 +14,7 @@ import { StickyBar } from './StickyBar'
 
 export function Landing({ product: p, onBuy }: { product: Product; onBuy: (e: React.MouseEvent) => void }) {
   return (
-    <div className="w-full overflow-x-hidden font-jakarta leading-[1.6] text-lp-ink antialiased">
+    <div className="w-full overflow-x-clip bg-paper font-sans leading-[1.65] text-ink-body antialiased">
       <Hero product={p} onBuy={onBuy} />
       <Description />
       <Included />

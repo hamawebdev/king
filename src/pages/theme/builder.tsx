@@ -67,8 +67,8 @@ export function Wrap({ children, d, t, className, style, middle, gap, innerStyle
     <div
       className={cn(
         'mfp-wrap',
-        `w-${d}`,
-        `tw-${t ?? d}`,
+        `mfp-w-${d}`,
+        `mfp-tw-${t ?? d}`,
         middle && 'mfp-wrap--mid',
         gap === 0 && 'mfp-wrap--gap0',
         gap === 10 && 'mfp-wrap--gap10',
@@ -94,7 +94,7 @@ type ColProps = {
 
 export function Col({ children, d = '1', t, kind = 'text', className, style }: ColProps) {
   return (
-    <div className={cn('mfp-col', `c-${d}`, `tc-${t ?? d}`, `mfp-col--${kind}`, className)} style={style}>
+    <div className={cn('mfp-col', `mfp-c-${d}`, `mfp-tc-${t ?? d}`, `mfp-col--${kind}`, className)} style={style}>
       <div className="mfp-ci">
         {kind === 'placeholder' ? <div className="mfp-placeholder">&nbsp;</div> : children}
       </div>
