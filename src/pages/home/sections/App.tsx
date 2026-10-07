@@ -1,7 +1,6 @@
+import { AppMock, Chip, IconTile, Kw, Reveal, Section, SectionHead } from '@/components/brand'
 import { BRAND_UPPER } from '@/lib/site'
 import type { IconText } from '../data'
-import { BAND_TIGHT, COLUMN, SPLIT, SPLIT_TEXT, SPLIT_TITLE, TINT, cx } from '../styles'
-import { Accent, CheckList, Eyebrow, GlyphPanel, PillList } from '../ui'
 
 const APP = {
   eyebrow: 'Notre Application',
@@ -21,23 +20,56 @@ const APP = {
   ] as IconText[],
 }
 
-/** App: pitch, checks and device pills beside a glyph panel. The #telecharger anchor lands here. */
+/**
+ * App (vault band, 6/6): head, a three-cell feature strip with hairline rules, device chips; the AppMock
+ * (phone in front of a TV) on the right. The #telecharger anchor lands here.
+ */
 export function HomeApp() {
   return (
-    <section id="telecharger" data-section="home-app" className={cx(BAND_TIGHT, TINT)}>
-      <div className={cx(COLUMN, SPLIT)}>
-        <div>
-          <Eyebrow>{APP.eyebrow}</Eyebrow>
-          <h2 className={cx(SPLIT_TITLE, 'mt-[16px] mb-[12px]')}>
-            {`${APP.title} `}
-            <Accent>{APP.titleBlue}</Accent>
-          </h2>
-          <p className={SPLIT_TEXT}>{APP.text}</p>
-          <CheckList items={APP.checks} className="mb-[22px]" />
-          <PillList items={APP.pills} />
-        </div>
-        <GlyphPanel icon="ti-player-play" fill="royal" />
+    <Section
+      zone="vault"
+      dataSection="home-app"
+      id="telecharger"
+      containerClassName="grid items-center gap-y-14 md:gap-y-16 lg:grid-cols-12 lg:gap-x-grid"
+    >
+      <div className="lg:col-span-6 lg:pr-6 xl:pr-10">
+        <SectionHead
+          eyebrow={APP.eyebrow}
+          title={
+            <>
+              {`${APP.title} `}
+              <Kw>{APP.titleBlue}</Kw>
+            </>
+          }
+          lead={APP.text}
+        />
+
+        <ul className="m-0 mt-10 grid list-none border-y border-z-line p-0 sm:grid-cols-3 md:mt-12">
+          {APP.checks.map((c, i) => (
+            <Reveal
+              as="li"
+              key={c.label}
+              index={i}
+              className="flex items-center gap-4 border-t border-z-line py-4 first:border-t-0 sm:flex-col sm:items-start sm:gap-5 sm:border-t-0 sm:border-l sm:py-6 sm:pl-5 sm:first:border-l-0 sm:first:pl-0 lg:pl-6"
+            >
+              <IconTile icon={c.icon} size={40} />
+              <span className="font-display text-title text-z-fg">{c.label}</span>
+            </Reveal>
+          ))}
+        </ul>
+
+        <ul className="m-0 mt-8 flex list-none flex-wrap gap-2 p-0">
+          {APP.pills.map((p) => (
+            <li key={p.label}>
+              <Chip icon={p.icon}>{p.label}</Chip>
+            </li>
+          ))}
+        </ul>
       </div>
-    </section>
+
+      <Reveal className="lg:col-span-6">
+        <AppMock className="mx-auto max-w-[340px] sm:max-w-[480px] lg:max-w-[560px]" />
+      </Reveal>
+    </Section>
   )
 }
