@@ -1,8 +1,45 @@
 import { Link } from 'react-router'
 import { Placeholder } from '@/components/site/Placeholder'
-import { HERO, OFFER, PROOF, PROOF_RATING, ROUTES } from './data'
-import { COLUMN, EASE_200, TITLE_FACE, buttonClass, cx } from './styles'
-import { Accent } from './ui'
+import { BRAND } from '@/lib/site'
+import { ROUTES, type IconText } from '../data'
+import { COLUMN, EASE_200, TITLE_FACE, buttonClass, cx } from '../styles'
+import { Accent } from '../ui'
+
+const HERO = {
+  rating: 'Service préféré en 2026 · 4.8/5',
+  titleStart: 'Découvrez ',
+  titleBlue: '+5200 Chaînes TV',
+  titleEnd: ' sans Limite',
+  sub: `${BRAND} rassemble le sport en live, les sorties ciné et des milliers d’épisodes au même endroit. Formules dès 39€ par an.`,
+  cta: 'Activer mon accès TV',
+  renew: 'Je renouvelle',
+  trust: [
+    { icon: 'ti-lock', label: 'Paiement Protégé' },
+    { icon: 'ti-bolt', label: 'Envoi Quasi Immédiat' },
+    { icon: 'ti-users', label: '40 000+ Inscrits' },
+  ] as IconText[],
+}
+
+const OFFER = {
+  ribbon: 'COUP DE CŒUR',
+  plan: 'Pack Intégral 12 Mois',
+  oldPrice: '108€/an',
+  price: '59€',
+  per: '/an',
+  pct: '−45%',
+  save: 'Tarif spécial jusqu’à fin octobre',
+  cta: 'Abonner Maintenant',
+  feats: ['5200+ Chaînes', '8000+ VOD', 'Ultra HD 4K', 'Rattrapage'],
+}
+
+const PROOF_RATING = 'Avis 4.8/5'
+
+const PROOF = [
+  { value: '40K+', label: 'Abonnés fidèles' },
+  { value: '5200+', label: 'Chaînes en direct' },
+  { value: '60+', label: 'Pays couverts' },
+  { value: '24/7', label: 'Assistance dédiée' },
+]
 
 /** Overlapping avatar dots of the rating pill, darkest first. */
 const AVATAR_TINTS = ['bg-lp-blue-d', 'bg-lp-blue', 'bg-lp-azure', 'bg-[#60a5fa]']
@@ -64,56 +101,14 @@ function OfferCard() {
   )
 }
 
-/** Opening band: pitch on the left, offer card on the right, over a veiled backdrop. */
-export function Hero() {
-  return (
-    <section className="hm-veil relative overflow-hidden bg-[#f7faff] pt-[56px] pb-[70px] lp-md:pt-[30px] lp-md:pb-[42px]">
-      <Placeholder tone="dark" bare label="Arrière-plan" className="pointer-events-none absolute inset-0 z-0" />
-      <div className={cx(COLUMN, 'relative z-[2] grid grid-cols-[1.06fr_0.94fr] items-center gap-[50px] lp-lg:grid-cols-[1fr]')}>
-        <div>
-          <RatingPill />
-          <h1
-            className={cx(
-              TITLE_FACE,
-              'mb-[18px] text-[length:clamp(40px,5.3vw,62px)] font-black text-heading',
-              'lp-md:text-[length:clamp(30px,8.4vw,40px)] lp-md:leading-[1.07] lp-sm:text-[28px]',
-            )}
-          >
-            {HERO.titleStart}
-            <Accent>{HERO.titleBlue}</Accent>
-            {HERO.titleEnd}
-          </h1>
-          <p className="mb-[24px] max-w-[500px] text-[18px] text-lp-muted lp-md:text-[16px]">{HERO.sub}</p>
-          <div className="mb-[22px] flex flex-wrap items-center gap-[13px] lp-md:flex-nowrap">
-            <Link to={ROUTES.p12} className={buttonClass('primary', 'lg', HERO_BUTTON_NARROW)}>
-              {HERO.cta}
-            </Link>
-            <Link to={ROUTES.renew} className={buttonClass('outline', 'md', HERO_BUTTON_NARROW)}>
-              {HERO.renew}
-            </Link>
-          </div>
-          <div className="flex flex-wrap gap-[20px] text-[13.5px] font-bold text-lp-dim lp-md:gap-x-[18px] lp-md:gap-y-[12px] lp-md:text-[13px]">
-            {HERO.trust.map((item) => (
-              <span key={item.label} className="flex items-center gap-[7px]">
-                <i className={cx('ti', item.icon, 'text-[15px] text-lp-blue')} /> {item.label}
-              </span>
-            ))}
-          </div>
-        </div>
-        <OfferCard />
-      </div>
-    </section>
-  )
-}
-
 const PROOF_ITEM =
   'flex items-center gap-[9px] text-[15px] font-bold text-lp-muted lp-md:flex-col lp-md:gap-[3px] lp-md:text-center lp-md:text-[13.5px]'
 
 /** Strip of key figures under the hero (a row, then a 2-column and 1-column grid on phones). */
-export function ProofStrip() {
+function ProofStrip() {
   const last = PROOF.length - 1
   return (
-    <section className="relative border-y border-lp-line bg-lp-soft">
+    <section data-section="home-proof" className="relative border-y border-lp-line bg-lp-soft">
       <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-[18px] py-[22px] lp-lg:justify-center lp-lg:gap-x-[26px] lp-lg:gap-y-[14px] lp-md:grid lp-md:grid-cols-[repeat(2,1fr)] lp-md:gap-x-[12px] lp-md:gap-y-[22px] lp-sm:grid-cols-[1fr]">
         <div className={PROOF_ITEM}>
           <i className="ti ti-star-filled text-lp-gold" /> <span>{PROOF_RATING}</span>
@@ -125,5 +120,55 @@ export function ProofStrip() {
         ))}
       </div>
     </section>
+  )
+}
+
+/** Opening band (pitch on the left, offer card on the right, over a veiled backdrop), then the proof strip. */
+export function HomeHero() {
+  return (
+    <>
+      <section
+        data-section="home-hero"
+        className="hm-veil relative overflow-hidden bg-[#f7faff] pt-[56px] pb-[70px] lp-md:pt-[30px] lp-md:pb-[42px]"
+      >
+        <Placeholder tone="dark" bare label="Arrière-plan" className="pointer-events-none absolute inset-0 z-0" />
+        <div
+          className={cx(COLUMN, 'relative z-[2] grid grid-cols-[1.06fr_0.94fr] items-center gap-[50px] lp-lg:grid-cols-[1fr]')}
+        >
+          <div>
+            <RatingPill />
+            <h1
+              className={cx(
+                TITLE_FACE,
+                'mb-[18px] text-[length:clamp(40px,5.3vw,62px)] font-black text-heading',
+                'lp-md:text-[length:clamp(30px,8.4vw,40px)] lp-md:leading-[1.07] lp-sm:text-[28px]',
+              )}
+            >
+              {HERO.titleStart}
+              <Accent>{HERO.titleBlue}</Accent>
+              {HERO.titleEnd}
+            </h1>
+            <p className="mb-[24px] max-w-[500px] text-[18px] text-lp-muted lp-md:text-[16px]">{HERO.sub}</p>
+            <div className="mb-[22px] flex flex-wrap items-center gap-[13px] lp-md:flex-nowrap">
+              <Link to={ROUTES.p12} className={buttonClass('primary', 'lg', HERO_BUTTON_NARROW)}>
+                {HERO.cta}
+              </Link>
+              <Link to={ROUTES.renew} className={buttonClass('outline', 'md', HERO_BUTTON_NARROW)}>
+                {HERO.renew}
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-[20px] text-[13.5px] font-bold text-lp-dim lp-md:gap-x-[18px] lp-md:gap-y-[12px] lp-md:text-[13px]">
+              {HERO.trust.map((item) => (
+                <span key={item.label} className="flex items-center gap-[7px]">
+                  <i className={cx('ti', item.icon, 'text-[15px] text-lp-blue')} /> {item.label}
+                </span>
+              ))}
+            </div>
+          </div>
+          <OfferCard />
+        </div>
+      </section>
+      <ProofStrip />
+    </>
   )
 }

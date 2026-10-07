@@ -25,6 +25,9 @@ export const SPLIT = 'grid grid-cols-[repeat(2,1fr)] items-center gap-[50px] lp-
 export const SPLIT_TITLE = `${TITLE} text-[length:clamp(26px,3.4vw,38px)] lp-md:text-[26px]`
 export const SPLIT_TEXT = 'mb-[22px] text-[16px] text-lp-muted'
 
+/** Four columns, two below 980px, one below 680px. */
+export const QUAD_GRID = 'grid grid-cols-[repeat(4,1fr)] lp-lg:grid-cols-[repeat(2,1fr)] lp-md:grid-cols-[1fr]'
+
 /** Raised white tile with the light drop shadow (radius and padding are set per tile). */
 export const TILE = 'border border-lp-line bg-white shadow-lp-sm'
 
