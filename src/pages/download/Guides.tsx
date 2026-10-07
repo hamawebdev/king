@@ -1,59 +1,86 @@
-import { Attr, Col, Hr, Section, SepBadge, SepDashes, Wrap } from '../theme/builder'
-import { EdgeArcs } from '../theme/art'
+import { Code, Reveal, Section } from '@/components/brand'
+import { GuideAside, GuideCard, GuideLabel, GuideLine, GuideStep, GuideSteps, KeyName, ShortcutRow } from './Guides.parts'
 
-// Downloads: the three installation guides and the empty spacer section after them. They are
-// sibling sections, so a plain wrapper (no class, no style) carries the section hook.
+// Downloads: the three setup guides (DIRECTION §9.5, zone I, text column, the first guide open).
+// Every guide keeps its full text; the long paragraphs are only split into their own steps,
+// shortcuts and bullets. French spacing uses U+00A0 before ":".
 
-const GUIDES = [
+const NB = ' '
+
+const SHORTCUTS = [
+  { n: '1', key: 'Touche Menu', text: 'affiche la liste des catégories sans quitter la lecture en cours.' },
+  { n: '2', key: 'Touche Info', text: 'ouvre la fiche du programme avec sa durée, son résumé et les épisodes suivants.' },
   {
-    title: 'Guide Smart TV',
-    rule: false,
-    arcs: true,
-    text: "RÉGLAGES D'IMAGE CONSEILLÉS : activez le mode cinéma de votre téléviseur et désactivez le lissage de mouvement dans Paramètres->Image->Réglages-experts pour un rendu naturel. Ouvrez ensuite http://novastream.example/aide/image-et-son pour comparer les profils proposés selon la taille de votre écran, puis choisissez celui qui convient à votre pièce, à sa lumière et à vos habitudes.",
+    n: '3',
+    key: 'Appui long sur OK',
+    text: (
+      <>
+        ajoute la chaîne à vos favoris, accessibles ensuite depuis <Code>Accueil-&gt;Favoris-&gt;Chaînes</Code>.
+      </>
+    ),
   },
-  {
-    title: 'Lecteur KODI',
-    rule: true,
-    arcs: false,
-    text: "Astuces : (Pour une navigation plus agréable) RACCOURCIS : 1-Touche Menu : affiche la liste des catégories sans quitter la lecture en cours. 2-Touche Info : ouvre la fiche du programme avec sa durée, son résumé et les épisodes suivants. 3-Appui long sur OK : ajoute la chaîne à vos favoris, accessibles ensuite depuis Accueil->Favoris->Chaînes. 4-Touches de couleur : passent d'un thème d'affichage à l'autre, du plus clair au plus contrasté. 5-Retour deux fois : revient directement à l'accueil, quel que soit l'écran où vous vous trouvez. 6-Touche Stop : met la lecture en pause.",
-  },
-  {
-    title: 'Appli pour iOS',
-    rule: true,
-    arcs: true,
-    text: "Astuce : sur iPhone et iPad, l'écran d'accueil peut afficher un widget qui présente vos programmes favoris du jour. Pour l'ajouter, procédez ainsi : •Maintenez le doigt sur une zone vide de l'écran •Touchez le bouton d'ajout en haut à gauche •Choisissez NovaStream puis la taille du widget",
-  },
+  { n: '4', key: 'Touches de couleur', text: "passent d'un thème d'affichage à l'autre, du plus clair au plus contrasté." },
+  { n: '5', key: 'Retour deux fois', text: "revient directement à l'accueil, quel que soit l'écran où vous vous trouvez." },
+  { n: '6', key: 'Touche Stop', text: 'met la lecture en pause.' },
+]
+
+const WIDGET_STEPS = [
+  "Maintenez le doigt sur une zone vide de l'écran",
+  "Touchez le bouton d'ajout en haut à gauche",
+  'Choisissez NovaStream puis la taille du widget',
 ]
 
 export function DownloadGuides() {
   return (
-    <div data-section="download-guides">
-      {GUIDES.map((g) => (
-        <Section key={g.title} style={{ paddingTop: 100 }} before={g.arcs ? <EdgeArcs anchor="bottom" /> : undefined}>
-          <Wrap d="1-4" t="2-5">
-            <Col d="1" t="5-6">
-              <Attr mobileAlign="center">
-                <SepBadge />
-                {g.rule && <Hr />}
-                <h2>{g.title}</h2>
-                <SepDashes />
-              </Attr>
-            </Col>
-          </Wrap>
-          <Wrap d="3-4" t="3-5">
-            <Col>
-              <Attr mobileAlign="center">
-                <h5>{g.text}</h5>
-              </Attr>
-            </Col>
-          </Wrap>
-        </Section>
-      ))}
+    <Section zone="ivory" dataSection="download-guides" container="text" containerClassName="grid gap-4 md:gap-5">
+      <Reveal index={0}>
+        <GuideCard icon="ti-device-tv" title="Guide Smart TV" defaultOpen>
+          <GuideLabel>RÉGLAGES D'IMAGE CONSEILLÉS{NB}:</GuideLabel>
+          <GuideSteps ordered>
+            <GuideStep marker="pos">
+              activez le mode cinéma de votre téléviseur et désactivez le lissage de mouvement dans{' '}
+              <Code>Paramètres-&gt;Image-&gt;Réglages-experts</Code> pour un rendu naturel.
+            </GuideStep>
+            <GuideStep marker="pos">
+              Ouvrez ensuite <Code>http://novastream.example/aide/image-et-son</Code> pour comparer les profils proposés selon
+              la taille de votre écran, puis choisissez celui qui convient à votre pièce, à sa lumière et à vos habitudes.
+            </GuideStep>
+          </GuideSteps>
+        </GuideCard>
+      </Reveal>
 
-      <Section nmh style={{ paddingBottom: 100 }}>
-        {/* Empty "move up" wrap of the original: only the section's bottom padding shows. */}
-        <Wrap d="1" gap={0} />
-      </Section>
-    </div>
+      <Reveal index={1}>
+        <GuideCard icon="ti-device-remote" title="Lecteur KODI">
+          <GuideLine className="mb-6">
+            <KeyName>Astuces{NB}:</KeyName> (Pour une navigation plus agréable)
+          </GuideLine>
+          <GuideLabel>RACCOURCIS{NB}:</GuideLabel>
+          <GuideSteps ordered>
+            {SHORTCUTS.map((s) => (
+              <ShortcutRow key={s.n} keyName={`${s.n}-${s.key}${NB}:`}>
+                {s.text}
+              </ShortcutRow>
+            ))}
+          </GuideSteps>
+        </GuideCard>
+      </Reveal>
+
+      <Reveal index={2}>
+        <GuideCard icon="ti-device-mobile" title="Appli pour iOS">
+          <GuideAside>
+            <strong className="font-semibold">Astuce{NB}:</strong> sur iPhone et iPad, l'écran d'accueil peut afficher un
+            widget qui présente vos programmes favoris du jour.
+          </GuideAside>
+          <GuideLine className="mt-6 mb-3 font-semibold text-z-fg">Pour l'ajouter, procédez ainsi{NB}:</GuideLine>
+          <GuideSteps>
+            {WIDGET_STEPS.map((t) => (
+              <GuideStep key={t} marker="bullet">
+                {t}
+              </GuideStep>
+            ))}
+          </GuideSteps>
+        </GuideCard>
+      </Reveal>
+    </Section>
   )
 }
