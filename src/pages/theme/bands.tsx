@@ -1,122 +1,128 @@
 import type { ReactNode } from 'react'
+import { ChannelMosaic, FormCard, IconTile, Reveal, Rosette, Section, WhatsAppButton } from '@/components/brand'
+import type { Zone } from '@/components/brand'
 import { WHATSAPP_HREF } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import { Attr, Col, Hr, Section, SepBadge, SepDashes, WaveTop, Wrap } from './builder'
-import { NavyArcs } from './art'
 import { ContactFormCard } from './ContactFormCard'
 
-// Navy bands closing the four theme pages: the shared band with its wavy white top edge, the
-// white form card, then one component per page with its exact content.
+// Closing bands of the four inner pages, « Réserve » direction §9.3–9.6. Shop and contact: a 5/7 split
+// with the form heading on the left (sticky from lg) and the form in an ivory card on the right. Reseller:
+// the "Contactez-Nous" WhatsApp block as a contained vault panel on the left, the titled form card on the
+// right. Downloads: the content is empty, so it closes the page as a quiet screen strip (mosaic + rosette).
 
-/** White rounded card holding the question form (inside a navy band). */
-function FormCard({ heading, idPrefix, tabletHalf }: { heading: string; idPrefix: string; tabletHalf?: boolean }) {
-  return (
-    <Wrap
-      d="1"
-      t={tabletHalf ? '1-2' : '1'}
-      className="mfp-formcard"
-      style={{ padding: '50px 50px 10px', backgroundColor: '#ffffff', borderRadius: 32 }}
-      innerStyle={{ justifyContent: 'center' }}
-    >
-      <Col>
-        <Attr align="center" mobileAlign="center">
-          <h4>
-            {heading}
-            <br />
-          </h4>
-          <ContactFormCard idPrefix={idPrefix} />
-        </Attr>
-      </Col>
-    </Wrap>
-  )
+/** 1px brass rule, the same mark that opens the inner-page heroes. */
+function BrassRule({ className }: { className?: string }) {
+  return <span aria-hidden="true" className={cn('block h-px w-12 bg-brass-500', className)} />
 }
 
-/** Navy band with the wavy white top edge. */
-function NavySection({
+/** Form heading + form (light section): heading left (5 cols), ivory form card right (7 cols). */
+function FormBand({
   dataSection,
-  children,
-  decor,
-  rev,
-  className,
+  zone,
+  heading,
+  idPrefix,
 }: {
-  /** data-section id of the band. */
+  /** data-section id of the band (kept from the original). */
   dataSection: string
-  children?: ReactNode
-  decor?: ReactNode
-  rev?: boolean
-  className?: string
+  zone: Zone
+  /** The form heading (exact content string). */
+  heading: string
+  idPrefix: string
 }) {
   return (
     <Section
-      rev={rev}
-      className={cn('mfp-navy', className)}
-      style={{ paddingTop: 100, paddingBottom: 60, backgroundColor: '#181349' }}
-      before={
-        <>
-          {decor}
-          <WaveTop />
-        </>
-      }
+      zone={zone}
       dataSection={dataSection}
+      containerClassName="grid items-start gap-x-grid gap-y-8 md:gap-y-10 lg:grid-cols-12"
     >
-      {children}
+      <Reveal className="lg:sticky lg:top-24 lg:col-span-5 lg:pt-2 lg:pr-8">
+        <IconTile icon="ti-mail-opened" size={56} />
+        <h2 className="mt-6 font-display text-display-sm text-z-fg md:mt-8">{heading}</h2>
+        <BrassRule className="mt-6 md:mt-8" />
+      </Reveal>
+      <FormCard className="md:p-8 lg:col-span-7 lg:p-10">
+        <ContactFormCard idPrefix={idPrefix} />
+      </FormCard>
     </Section>
   )
 }
 
-/** Shop: question form, with the drifting yellow arcs behind it. */
+/** Shop: question form on the sand band. */
 export function ShopBand() {
-  return (
-    <NavySection dataSection="shop-band" decor={<NavyArcs />}>
-      <FormCard heading="Un mot pour l'équipe ?" idPrefix="shop-form" />
-    </NavySection>
-  )
+  return <FormBand dataSection="shop-band" zone="sand" heading="Un mot pour l'équipe ?" idPrefix="shop-form" />
 }
 
-/** Reseller: "Contactez-Nous" head with the Whatsapp button, then the question form. */
+/** Reseller: "Contactez-Nous" vault panel with the Whatsapp button, then the titled question form. */
 export function ResellerBand() {
   return (
-    <NavySection dataSection="reseller-band">
-      <Wrap d="1" gap={10} className="mfp-navy-head">
-        <Col>
-          <Attr mobileAlign="center" className="al-center">
-            <SepBadge dark />
-            <Hr />
-            <h2>
-              <span className="mfp-white">Contactez-Nous</span>
-            </h2>
-            <SepDashes dark />
-            <Hr />
-          </Attr>
-        </Col>
-        <Col kind="button">
-          <a className="mfp-btn mfp-btn--s3 mfp-btn--sun" href={WHATSAPP_HREF}>
-            Whatsapp
-          </a>
-        </Col>
-        <Col kind="divider">
-          <Hr mb={30} />
-        </Col>
-      </Wrap>
-      <FormCard heading="Un mot pour l'équipe ?" idPrefix="reseller-form" />
-    </NavySection>
+    <Section
+      zone="sand"
+      dataSection="reseller-band"
+      containerClassName="grid items-start gap-x-grid gap-y-6 md:gap-y-8 lg:grid-cols-12"
+    >
+      <Reveal className="relative overflow-hidden rounded-panel panel-vault cert-frame shadow-float p-8 md:p-10 lg:sticky lg:top-24 lg:col-span-5">
+        {/* Tablet (stacked): title and button share one row; phone and desktop: one column. */}
+        <div className="md:max-lg:flex md:max-lg:items-end md:max-lg:justify-between md:max-lg:gap-8">
+          <div>
+            <BrassRule />
+            <h2 className="mt-6 font-display text-display-sm text-z-fg">Contactez-Nous</h2>
+          </div>
+          <WhatsAppButton
+            label="Whatsapp"
+            href={WHATSAPP_HREF}
+            size="lg"
+            full
+            className="mt-8 sm:w-auto md:max-lg:mt-0 md:max-lg:shrink-0"
+          />
+        </div>
+        {/* Two quiet rows of channels: the television cue of the panel, beside the form (desktop only). */}
+        <ChannelMosaic
+          rows={2}
+          cols={6}
+          fill={false}
+          osd={false}
+          selected={4}
+          className="mt-10 -mx-[3px] opacity-50 max-lg:hidden"
+        />
+      </Reveal>
+      <FormCard className="md:p-8 lg:col-span-7 lg:p-10">
+        <h3 className="font-display text-title-lg text-z-fg">Un mot pour l'équipe ?</h3>
+        <BrassRule className="mt-4 mb-8 w-7" />
+        <ContactFormCard idPrefix="reseller-form" />
+      </FormCard>
+    </Section>
   )
 }
 
-/** Downloads: a short empty band. */
+/** Downloads: the band is empty in the content, so it closes the page as a screen strip above the footer. */
 export function DownloadBand() {
   return (
-    <NavySection dataSection="download-band">
-      <Wrap d="1" />
-    </NavySection>
+    <Section
+      zone="vault"
+      rhythm="sm"
+      dataSection="download-band"
+      container="wide"
+      className="border-b border-brass-500/40"
+    >
+      <Strip>
+        <ChannelMosaic rows={2} cols={8} fill={false} osd={false} selected={5} className="md:hidden" />
+        <ChannelMosaic rows={2} cols={16} fill={false} osd={false} selected={11} className="max-md:hidden" />
+      </Strip>
+      <Rosette className="absolute -right-24 top-1/2 w-[360px] -translate-y-1/2 opacity-[.10] md:-right-32 md:w-[520px]" />
+    </Section>
   )
 }
 
-/** Contact: e-mail form (half width on tablets); the wraps stack in reverse on phones. */
-export function ContactBand() {
+/** Decorative wrapper of the downloads strip (aria-hidden, no text). */
+function Strip({ children }: { children: ReactNode }) {
   return (
-    <NavySection dataSection="contact-band" rev>
-      <FormCard heading="Laissez-nous un mot." idPrefix="contact-form" tabletHalf />
-    </NavySection>
+    <div aria-hidden="true" className="pointer-events-none relative opacity-[.35]">
+      {children}
+    </div>
   )
+}
+
+/** Contact: e-mail form on the paper band. */
+export function ContactBand() {
+  return <FormBand dataSection="contact-band" zone="paper" heading="Laissez-nous un mot." idPrefix="contact-form" />
 }

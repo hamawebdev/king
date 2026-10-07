@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
+import { Input, Textarea, buttonClass, noticeClass } from '@/components/brand'
 import { cn } from '@/lib/utils'
 
-// Contact Form 7 look-alike. It validates on the client like the plugin does (tips on
-// change, full check on submit, quiz answer) but never sends anything: after a short
-// "submitting" spinner it shows the plugin's response message in place.
+// Contact Form 7 look-alike in the « Réserve » form recipe (DIRECTION §6.13). It validates on the client
+// like the plugin does (tips on change, full check on submit, quiz answer) but never sends anything:
+// after a short "submitting" spinner it shows the plugin's response message in place. The form has no
+// visible labels in the content, so each placeholder doubles as a hidden label; the quiz keeps its own.
 
 type Field = 'name' | 'phone' | 'email' | 'message' | 'quiz'
 type Values = Record<Field, string>
@@ -43,16 +45,9 @@ function check(field: Field, v: Values): string | undefined {
   }
 }
 
-function Tip({ message }: { message?: string }) {
-  if (!message) return null
-  return (
-    <span className="mfp-cf7-tip" aria-hidden="true">
-      {message}
-      <svg viewBox="0 0 8 8" fill="none">
-        <path d="M1 1l6 6M7 1L1 7" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    </span>
-  )
+/** Plugin tip (English, like the plugin), shown under its field by the kit's error slot. */
+function tip(message?: string) {
+  return message ? <span lang="en-US">{message}</span> : undefined
 }
 
 export function ContactFormCard({ idPrefix }: { idPrefix: string }) {
@@ -98,6 +93,7 @@ export function ContactFormCard({ idPrefix }: { idPrefix: string }) {
     }, 700)
   }
 
+  const submitting = status === 'submitting'
   const output = status === 'invalid' ? MSG.invalid : status === 'sent' ? MSG.sent : ''
   const field = (name: Field) => ({
     id: `${idPrefix}-${name}`,
@@ -105,66 +101,100 @@ export function ContactFormCard({ idPrefix }: { idPrefix: string }) {
     value: values[name],
     onChange: update(name),
     onBlur: commit(name),
-    'aria-invalid': errors[name] ? true : false,
+    error: tip(errors[name]),
   })
 
   return (
-    <div className="mfp-cf7" lang="en-US" dir="ltr">
-      <div className="mfp-sr-only" role="status" aria-live="polite" aria-atomic="true">
+    <div className="relative">
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true" lang="en-US">
         {output}
       </div>
-      <form className={cn(status === 'submitting' && 'is-submitting')} noValidate aria-label="Contact form" onSubmit={onSubmit}>
-        <div className="mfp-cf7-row">
-          <p>
-            <span className="mfp-cf7-wrap">
-              <input type="text" size={40} maxLength={400} placeholder="Votre Nom*" aria-required="true" {...field('name')} />
-              <Tip message={errors.name} />
-            </span>
-          </p>
-        </div>
-        <div className="mfp-cf7-row">
-          <p>
-            <span className="mfp-cf7-wrap">
-              <input type="tel" size={40} maxLength={400} placeholder="Téléphone*" {...field('phone')} />
-              <Tip message={errors.phone} />
-            </span>
-          </p>
-        </div>
-        <div className="mfp-cf7-row">
-          <p>
-            <span className="mfp-cf7-wrap">
-              <input type="email" size={40} maxLength={400} placeholder="E-mail*" aria-required="true" {...field('email')} />
-              <Tip message={errors.email} />
-            </span>
-          </p>
-        </div>
-        <div className="mfp-cf7-row">
-          <p>
-            <span className="mfp-cf7-wrap">
-              <textarea cols={40} rows={6} maxLength={2000} placeholder="Votre message" {...field('message')} />
-            </span>
-          </p>
-        </div>
-        <div className="mfp-cf7-row">
-          <p>
-            <span className="mfp-cf7-wrap">
-              <label>
-                <span>{QUIZ.label}</span>{' '}
-                <input type="text" size={40} autoComplete="off" aria-required="true" {...field('quiz')} />
-              </label>
-              <Tip message={errors.quiz} />
-            </span>
-          </p>
-        </div>
-        <div className="mfp-cf7-row">
-          <p>
-            <input className="mfp-btn mfp-btn--theme mfp-cf7-submit" type="submit" value="Envoyer un message" />
-            <span className="mfp-cf7-spinner" />
-          </p>
+      <form
+        className="grid items-start gap-x-4 gap-y-5 md:grid-cols-2"
+        noValidate
+        aria-label="Contact form"
+        aria-busy={submitting || undefined}
+        onSubmit={onSubmit}
+      >
+        <Input
+          type="text"
+          size={40}
+          maxLength={400}
+          autoComplete="name"
+          label="Votre Nom*"
+          labelHidden
+          placeholder="Votre Nom*"
+          aria-required="true"
+          {...field('name')}
+        />
+        <Input
+          type="tel"
+          size={40}
+          maxLength={400}
+          autoComplete="tel"
+          label="Téléphone*"
+          labelHidden
+          placeholder="Téléphone*"
+          {...field('phone')}
+        />
+        <Input
+          type="email"
+          size={40}
+          maxLength={400}
+          autoComplete="email"
+          label="E-mail*"
+          labelHidden
+          placeholder="E-mail*"
+          aria-required="true"
+          className="md:col-span-2"
+          {...field('email')}
+        />
+        <Textarea
+          cols={40}
+          rows={6}
+          maxLength={2000}
+          label="Votre message"
+          labelHidden
+          placeholder="Votre message"
+          className="md:col-span-2"
+          {...field('message')}
+        />
+        <Input
+          type="text"
+          size={40}
+          autoComplete="off"
+          inputMode="numeric"
+          label={QUIZ.label}
+          requiredMark={false}
+          aria-required="true"
+          className="md:col-span-2 md:max-w-[16rem]"
+          {...field('quiz')}
+        />
+        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-3 border-t border-z-line pt-6 md:col-span-2">
+          <input
+            type="submit"
+            value="Envoyer un message"
+            className={buttonClass('primary', 'lg', 'w-full cursor-pointer sm:w-auto')}
+          />
+          <i
+            aria-hidden="true"
+            className={cn(
+              'ti ti-loader-2 shrink-0 text-[20px] text-evergreen-700 motion-safe:animate-spin',
+              !submitting && 'hidden',
+            )}
+          />
         </div>
         {output && (
-          <div className="mfp-cf7-output" aria-hidden="true">
-            {output}
+          <div
+            aria-hidden="true"
+            lang="en-US"
+            className={cn(status === 'sent' ? noticeClass.success : noticeClass.error, 'md:col-span-2')}
+          >
+            <i
+              className={cn('ti mt-0.5 shrink-0 text-[18px]', status === 'sent' ? 'ti-circle-check' : 'ti-alert-circle')}
+              aria-hidden="true"
+            />
+            <p>{output}</p>
           </div>
         )}
       </form>
