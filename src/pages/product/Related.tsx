@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { formatEuro, useChrome } from '@/components/site/chrome-context'
 import { BoxShot } from './BoxShot'
-import { PRODUCTS, RELATED_TITLE, type Product } from './data'
+import { PRODUCTS, type Product } from './data'
 import './product.css'
 
 // WooCommerce "related products" loop under the landing block, styled like the theme's shop loop:
 // 3 columns from 960px, 2 columns below (the second item floats right under 768px).
+
+const RELATED_TITLE = 'Produits similaires'
 
 const productPath = (slug: string) => `/produit/${slug}/`
 
@@ -129,7 +131,7 @@ function RelatedItem({ product }: { product: Product }) {
 export function Related({ slugs }: { slugs: string[] }) {
   const items = slugs.map((s) => PRODUCTS[s]).filter(Boolean)
   return (
-    <section className="clear-both mt-[30px] border-t border-[rgba(0,0,0,0.08)] pt-[15px]">
+    <section data-section="product-related" className="clear-both mt-[30px] border-t border-[rgba(0,0,0,0.08)] pt-[15px]">
       <h3 className={H3}>{RELATED_TITLE}</h3>
       <ul className="m-0 flow-root list-none p-0">
         {items.map((p) => (
