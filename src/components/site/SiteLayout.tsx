@@ -19,11 +19,6 @@ export function SiteLayout() {
     window.scrollTo(0, 0)
   }, [pathname])
 
-  // Body class drives the push effect of the side menu.
-  useEffect(() => {
-    document.body.classList.toggle('sc-side-open', sideOpen)
-  }, [sideOpen])
-
   // The original blocks the browser context menu on every page; mirrored here (delete to re-enable).
   useEffect(() => {
     const block = (e: MouseEvent) => e.preventDefault()
@@ -55,7 +50,7 @@ export function SiteLayout() {
 
   return (
     <ChromeContext.Provider value={value}>
-      <div className="sc-wrapper" id="Wrapper">
+      <div className="relative bg-paper" id="Wrapper">
         <SiteHeader />
         <main id="Content">
           <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>

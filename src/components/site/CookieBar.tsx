@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
-import { CookieIcon } from './icons'
+import { cn } from '@/lib/utils'
+import { Button, ButtonLink, IconTile, cookieBarClass, linkClass } from '@/components/brand'
 
 const STORAGE_KEY = 'sc-gdpr-accepted'
 
@@ -12,7 +12,8 @@ function readAccepted() {
   }
 }
 
-// Cookie consent bar pinned to the bottom of the viewport until accepted.
+// Cookie consent card pinned to the bottom of the viewport until accepted (DIRECTION §9.0 chrome-cookie).
+// Plain vault (no texture); on phone it rises above the buy bar when one is mounted (cookieBarClass).
 export function CookieBar() {
   const [accepted, setAccepted] = useState(readAccepted)
   if (accepted) return null
@@ -27,20 +28,33 @@ export function CookieBar() {
   }
 
   return (
-    <div className="sc-gdpr" role="region" aria-label="Cookies" data-section="chrome-cookie">
-      <div className="sc-gdpr__image">
-        <CookieIcon />
-      </div>
-      <div className="sc-gdpr__content">
+    <div
+      className={cn(
+        cookieBarClass,
+        // Rise above a phone buy bar that is not the kit BuyBar yet (no html.has-buybar): same 88px offset.
+        '[:root:has([data-section=home-floating-buybar])_&]:max-md:bottom-[88px] [:root:has([data-section=product-stickybar])_&]:max-md:bottom-[88px]',
+        'flex flex-col gap-4 max-md:px-5 md:flex-row md:items-center md:gap-5',
+      )}
+      role="region"
+      aria-label="Cookies"
+      data-section="chrome-cookie"
+    >
+      <IconTile icon="ti-cookie" size={40} className="hidden md:grid" />
+      <p className="min-w-0 flex-1 font-sans text-meta text-on-vault-muted">
         Nous utilisons des cookies afin d’optimiser votre navigation ; en poursuivant sur ce site, vous acceptez notre{' '}
-        <a href="#">charte de gestion des données</a>.
+        <a href="#" className={linkClass}>
+          charte de gestion des données
+        </a>
+        .
+      </p>
+      <div className="grid gap-2.5 md:flex md:shrink-0 md:items-center">
+        <ButtonLink to="/conditions-dutilisation/" variant="outline-vault" size="sm" full className="md:w-auto">
+          Lire
+        </ButtonLink>
+        <Button variant="ivory" size="sm" full className="md:w-auto" onClick={accept}>
+          Accepter
+        </Button>
       </div>
-      <Link className="sc-gdpr__readmore" to="/conditions-dutilisation/">
-        Lire
-      </Link>
-      <button type="button" className="sc-gdpr__button" onClick={accept}>
-        Accepter
-      </button>
     </div>
   )
 }
