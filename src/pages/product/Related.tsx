@@ -26,7 +26,7 @@ function boxOf(p: Product): { months: string; variant: CoffretVariant } {
   return { months, variant }
 }
 
-function RelatedItem({ product, index }: { product: Product; index: number }) {
+function RelatedItem({ product, index, reserveRating }: { product: Product; index: number; reserveRating: boolean }) {
   const { addToCart } = useChrome()
   const [loading, setLoading] = useState(false)
   const timer = useRef<number | undefined>(undefined)
@@ -64,7 +64,14 @@ function RelatedItem({ product, index }: { product: Product; index: number }) {
       title={product.name}
       to={to}
       price={formatEuro(product.price)}
-      rating={product.rated ? <Stars label="Note 5.00 sur 5" /> : undefined}
+      rating={
+        product.rated ? (
+          <Stars label="Note 5.00 sur 5" />
+        ) : reserveRating ? (
+          // Keeps prices on one baseline when a sibling card shows stars (hidden once cards stack).
+          <Stars className="invisible max-md:hidden" />
+        ) : undefined
+      }
       action={{
         label: 'Ajouter au panier',
         ariaLabel: `Ajouter « ${product.name} » au panier`,
@@ -78,6 +85,7 @@ function RelatedItem({ product, index }: { product: Product; index: number }) {
 
 export function Related({ slugs }: { slugs: string[] }) {
   const items = slugs.map((s) => PRODUCTS[s]).filter(Boolean)
+  const reserveRating = items.some((p) => p.rated)
   return (
     <Section zone="paper" dataSection="product-related">
       <div className="flex items-end gap-8">
@@ -86,7 +94,7 @@ export function Related({ slugs }: { slugs: string[] }) {
       </div>
       <ul className="mt-head grid list-none gap-grid p-0 md:grid-cols-3">
         {items.map((p, i) => (
-          <RelatedItem key={p.slug} product={p} index={i} />
+          <RelatedItem key={p.slug} product={p} index={i} reserveRating={reserveRating} />
         ))}
       </ul>
     </Section>

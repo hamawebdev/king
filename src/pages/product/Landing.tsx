@@ -1,3 +1,4 @@
+import { WhatsAppBubble } from '../home/FloatingActions'
 import type { Product } from './data'
 import { Description } from './sections/Description'
 import { Faq } from './sections/Faq'
@@ -24,6 +25,8 @@ export function Landing({ product: p, onBuy }: { product: Product; onBuy: (e: Re
       <Faq />
       <FinalCta product={p} onBuy={onBuy} />
       <StickyBar product={p} onBuy={onBuy} />
+      {/* Tablet and desktop: the same WhatsApp bubble as the home page (phones use the sticky bar's WhatsApp). */}
+      <WhatsAppBubble dataSection="product-floating-whatsapp" />
     </div>
   )
 }

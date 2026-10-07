@@ -106,7 +106,7 @@ export function HomeHero() {
             className="lg:mt-[22%] lg:mr-10 lg:-ml-6"
           />
           {/* Guarantee seal on the card's corner, outside the text: bottom-right on tablet, bottom-left from lg. */}
-          <Seal text={SEAL} className="absolute z-[2] md:max-lg:-right-20 md:max-lg:-bottom-8 lg:-bottom-8 lg:-left-24 lg:max-xl:size-[112px] xl:-left-32" />
+          <Seal text={SEAL} className="absolute z-[2] md:max-lg:top-28 md:max-lg:-right-44 lg:-bottom-8 lg:-left-24 lg:max-xl:size-[112px] xl:-left-32" />
         </div>
       </Section>
       <ProofStrip />

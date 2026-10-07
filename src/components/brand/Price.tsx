@@ -123,7 +123,7 @@ export function StatStrip({ items, size = 'lg', className }: StatStripProps) {
   return (
     <ul
       className={cn(
-        'm-0 grid list-none grid-cols-2 border-y border-z-line p-0 md:grid-cols-3 lg:flex lg:justify-between',
+        'm-0 grid list-none grid-cols-2 border-y border-z-line p-0 md:flex md:justify-between',
         className,
       )}
     >
@@ -131,16 +131,15 @@ export function StatStrip({ items, size = 'lg', className }: StatStripProps) {
         <li
           key={`${it.label}-${i}`}
           className={cn(
-            'flex flex-col gap-2.5 border-z-line px-5 py-5 md:px-6 lg:flex-1',
+            // Labels sit on the cell's bottom edge so they align across the row even when a value wraps.
+            'flex flex-col justify-between gap-2.5 border-z-line px-5 py-5 md:flex-1 md:px-4 lg:px-6',
             // phone: 2 columns, rules between cells, odd last spans both
             'max-md:even:border-l max-md:[&:nth-child(n+3)]:border-t max-md:last:odd:col-span-2',
-            // tablet: 3 + 2
-            'md:max-lg:[&:not(:nth-child(3n+1))]:border-l md:max-lg:[&:nth-child(n+4)]:border-t',
-            // desktop: one row, vertical rules
-            'lg:border-l lg:first:border-l-0',
+            // tablet and desktop: one row with vertical rules (a 3 + 2 grid left an empty cell)
+            'md:border-l md:first:border-l-0',
           )}
         >
-          <span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
             {it.value && <span className={cn('price-num text-z-fg', size === 'lg' ? 'text-stat-lg' : 'text-stat-md')}>{it.value}</span>}
             {it.star && <Stars />}
           </span>

@@ -74,15 +74,15 @@ function BuyBox({ product: p, onBuy, className }: { product: Product; onBuy: (e:
  */
 function TrustStrip({ items }: { items: StatItem[] }) {
   return (
-    <ul className="m-0 grid list-none grid-cols-2 p-0 md:grid-cols-3 lg:flex lg:justify-between">
+    <ul className="m-0 grid list-none grid-cols-2 p-0 md:flex md:justify-between">
       {items.map((it) => (
         <li
           key={it.label}
           className={cn(
-            'flex flex-col gap-2.5 border-z-line px-5 py-5 md:px-6 lg:flex-1 lg:py-2',
+            'flex flex-col gap-2.5 border-z-line px-5 py-5 md:flex-1 md:px-4 md:py-2 lg:px-6',
             'max-md:even:border-l max-md:[&:nth-child(n+3)]:border-t max-md:last:odd:col-span-2',
-            'md:max-lg:[&:not(:nth-child(3n+1))]:border-l md:max-lg:[&:nth-child(n+4)]:border-t',
-            'lg:border-l lg:first:border-l-0 lg:first:pl-0',
+            // From tablet up the five figures share one row (a 3 + 2 grid left an empty cell).
+            'md:border-l md:first:border-l-0 md:first:pl-0',
           )}
         >
           <span className="flex h-[1em] items-center text-stat-lg leading-none">
@@ -102,7 +102,7 @@ export function Hero({ product: p, onBuy }: { product: Product; onBuy: (e: React
     <>
       {/* Hero: breadcrumb, rating pill, title; coffret + selling points left, sticky buy box right */}
       <Section zone="paper" dataSection="product-hero" rhythm="hero" container="wide">
-        <div className="grid gap-y-8 md:grid-cols-2 md:gap-x-10 md:gap-y-10 lg:grid-cols-12 lg:gap-x-grid xl:gap-x-10">
+        <div className="grid gap-y-14 md:grid-cols-2 md:gap-x-10 md:gap-y-10 lg:grid-cols-12 lg:gap-x-grid xl:gap-x-10">
           {/* Title block */}
           <div className="min-w-0 md:col-span-2 lg:col-span-7 lg:row-start-1 lg:pr-4">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-meta font-medium text-z-muted">

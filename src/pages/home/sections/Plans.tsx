@@ -66,11 +66,13 @@ export function HomePlans() {
         </p>
       </Reveal>
 
-      <ul className="m-0 mt-head grid list-none gap-grid p-0 pt-3 md:grid-cols-2 xl:grid-cols-4 xl:pt-4">
+      {/* Rows open up below xl so the featured ribbon (pulled half above its card) never touches the card above. */}
+      <ul className="m-0 mt-head grid list-none gap-x-grid gap-y-9 p-0 pt-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-y-grid xl:pt-4">
         {PLANS.map((plan) => (
           <li key={plan.name} className="flex">
             <PlanCard
-              className="w-full"
+              // In the 2×2 tablet grid, plain cards take the ribbon's extra top padding so both cards of a row line up.
+              className={plan.featured ? 'w-full' : 'w-full md:max-xl:pt-[calc(var(--spacing-card)+0.5rem)]'}
               featured={plan.featured}
               ribbon={plan.featured ? PLAN_FLAG : undefined}
               name={plan.name}

@@ -12,12 +12,12 @@ const STICKY = {
 }
 
 /** Round WhatsApp shortcut pinned to the bottom-right corner (tablet and desktop; phones use the buy bar). */
-export function WhatsAppBubble() {
+export function WhatsAppBubble({ dataSection = 'home-floating-whatsapp' }: { dataSection?: string }) {
   return (
     <BrandWhatsAppBubble
       label="Contacter sur WhatsApp"
       href={WHATSAPP_HREF}
-      dataSection="home-floating-whatsapp"
+      dataSection={dataSection}
       className="transition-[background-color,translate] motion-safe:hover:-translate-y-px max-md:hidden"
     />
   )

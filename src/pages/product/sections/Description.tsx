@@ -10,9 +10,6 @@ const DESCRIPTION = {
   ],
 }
 
-/** The three screens the copy names (salon, tablette, ordinateur portable): decorative only. */
-const SCREENS = ['ti-device-tv', 'ti-device-tablet', 'ti-device-laptop'] as const
-
 export function Description() {
   const [lead, ...rest] = DESCRIPTION.paragraphs
   return (
@@ -26,19 +23,7 @@ export function Description() {
         }
       />
 
-      {/* Ink ledger rule that ends on the three screens the copy names. */}
-      <div aria-hidden="true" className="pointer-events-none mt-8 flex items-center gap-3 md:mt-10">
-        <span className="h-px flex-1 bg-ink" />
-        <ul className="flex items-center divide-x divide-z-line">
-          {SCREENS.map((icon) => (
-            <li key={icon} className="grid h-6 place-items-center px-3.5 text-[20px] text-evergreen-700 last:pr-0 md:px-4">
-              <i className={`ti ${icon}`} />
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="pt-6 md:pt-7">
+      <div className="mt-head">
         <Reveal>
           <p className="max-w-[56ch] font-sans text-lead text-z-soft">{lead}</p>
         </Reveal>

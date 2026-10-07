@@ -28,18 +28,7 @@ const FAQ = {
   ],
 }
 
-/** Decorative ledger index ("01"): pseudo-content, hidden from assistive tech and from find-in-page. */
-function Index({ n }: { n: number }) {
-  return (
-    <span
-      aria-hidden="true"
-      data-label={String(n).padStart(2, '0')}
-      className="pt-px font-display text-[1.1875rem] leading-[1.35] text-z-accent italic before:content-[attr(data-label)]"
-    />
-  )
-}
-
-// FAQ: paper ground, ledger-indexed hairline rows in a text-width column (§9.2 #8). From lg the head sits
+// FAQ: paper ground, hairline rows in a text-width column (§9.2 #8). From lg the head sits
 // sticky in a 4/8 split (§4 "FAQ and guides"); below lg it stacks above the list. The first answer opens by
 // default (the original showed every answer); all answers stay in the DOM for find-in-page.
 export function Faq() {
@@ -54,17 +43,7 @@ export function Faq() {
       </Reveal>
       <FaqList className="mt-head max-w-text lg:col-span-8 lg:mt-0">
         {FAQ.items.map((f, i) => (
-          <FaqItem
-            key={f.q}
-            defaultOpen={i === 0}
-            className="[&>div]:pl-9 md:[&>div]:pl-12"
-            question={
-              <span className="grid grid-cols-[2.25rem_minmax(0,1fr)] md:grid-cols-[3rem_minmax(0,1fr)]">
-                <Index n={i + 1} />
-                <span>{f.q}</span>
-              </span>
-            }
-          >
+          <FaqItem key={f.q} defaultOpen={i === 0} question={f.q}>
             <p>{f.a}</p>
           </FaqItem>
         ))}

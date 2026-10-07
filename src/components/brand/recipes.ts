@@ -285,7 +285,7 @@ export const cartCountClass =
 export const trustRowClass = 'flex flex-wrap gap-x-7 gap-y-3'
 export const trustItemClass = 'inline-flex items-center gap-2 font-sans text-meta font-semibold text-z-muted'
 export const guaranteeRowClass =
-  'flex flex-wrap justify-center gap-x-5 gap-y-2 font-sans text-micro font-semibold text-z-fg'
+  'flex flex-wrap justify-center gap-x-3.5 gap-y-2 font-sans text-micro font-semibold text-z-fg sm:gap-x-5'
 export const infoRowClass =
   'flex items-center gap-2.5 rounded-control bg-z-raised px-3.5 py-2.5 font-sans text-meta font-semibold text-z-accent'
 

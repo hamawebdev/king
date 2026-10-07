@@ -110,7 +110,8 @@ const GUIDES_EXTRA = {
   ] as Card[],
   helpTitle: 'Un Souci Pendant la Configuration ?',
   helpText: 'Nos conseillers vous répondent chaque jour, week-end compris.',
-  helpCta: 'Contacter le Support →',
+  // The arrow is drawn by the button's icon (the brand face has no → glyph).
+  helpCta: 'Contacter le Support',
 }
 
 /** French typography: a non-breaking space before ? ! : ; so the sign never wraps alone (text unchanged). */
@@ -187,6 +188,7 @@ export function HomeGuides() {
               href={SUPPORT_EMAIL_HREF}
               variant="secondary"
               size="md"
+              iconEnd="arrow"
               className="mt-5 max-md:w-full md:col-start-2 md:justify-self-start"
             >
               {GUIDES_EXTRA.helpCta}
