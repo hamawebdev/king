@@ -1,10 +1,9 @@
+import { CheckList, GenreRow, Kw, Reveal, Section, SectionHead } from '@/components/brand'
+import { cn } from '@/lib/utils'
 import { BRAND } from '@/lib/site'
-import { BAND, COLUMN, SPLIT, SPLIT_TEXT, SPLIT_TITLE, TILE, cx } from '../styles'
-import { CheckList, Eyebrow, GlyphPanel } from '../ui'
 
 const VOD = {
   eyebrow: 'Films & Séries',
-  title: `Vidéothèque ${BRAND}`,
   text: 'Plus de 8000 titres à la demande, classés par genre et par année.',
   checks: ['Versions 4K proposées', 'Pistes audio au choix', 'Ajouts chaque semaine', 'Sorties toutes récentes'],
   movies: [
@@ -19,36 +18,57 @@ const VOD = {
   ],
 }
 
-/** Small figure tile (catalogue counts per genre). */
-function CountTile({ value, label }: { value: string; label: string }) {
-  return (
-    <div className={cx(TILE, 'rounded-[14px] p-[18px] text-center')}>
-      <b className="block font-archivo text-[24px] font-black text-lp-blue">{value}</b>
-      <span className="text-[13px] font-bold text-lp-muted">{label}</span>
-    </div>
-  )
-}
+/**
+ * Ledger edges per breakpoint (1 / 2 / 4 columns): the first row of each layout opens on the ink
+ * ledger rule, the last row closes with a hairline, so the grid reads as one statement.
+ */
+const rowEdge = [
+  'border-t-ink',
+  'md:border-t-ink',
+  'lg:border-t-ink',
+  'lg:border-t-ink',
+  'lg:border-b',
+  'lg:border-b',
+  'md:border-b',
+  'border-b',
+]
 
-/** On-demand catalogue: pitch beside a glyph panel, then the count per genre. */
+/** On-demand catalogue: head with the four promises, then the genre ledger (4 × 2 / 2 × 4 / 1 column). */
 export function HomeVod() {
   return (
-    <section data-section="home-vod" className={BAND}>
-      <div className={cx(COLUMN, SPLIT)}>
-        <GlyphPanel icon="ti-movie" fill="night" />
-        <div>
-          <Eyebrow>{VOD.eyebrow}</Eyebrow>
-          <h2 className={cx(SPLIT_TITLE, 'mt-[14px] mb-[16px]')}>{VOD.title}</h2>
-          <p className={SPLIT_TEXT}>{VOD.text}</p>
-          <CheckList items={VOD.checks.map((label) => ({ icon: 'ti-check', label }))} />
-        </div>
+    <Section zone="paper" dataSection="home-vod">
+      <div className="grid gap-y-8 lg:grid-cols-12 lg:items-end lg:gap-x-grid">
+        <Reveal className="lg:col-span-7">
+          <SectionHead
+            eyebrow={VOD.eyebrow}
+            title={
+              <>
+                Vidéothèque <Kw>{BRAND}</Kw>
+              </>
+            }
+            lead={VOD.text}
+          />
+        </Reveal>
+        <Reveal index={1} className="lg:col-span-5 lg:pb-1.5">
+          <CheckList
+            items={VOD.checks}
+            className="gap-x-6 gap-y-3 font-medium sm:grid-cols-2 lg:border-l lg:border-z-line lg:pl-8"
+          />
+        </Reveal>
       </div>
-      <div className={cx(COLUMN, 'mt-[40px]')}>
-        <div className="mt-[8px] grid grid-cols-[repeat(4,1fr)] gap-[14px] lp-lg:grid-cols-[repeat(2,1fr)] lp-sm:grid-cols-[1fr]">
-          {VOD.movies.map((genre) => (
-            <CountTile key={genre.label} {...genre} />
+
+      <Reveal index={2} className="mt-head">
+        <ul className="m-0 grid list-none gap-x-grid p-0 md:grid-cols-2 lg:grid-cols-4">
+          {VOD.movies.map((genre, i) => (
+            <GenreRow
+              key={genre.label}
+              genre={genre.label}
+              count={genre.value}
+              className={cn('py-4 md:py-6', rowEdge[i])}
+            />
           ))}
-        </div>
-      </div>
-    </section>
+        </ul>
+      </Reveal>
+    </Section>
   )
 }
