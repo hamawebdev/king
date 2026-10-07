@@ -1,8 +1,7 @@
-import { useState, type ReactNode } from 'react'
 import { BRAND, BRAND_UPPER, SUPPORT_EMAIL_HREF } from '@/lib/site'
+import { ButtonA, IconTile, Kw, Reveal, Section, SectionHead, Tag } from '@/components/brand'
 import type { Card, IconText } from '../data'
-import { BAND, COLUMN, TITLE, buttonClass, cx } from '../styles'
-import { Accent, ChipRow, FeatureGrid, RowLabel, SectionHead, StatGrid } from '../ui'
+import { GuideRow } from './Guides.parts'
 
 type Guide = { icon: string; title: string; tags: string[]; steps: string[]; tip: string }
 
@@ -105,128 +104,132 @@ const GUIDES_EXTRA = {
     { icon: 'ti-sparkles', label: '4K / FHD / HD' },
   ] as IconText[],
   apps: [
-    { icon: 'ti-box', title: `${BRAND_UPPER} PLAY`, badge: '• Conseillé', text: `Lecteur officiel ${BRAND} - Sans frais` },
-    { icon: 'ti-bolt', title: 'Lecteur Xtream', badge: '• Apprécié', text: `Lit vos codes ${BRAND} sans réglage` },
-    { icon: 'ti-brand-apple', title: 'Lecteur M3U', badge: '• iOS/tvOS', text: 'Pensé pour iPhone, iPad et box Apple TV' },
+    { icon: 'ti-box', title: `${BRAND_UPPER} PLAY`, badge: 'Conseillé', text: `Lecteur officiel ${BRAND} - Sans frais` },
+    { icon: 'ti-bolt', title: 'Lecteur Xtream', badge: 'Apprécié', text: `Lit vos codes ${BRAND} sans réglage` },
+    { icon: 'ti-brand-apple', title: 'Lecteur M3U', badge: 'iOS/tvOS', text: 'Pensé pour iPhone, iPad et box Apple TV' },
   ] as Card[],
   helpTitle: 'Un Souci Pendant la Configuration ?',
   helpText: 'Nos conseillers vous répondent chaque jour, week-end compris.',
   helpCta: 'Contacter le Support →',
 }
 
-function GuideBody({ guide }: { guide: Guide }) {
+/** French typography: a non-breaking space before ? ! : ; so the sign never wraps alone (text unchanged). */
+const nb = (text: string) => text.replace(/ ([?!:;])/g, '\u00a0$1')
+
+/** The three setup figures as statement rows: label left, figure right (a 3-cell strip on tablet). */
+function SetupFigures() {
   return (
-    <>
-      <div className="mb-[14px] flex flex-wrap gap-[7px]">
-        {guide.tags.map((tag) => (
-          <span key={tag} className="rounded-[8px] bg-lp-blue-soft px-[11px] py-[4px] text-[12.5px] font-bold text-lp-blue-d">
-            {tag}
-          </span>
-        ))}
-      </div>
-      <div className="mt-[6px] mb-[14px] grid gap-[11px]">
-        {guide.steps.map((step, index) => (
-          <div key={step} className="flex items-start gap-[13px]">
-            <span className="grid size-[28px] flex-none place-items-center rounded-[8px] bg-lp-blue font-archivo text-[13px] font-extrabold text-white">
-              {index + 1}
-            </span>
-            <div>{step}</div>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-[11px] border border-[#c9dcff] bg-lp-blue-soft px-[15px] py-[12px] text-[13.5px] text-[#1a3a78]">
-        <b className="font-bold text-lp-blue-d">Conseil :</b> {guide.tip}
-      </div>
-    </>
-  )
-}
-
-type GuideRowProps = {
-  title: ReactNode
-  icon?: string
-  /** Starts expanded (the first installation guide does). */
-  initiallyOpen?: boolean
-  children: ReactNode
-}
-
-/**
- * Collapsible row. Rows toggle independently (several can be open at once); the panel animates its
- * max-height over 350ms and the "＋" turns 45° into a cross over 300ms.
- */
-function GuideRow({ title, icon, initiallyOpen = false, children }: GuideRowProps) {
-  const [open, setOpen] = useState(initiallyOpen)
-
-  return (
-    <div className="overflow-hidden rounded-[14px] border border-lp-line bg-white shadow-lp-sm">
-      <button
-        type="button"
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
-        className={cx(
-          'relative flex w-full items-center justify-between gap-[16px] overflow-hidden rounded-[12px] px-[22px] py-[19px] text-left font-archivo text-[16px] leading-[16px] font-bold text-lp-ink',
-          'lp-sm:px-[16px] lp-sm:py-[15px] lp-sm:text-[14.5px]',
-          // Colour transition the theme gives every button (no visible effect here, kept for parity).
-          'transition-[color,background-color,border-color] duration-100 ease-[ease-in-out]',
-          'cursor-pointer',
-        )}
-      >
-        <span className="flex items-center gap-[11px]">
-          {icon && <i className={cx('ti', icon, 'text-[20px] text-lp-blue')} />} {title}
-        </span>{' '}
-        <span
-          aria-hidden="true"
-          className={cx('flex-none text-[22px] text-lp-blue transition-all duration-300 ease-[ease]', open && 'rotate-45')}
+    <dl className="mt-8 grid border-b border-z-line md:mt-10 md:grid-cols-3 lg:mt-10 lg:grid-cols-1">
+      {GUIDES_HEAD.stats.map((stat) => (
+        <div
+          key={stat.label}
+          className={[
+            'flex items-baseline justify-between gap-4 border-t border-z-line py-4',
+            'md:flex-col-reverse md:items-start md:justify-end md:gap-2 md:border-l md:px-6 md:py-5 md:first:border-l-0 md:first:pl-0',
+            'lg:flex-row lg:items-baseline lg:justify-between lg:gap-4 lg:border-l-0 lg:px-0 lg:py-4',
+          ].join(' ')}
         >
-          ＋
-        </span>
-      </button>
-      <div
-        className={cx(
-          'overflow-hidden transition-[max-height] duration-[350ms] ease-[ease]',
-          open ? 'max-h-[1400px]' : 'max-h-0',
-        )}
-      >
-        <div className="px-[22px] pb-[20px] text-[15px] text-lp-muted">{children}</div>
-      </div>
-    </div>
+          <dt className="font-sans text-meta font-semibold text-z-muted">{stat.label}</dt>
+          <dd className="m-0 price-num text-stat-md">{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
   )
 }
 
-/** Installation guides: figures, collapsible guides, included features, players and help. The #contact anchor lands here. */
+/** Installation guides: sticky head with the setup figures, six guides, support line, inclusions and players. The #contact anchor lands here. */
 export function HomeGuides() {
   return (
-    <section id="contact" data-section="home-guides" className={BAND}>
-      <div className={COLUMN}>
+    <Section zone="paper" dataSection="home-guides" id="contact">
+      <div className="grid gap-x-grid lg:grid-cols-12">
         <SectionHead
+          sticky
+          className="lg:col-span-4 lg:pr-6"
           eyebrow={GUIDES_HEAD.eyebrow}
           title={
             <>
               {GUIDES_HEAD.titleStart}
-              <Accent>{GUIDES_HEAD.titleBlue}</Accent>
+              <Kw>{GUIDES_HEAD.titleBlue}</Kw>
               {GUIDES_HEAD.titleEnd}
             </>
           }
-          text={GUIDES_HEAD.text}
-        />
-        <StatGrid items={GUIDES_HEAD.stats} trio className="mx-auto mb-[46px] max-w-[720px]" />
-        <div className="mx-auto grid max-w-[900px] gap-[11px]">
-          {GUIDES.map((guide, index) => (
-            <GuideRow key={guide.title} title={guide.title} icon={guide.icon} initiallyOpen={index === 0}>
-              <GuideBody guide={guide} />
-            </GuideRow>
-          ))}
-        </div>
-        <RowLabel className="mt-[46px] mb-[18px]">{GUIDES_EXTRA.featsTitle}</RowLabel>
-        <ChipRow items={GUIDES_EXTRA.feats} />
-        <FeatureGrid items={GUIDES_EXTRA.apps} columns={3} className="mt-[42px]" />
-        <div className="mt-[44px] text-center">
-          <h3 className={cx(TITLE, 'mb-[10px] text-[24px]')}>{GUIDES_EXTRA.helpTitle}</h3>
-          <p className="mb-[20px] text-lp-muted">{GUIDES_EXTRA.helpText}</p>
-          <a href={SUPPORT_EMAIL_HREF} className={buttonClass('solid', 'md')}>
-            {GUIDES_EXTRA.helpCta}
-          </a>
+          lead={GUIDES_HEAD.text}
+        >
+          <SetupFigures />
+        </SectionHead>
+
+        <div className="mt-head lg:col-span-8 lg:mt-0">
+          <div className="grid gap-3">
+            {GUIDES.map((guide, index) => (
+              <GuideRow
+                key={guide.title}
+                icon={guide.icon}
+                title={guide.title}
+                tags={guide.tags}
+                steps={guide.steps.map(nb)}
+                tip={
+                  <>
+                    <strong className="font-semibold">{nb('Conseil :')}</strong> {guide.tip}
+                  </>
+                }
+                initiallyOpen={index === 0}
+              />
+            ))}
+          </div>
+
+          <div className="mt-10 grid gap-x-4 border-t border-z-line pt-8 md:grid-cols-[44px_1fr] md:items-start">
+            <IconTile icon="ti-lifebuoy" size={44} className="max-md:hidden" />
+            <div className="min-w-0">
+              <h3 className="font-display text-title-lg text-z-fg">{nb(GUIDES_EXTRA.helpTitle)}</h3>
+              <p className="mt-2 font-sans text-small text-z-soft">{GUIDES_EXTRA.helpText}</p>
+            </div>
+            <ButtonA
+              href={SUPPORT_EMAIL_HREF}
+              variant="secondary"
+              size="md"
+              className="mt-5 max-md:w-full md:col-start-2 md:justify-self-start"
+            >
+              {GUIDES_EXTRA.helpCta}
+            </ButtonA>
+          </div>
         </div>
       </div>
-    </section>
+
+      <div className="ledger mt-20 grid gap-x-grid gap-y-10 md:mt-24 lg:grid-cols-12">
+        <Reveal className="lg:col-span-4 lg:pr-6">
+          <h3 className="font-display text-title text-z-fg">{GUIDES_EXTRA.featsTitle}</h3>
+          <ul className="m-0 mt-5 grid list-none grid-cols-2 gap-x-6 p-0 md:grid-cols-3 lg:grid-cols-2">
+            {GUIDES_EXTRA.feats.map((feat) => (
+              <li
+                key={feat.label}
+                className="flex items-center gap-2.5 border-b border-z-line py-3 font-sans text-small font-medium text-z-body"
+              >
+                <i className={`ti ${feat.icon} shrink-0 text-[18px] text-z-icon`} aria-hidden="true" />
+                <span>{feat.label}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <ul className="m-0 grid list-none gap-y-3 p-0 md:grid-cols-3 md:gap-x-grid md:gap-y-0 lg:col-span-8">
+          {GUIDES_EXTRA.apps.map((app, index) => (
+            <Reveal
+              key={app.title}
+              as="li"
+              index={index}
+              className={[
+                'grid grid-cols-[44px_1fr] content-start gap-x-4 rounded-panel border border-z-line bg-z-card p-5',
+                'md:row-span-3 md:grid-cols-[1fr_auto] md:grid-rows-subgrid md:gap-x-3 md:p-card',
+              ].join(' ')}
+            >
+              <IconTile icon={app.icon} size={44} className="row-span-3 md:row-span-1" />
+              {app.badge && <Tag className="col-start-2 justify-self-start md:self-start">{app.badge}</Tag>}
+              <h4 className="col-start-2 mt-2 font-display text-title text-z-fg md:col-span-2 md:col-start-1 md:mt-5">{app.title}</h4>
+              <p className="col-start-2 mt-2 font-sans text-small text-z-soft md:col-span-2 md:col-start-1">{app.text}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </Section>
   )
 }
