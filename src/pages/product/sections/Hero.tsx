@@ -1,7 +1,8 @@
-import { Placeholder } from '@/components/site/Placeholder'
+import { Kw, RatingPill, Recap, Reveal, Section, Stars } from '@/components/brand'
+import type { StatItem } from '@/components/brand'
+import { cn } from '@/lib/utils'
 import { BoxShot } from '../BoxShot'
 import type { IconText, Product } from '../data'
-import { BUY, HEADING, STARS, WRAP } from '../styles'
 
 const RATING_TEXT = '4.8/5 — 40 000+ foyers équipés'
 
@@ -24,8 +25,10 @@ const GUARANTEES: IconText[] = [
   { icon: 'ti-gift', text: 'Essai 2h' },
   { icon: 'ti-lifebuoy', text: 'Service 7j/7' },
 ]
+/** Seal on the box: the buy box's own guarantees, uppercased (DIRECTION §7.6). */
+const SEAL_TEXT = `${GUARANTEES.map((g) => g.text.toUpperCase()).join(' · ')} ·`
 
-const STATS: { value?: string; label: string; star?: boolean }[] = [
+const STATS: StatItem[] = [
   { label: 'Note 4.8/5', star: true },
   { value: '40K+', label: 'Foyers' },
   { value: '3900+', label: 'Chaînes' },
@@ -33,103 +36,132 @@ const STATS: { value?: string; label: string; star?: boolean }[] = [
   { value: '24/7', label: 'Support' },
 ]
 
-function BuyBox({ product: p, onBuy }: { product: Product; onBuy: (e: React.MouseEvent) => void }) {
+const CRUMBS = ['Accueil', 'Abonnements']
+
+/** Route variant of the coffret: 3 / 6 / 12 / 24 months, or the ivory renewal box. */
+function boxVariant(p: Product) {
+  if (p.slug.startsWith('renouvellement')) return 'renew' as const
+  const m = p.slug.match(/-(\d+)-mois/)?.[1]
+  return m === '3' || m === '6' || m === '24' ? m : ('12' as const)
+}
+
+function BuyBox({ product: p, onBuy, className }: { product: Product; onBuy: (e: React.MouseEvent) => void; className?: string }) {
   const save = p.oldPrice - p.price
   const pct = Math.round((save / p.oldPrice) * 100)
   return (
-    <div className="relative rounded-[22px] border border-lp-line bg-white p-7 shadow-lp">
-      <div className="absolute -top-3.5 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-lp-blue px-[18px] py-[7px] text-[12.5px] font-extrabold whitespace-nowrap text-white shadow-[0_8px_18px_-6px_rgba(37,99,235,0.55)]">
-        <i className="ti ti-flame" /> {p.ribbon}
-      </div>
-      <div className="mt-2 mb-1.5 text-center text-[14px] font-bold text-lp-muted">{p.plan}</div>
-      <div className="flex items-baseline justify-center gap-3 text-center">
-        <s className="text-[24px] font-semibold text-lp-dim">{p.oldPrice}€</s>
-        <b className="font-archivo text-[60px] leading-none font-black [@media(max-width:600px)]:text-[48px]">{p.price}€</b>
-      </div>
-      <div className="mt-1 text-center text-[13.5px] font-bold text-lp-muted">soit {p.perMonth}€/mois</div>
-      <div className="mt-2 mb-[18px] text-center text-[14px] font-extrabold text-lp-blue-d">
-        <span className="mr-1.5 rounded-[7px] bg-lp-blue-soft px-2.5 py-[3px]">−{pct}%</span> Remise {save}€ — {SAVE_TAIL}
-      </div>
-      <a href="/checkout/" onClick={onBuy} className={`${BUY} inline-flex w-full gap-[9px] rounded-[13px] px-[30px] py-4 text-[18px]`}>
-        Acheter maintenant
-      </a>
-      <div className="mt-[18px] grid grid-cols-2 gap-[9px]">
-        {BUY_FEATURES.map((f) => (
-          <span key={f} className="flex items-center gap-2 text-[13.5px] font-semibold text-lp-muted">
-            <i className="ti ti-check text-[16px] text-lp-blue" /> {f}
+    <Recap
+      as="p"
+      sticky
+      ribbon={p.ribbon}
+      plan={p.plan}
+      old={`${p.oldPrice}€`}
+      price={`${p.price}€`}
+      perMonth={`soit ${p.perMonth}€/mois`}
+      saving={`−${pct}%`}
+      info={`Remise ${save}€ — ${SAVE_TAIL}`}
+      features={BUY_FEATURES}
+      cta={{ label: 'Acheter maintenant', href: '/checkout/', onClick: onBuy }}
+      guarantees={GUARANTEES.map((g) => ({ icon: g.icon, label: g.text }))}
+      payment={{ label: PAY_LABEL, methods: PAY_METHODS }}
+      className={className}
+    />
+  )
+}
+
+/**
+ * Stat strip (DIRECTION §6.3.7) without its own top/bottom rules (the ivory band draws them). The rating cell
+ * shows its stars at figure height so every label sits on one line across the row.
+ */
+function TrustStrip({ items }: { items: StatItem[] }) {
+  return (
+    <ul className="m-0 grid list-none grid-cols-2 p-0 md:grid-cols-3 lg:flex lg:justify-between">
+      {items.map((it) => (
+        <li
+          key={it.label}
+          className={cn(
+            'flex flex-col gap-2.5 border-z-line px-5 py-5 md:px-6 lg:flex-1 lg:py-2',
+            'max-md:even:border-l max-md:[&:nth-child(n+3)]:border-t max-md:last:odd:col-span-2',
+            'md:max-lg:[&:not(:nth-child(3n+1))]:border-l md:max-lg:[&:nth-child(n+4)]:border-t',
+            'lg:border-l lg:first:border-l-0 lg:first:pl-0',
+          )}
+        >
+          <span className="flex h-[1em] items-center text-stat-lg leading-none">
+            {it.value && <span className="price-num text-stat-lg text-z-fg">{it.value}</span>}
+            {it.star && <Stars size={16} className="gap-1 text-[clamp(1.125rem,1rem+0.4vw,1.375rem)]" />}
           </span>
-        ))}
-      </div>
-      <div className="mt-4 flex flex-wrap items-center justify-center gap-2 border-t border-lp-line pt-3.5 text-[12px] font-semibold text-lp-dim">
-        <span>{PAY_LABEL}</span>
-        {PAY_METHODS.map((m) => (
-          <b key={m} className="rounded-[5px] bg-lp-soft2 px-2 py-[3px] text-[11px] font-extrabold text-lp-ink">
-            {m}
-          </b>
-        ))}
-      </div>
-      <div className="mt-3.5 flex flex-wrap justify-center gap-4 text-[12.5px] font-bold text-[#1aa861]">
-        {GUARANTEES.map((g) => (
-          <span key={g.text} className="flex items-center gap-[5px]">
-            <i className={`ti ${g.icon}`} /> {g.text}
-          </span>
-        ))}
-      </div>
-    </div>
+          <span className="font-sans text-meta font-semibold text-z-muted">{it.label}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 
 export function Hero({ product: p, onBuy }: { product: Product; onBuy: (e: React.MouseEvent) => void }) {
+  const months = p.title[2].match(/\d+/)?.[0] ?? '12'
   return (
     <>
-      {/* Hero: breadcrumb, rating chip, title, box shot + selling points, buy box */}
-      <section data-section="product-hero" className="relative overflow-hidden bg-[#f7faff] pt-[46px] pb-[54px]">
-        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-          <Placeholder tone="dark" bare label="" className="size-full" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(247,250,255,0.86),rgba(247,250,255,0.93))]" />
-        </div>
-        <div className={`${WRAP} relative z-[2]`}>
-          <div className="mb-6 max-w-[780px]">
-            <div className="mb-3.5 text-[13px] font-semibold text-lp-dim">Accueil › Abonnements › {p.plan}</div>
-            <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-lp-line bg-white px-3.5 py-1.5 shadow-lp-sm">
-              <span className="text-[14px] tracking-[1px] text-lp-gold">{STARS}</span>
-              <small className="text-[13px] font-bold text-lp-muted">{RATING_TEXT}</small>
+      {/* Hero: breadcrumb, rating pill, title; coffret + selling points left, sticky buy box right */}
+      <Section zone="paper" dataSection="product-hero" rhythm="hero" container="wide">
+        <div className="grid gap-y-8 md:grid-cols-2 md:gap-x-10 md:gap-y-10 lg:grid-cols-12 lg:gap-x-grid xl:gap-x-10">
+          {/* Title block */}
+          <div className="min-w-0 md:col-span-2 lg:col-span-7 lg:row-start-1 lg:pr-4">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-meta font-medium text-z-muted">
+              {CRUMBS.map((c) => (
+                <span key={c} className="inline-flex items-center gap-2">
+                  {c}
+                  <i className="ti ti-chevron-right text-[12px]" aria-hidden="true" />
+                </span>
+              ))}
+              <span aria-current="page" className="font-semibold text-z-fg">
+                {p.plan}
+              </span>
             </div>
-            <h1 className={`${HEADING} mb-3.5 text-[clamp(30px,4vw,46px)] font-black text-heading`}>
-              {p.title[0]} <span className="text-lp-blue">{p.title[1]}</span> {p.title[2]}
+            <RatingPill className="mt-6">{RATING_TEXT}</RatingPill>
+            <h1 className="mt-5 font-display text-display-lg text-z-fg">
+              {p.title[0]} <Kw>{p.title[1]}</Kw> {p.title[2]}
             </h1>
           </div>
-          <div className="relative z-[2] grid grid-cols-[1.05fr_0.95fr] items-center gap-11 [@media(max-width:900px)]:grid-cols-1">
-            <div>
-              <div className="flex items-center justify-center">
-                <BoxShot className="w-full max-w-[1304px]" label={p.title.join(' ').replace(/ [—–] /, ' ')} />
-              </div>
-              <p className="mt-[18px] mb-4 text-[17px] text-lp-muted">{HERO_LEAD}</p>
-              <div className="mb-2 grid gap-2.5">
-                {BULLETS.map((b) => (
-                  <div key={b} className="flex items-center gap-[11px] text-[15.5px] font-semibold">
-                    <i className="ti ti-check grid size-6 flex-none place-items-center rounded-full bg-lp-blue-soft text-[14px] text-lp-blue" />{' '}
-                    {b}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <BuyBox product={p} onBuy={onBuy} />
+
+          {/* Box shot */}
+          <div className="relative flex min-w-0 justify-center md:col-start-1 md:row-start-2 md:justify-start lg:col-span-7 lg:row-start-2 xl:col-span-3">
+            <BoxShot
+              label={p.title.join(' ').replace(/ [—–] /, ' ')}
+              months={months}
+              plan={p.plan}
+              variant={boxVariant(p)}
+              seal={SEAL_TEXT}
+              className="max-w-[320px] md:max-w-[360px] xl:max-w-none"
+            />
+          </div>
+
+          {/* Buy box (stacked under the box on phone, beside it on tablet, sticky right column from lg) */}
+          <BuyBox
+            product={p}
+            onBuy={onBuy}
+            className="min-w-0 self-start md:col-start-2 md:row-start-2 lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-1 xl:row-span-2"
+          />
+
+          {/* Lead and selling points */}
+          <div className="min-w-0 md:col-span-2 md:row-start-3 lg:col-span-7 lg:row-start-3 xl:col-span-4 xl:col-start-4 xl:row-start-2 xl:pl-4">
+            <p className="max-w-[56ch] font-sans text-lead text-z-soft">{HERO_LEAD}</p>
+            <ul className="m-0 mt-7 grid list-none border-t border-ink p-0 md:max-lg:grid-cols-2 md:max-lg:gap-x-8">
+              {BULLETS.map((b) => (
+                <li key={b} className="flex gap-3 border-b border-z-line py-3.5 font-sans text-copy text-z-body">
+                  <i className="ti ti-check mt-[0.2em] shrink-0 text-[18px] text-evergreen-600" aria-hidden="true" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Trust strip */}
-      <section data-section="product-trust" className="border-y border-lp-line bg-lp-soft">
-        <div className="mx-auto flex max-w-[1140px] flex-wrap justify-between gap-3.5 py-5 [@media(max-width:900px)]:justify-center [@media(max-width:900px)]:gap-x-[26px] [@media(max-width:900px)]:gap-y-[18px]">
-          {STATS.map((s) => (
-            <div key={s.label} className="flex items-center gap-[9px] text-[14.5px] font-bold text-lp-muted">
-              {s.star && <i className="ti ti-star-filled text-lp-gold" />}
-              {s.value && <b className="font-archivo text-[22px] font-bold text-lp-ink">{s.value}</b>} {s.label}
-            </div>
-          ))}
-        </div>
-      </section>
+      <Section zone="ivory" dataSection="product-trust" rhythm="sm" container="wide">
+        <Reveal>
+          <TrustStrip items={STATS} />
+        </Reveal>
+      </Section>
     </>
   )
 }
