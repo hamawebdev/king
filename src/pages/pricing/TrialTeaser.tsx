@@ -1,55 +1,38 @@
-import { Link } from 'react-router'
-import { Placeholder } from '@/components/site/Placeholder'
+import { ButtonLink, Kw, Reveal, Seal, Section, VaultPanel, WhatsAppButton } from '@/components/brand'
 import { WHATSAPP_HREF } from '@/lib/site'
-import { Attr, Col, Hr, Section, SepBadge, SepDashes, Wrap } from '../theme/builder'
 
-// Shop: "Découverte 24h" free-trial teaser on the cream band, the title next to the illustration.
+// Shop: "Découverte 24h" free-trial teaser. Continues the paper ground of the reseller teaser above and
+// holds one contained vault panel (DIRECTION §9.3 #4): the title and the two contact actions on the left
+// (7 columns), the guarantee seal carrying the trial's own words on the right (5 columns, hidden on phone).
 
-/** Illustration box of the teaser (325 × 239 artwork, centred in its column). */
-function TeaserArt() {
-  return (
-    <span className="mfp-art" style={{ width: 325, maxWidth: '100%', aspectRatio: '325 / 239' }}>
-      <Placeholder tone="illustration" label="Illustration" className="absolute inset-0 rounded-[14px]" />
-    </span>
-  )
-}
+/** Seal text: the section's own heading, uppercased, joined with " · " (DIRECTION §7.6). */
+const SEAL_TEXT = 'DÉCOUVERTE 24H · OFFRE NOVASTREAM ·'
 
 export function ShopTrial() {
   return (
-    <Section dataSection="shop-trial" style={{ paddingTop: 100, paddingBottom: 60, backgroundColor: '#fff7f2' }}>
-      <Wrap d="1">
-        <Col d="1-2">
-          <Attr className="mfp-trial">
-            <SepBadge />
-            <Hr />
-            <h2>
-              <span className="mfp-themecolor">Découverte 24h</span>
-              <br />
-              Offre NovaStream
-            </h2>
-            <SepDashes />
-            <Hr />
-            <p />
-            <p>
-              <span className="mfp-hl">
-                <Link to="/contact/" className="mfp-btn mfp-btn--theme">
-                  Email
-                </Link>
-                {' \u00a0'}
-              </span>
-              <span className="mfp-hl2">
-                <a className="mfp-btn mfp-btn--theme" href={WHATSAPP_HREF}>
-                  Whatsapp
-                </a>
-              </span>
-              <br />
-            </p>
-          </Attr>
-        </Col>
-        <Col d="1-2" kind="image">
-          <TeaserArt />
-        </Col>
-      </Wrap>
+    <Section zone="paper" dataSection="shop-trial" continues>
+      <VaultPanel className="relative grid items-center gap-y-10 md:grid-cols-12 md:gap-x-8">
+        <Reveal className="relative md:col-span-7">
+          <h2 className="font-display text-display-md text-z-fg">
+            <Kw>Découverte</Kw> <span className="text-z-accent">24h</span>
+            <br />
+            Offre NovaStream
+          </h2>
+          <span aria-hidden="true" className="mt-6 block h-px w-7 bg-brass-500" />
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <ButtonLink to="/contact/" variant="ivory" size="md" iconStart="ti-mail" full className="sm:w-auto">
+              Email
+            </ButtonLink>
+            <WhatsAppButton label="Whatsapp" href={WHATSAPP_HREF} size="md" full className="sm:w-auto" />
+          </div>
+        </Reveal>
+        <Reveal
+          index={1}
+          className="relative hidden justify-center md:col-span-5 md:flex md:self-stretch md:items-center md:border-l md:border-vault-line lg:justify-center"
+        >
+          <Seal text={SEAL_TEXT} className="md:size-36 lg:size-44" />
+        </Reveal>
+      </VaultPanel>
     </Section>
   )
 }
