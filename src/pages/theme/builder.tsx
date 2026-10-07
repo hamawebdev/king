@@ -23,9 +23,11 @@ type SectionProps = {
   rev?: boolean
   /** Absolutely positioned decorations rendered before the inner wrapper. */
   before?: ReactNode
+  /** Section hook, rendered as data-section on the root element. */
+  dataSection?: string
 }
 
-export function Section({ children, className, style, full, nmh, nmv, eqh, rev, before }: SectionProps) {
+export function Section({ children, className, style, full, nmh, nmv, eqh, rev, before, dataSection }: SectionProps) {
   return (
     <div
       className={cn(
@@ -38,6 +40,7 @@ export function Section({ children, className, style, full, nmh, nmv, eqh, rev, 
         className,
       )}
       style={style}
+      data-section={dataSection}
     >
       {before}
       <div className="mfp-inner">{children}</div>
