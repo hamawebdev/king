@@ -1,7 +1,6 @@
-import type { ReactNode } from 'react'
+import { FaqList, Kw, Reveal, Section, SectionHead } from '@/components/brand'
 import { BRAND, BRAND_UPPER } from '@/lib/site'
-import { BAND_TIGHT, COLUMN, TINT, cx } from '../styles'
-import { Accent, SectionHead } from '../ui'
+import { FaqRow } from './Faq.parts'
 
 const FAQ_HEAD = {
   eyebrow: `Aide ${BRAND_UPPER}`,
@@ -105,62 +104,46 @@ const FAQ: { q: string; a: string }[] = [
   },
 ]
 
-/**
- * Question row, always expanded: the installation guide row's markup in its pinned form (no toggle,
- * plain cursor, the "＋" glyph kept but hidden).
- */
-function FaqRow({ title, children }: { title: ReactNode; children: ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-[14px] border border-lp-line bg-white shadow-lp-sm">
-      <button
-        type="button"
-        aria-expanded="true"
-        className={cx(
-          'relative flex w-full items-center justify-between gap-[16px] overflow-hidden rounded-[12px] px-[22px] py-[19px] text-left font-archivo text-[16px] leading-[16px] font-bold text-lp-ink',
-          'lp-sm:px-[16px] lp-sm:py-[15px] lp-sm:text-[14.5px]',
-          // Colour transition the theme gives every button (no visible effect here, kept for parity).
-          'transition-[color,background-color,border-color] duration-100 ease-[ease-in-out]',
-          'cursor-default',
-        )}
-      >
-        <span className="flex items-center gap-[11px]">
-          {' '}
-          {title}
-        </span>{' '}
-        <span aria-hidden="true" className="flex-none text-[22px] text-lp-blue transition-all duration-300 ease-[ease] hidden">
-          ＋
-        </span>
-      </button>
-      <div className="overflow-hidden transition-[max-height] duration-[350ms] ease-[ease] max-h-none">
-        <div className="px-[22px] pb-[20px] text-[15px] text-lp-muted">{children}</div>
-      </div>
-    </div>
-  )
+/** French typography: no-break space before ? ! : ; » – and after «, so punctuation never orphans onto its own line. */
+function fr(text: string) {
+  return text.replace(/ ([?!:;»–])/g, '\u00a0$1').replace(/« /g, '«\u00a0')
 }
 
-/** FAQ: every answer is shown. */
+/**
+ * FAQ (DIRECTION §9, row 17): split on paper (5/7 from lg so the 52px NOVASTREAM never breaks mid-word), the head sticky from lg, the 22 questions as hairline
+ * rows: heading + aria-expanded button, answers kept in the DOM behind hidden="until-found". The first
+ * answer is open so the reading pattern is visible at once.
+ */
 export function HomeFaq() {
   return (
-    <section data-section="home-faq" className={cx(BAND_TIGHT, TINT)}>
-      <div className={COLUMN}>
-        <SectionHead
-          eyebrow={FAQ_HEAD.eyebrow}
-          title={
-            <>
-              {FAQ_HEAD.titleStart}
-              <Accent>{FAQ_HEAD.titleBlue}</Accent>
-            </>
-          }
-          text={FAQ_HEAD.text}
-        />
-        <div className="mx-auto grid max-w-[900px] gap-[11px]">
-          {FAQ.map((item) => (
-            <FaqRow key={item.q} title={item.q}>
-              {item.a}
-            </FaqRow>
-          ))}
-        </div>
+    <Section
+      zone="paper"
+      dataSection="home-faq"
+      aria-labelledby="home-faq-title"
+      containerClassName="grid gap-y-head lg:grid-cols-12 lg:gap-x-grid"
+    >
+      <div className="lg:sticky lg:top-24 lg:col-span-5 lg:self-start lg:pr-10 xl:pr-16">
+        <Reveal>
+          <SectionHead
+            id="home-faq-title"
+            eyebrow={FAQ_HEAD.eyebrow}
+            title={
+              <>
+                {fr(FAQ_HEAD.titleStart)}
+                <Kw>{FAQ_HEAD.titleBlue}</Kw>
+              </>
+            }
+            lead={FAQ_HEAD.text}
+          />
+        </Reveal>
       </div>
-    </section>
+      <FaqList className="lg:col-span-7 lg:col-start-6">
+        {FAQ.map((item, i) => (
+          <FaqRow key={item.q} question={fr(item.q)} defaultOpen={i === 0}>
+            {fr(item.a)}
+          </FaqRow>
+        ))}
+      </FaqList>
+    </Section>
   )
 }
