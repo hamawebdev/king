@@ -18,6 +18,7 @@ export function CartDrawer() {
       />
       <div
         className={`sc-cart${cartOpen ? ' is-open' : ''}`}
+        data-section="chrome-cart"
         role="dialog"
         aria-label="Panier"
         aria-hidden={!cartOpen}

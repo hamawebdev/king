@@ -27,7 +27,7 @@ export function SiteHeader() {
   }, [])
 
   return (
-    <header id="Header">
+    <header id="Header" data-section="chrome-header">
       {/* Keeps the content from jumping while the bar is fixed. */}
       <div className="sc-header-placeholder" style={{ height: sticky ? barHeight : 0 }} />
       <div className={`sc-topbar${sticky ? ' is-sticky' : ''}`}>

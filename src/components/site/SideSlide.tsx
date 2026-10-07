@@ -12,7 +12,7 @@ export function SideSlide() {
   return (
     <>
       <div className="sc-overlay" onClick={() => setSideOpen(false)} aria-hidden="true" />
-      <aside className="sc-side" aria-label="Menu mobile" aria-hidden={!sideOpen} inert={!sideOpen}>
+      <aside className="sc-side" aria-label="Menu mobile" aria-hidden={!sideOpen} inert={!sideOpen} data-section="chrome-side">
         <div className="sc-side__close-row">
           <button type="button" className="sc-side__close" aria-label="Fermer le menu" onClick={() => setSideOpen(false)}>
             <CloseIcon />

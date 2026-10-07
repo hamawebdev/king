@@ -21,7 +21,7 @@ export function SiteFooter() {
   const elementorPage = pathname === '/' || pathname.startsWith('/produit/')
 
   return (
-    <footer className={`sc-footer${elementorPage ? ' sc-footer--elementor' : ''}`} id="Footer">
+    <footer className={`sc-footer${elementorPage ? ' sc-footer--elementor' : ''}`} id="Footer" data-section="chrome-footer">
       <div className="sc-footer__widgets">
         <div className="sc-footer__container">
           <div className="sc-footer__col">

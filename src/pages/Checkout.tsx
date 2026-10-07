@@ -9,7 +9,7 @@ export default function Checkout() {
   const { cartItems } = useChrome()
   const empty = cartItems.length === 0
   return (
-    <div className="bt co-page">
+    <div className="bt co-page" data-section="checkout">
       <div className={`co-section${empty ? ' is-empty' : ''}`}>
         <div className="co-wrapper">
           <div className="co-content">{empty ? <EmptyCart /> : <CheckoutForm items={cartItems} />}</div>

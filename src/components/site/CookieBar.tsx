@@ -27,7 +27,7 @@ export function CookieBar() {
   }
 
   return (
-    <div className="sc-gdpr" role="region" aria-label="Cookies">
+    <div className="sc-gdpr" role="region" aria-label="Cookies" data-section="chrome-cookie">
       <div className="sc-gdpr__image">
         <CookieIcon />
       </div>

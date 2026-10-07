@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 // Utilities overriding the `.bt` base heading/link styles need `!` (the base layer is unlayered CSS).
 export default function NotFound() {
   return (
-    <div className="bt relative min-h-[max(520px,calc(100vh-110px))] max-[960px]:min-h-0 max-[960px]:pb-[50px]">
+    <div data-section="notfound" className="bt relative min-h-[max(520px,calc(100vh-110px))] max-[960px]:min-h-0 max-[960px]:pb-[50px]">
       <div className="absolute top-1/2 left-[30px] -mt-[150px] overflow-hidden max-[960px]:static max-[960px]:mt-0 min-[768px]:max-[960px]:pt-[50px] max-[768px]:pt-[20px]">
         <div className="relative mx-auto box-content flow-root max-w-[1220px] min-[1240px]:max-w-[1260px] min-[960px]:max-[1240px]:max-w-[940px] min-[768px]:max-[960px]:max-w-[708px] max-[768px]:max-w-[550px] max-[768px]:px-[33px]">
           <div className="float-left w-[30%] text-center text-[250px] leading-[250px] text-[#0026ff] min-[960px]:max-[1240px]:text-[220px] min-[960px]:max-[1240px]:leading-[260px] max-[960px]:float-none max-[960px]:w-full min-[768px]:max-[960px]:text-[260px] min-[768px]:max-[960px]:leading-[260px] max-[768px]:text-[160px] max-[768px]:leading-[160px]">

@@ -18,7 +18,7 @@ const DOCS: Record<LegalDoc, ComponentType> = {
 export default function Legal({ doc }: { doc: LegalDoc }) {
   const Content = DOCS[doc]
   return (
-    <div className="bt legal-page" data-doc={doc}>
+    <div className="bt legal-page" data-doc={doc} data-section="legal-doc">
       <div className="legal-page__section">
         <div className="legal-page__wrapper">
           <div className="legal-page__content">
