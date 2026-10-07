@@ -1,7 +1,7 @@
+import { Chip, Eyebrow, Kw, Reveal, Section } from '@/components/brand'
 import { BRAND, BRAND_UPPER } from '@/lib/site'
+import { cn } from '@/lib/utils'
 import type { Card, IconText } from '../data'
-import { BAND_TIGHT, COLUMN, TINT, cx } from '../styles'
-import { Accent, ChipRow, FeatureGrid, SectionHead, StatGrid } from '../ui'
 
 const DISCOVER = {
   eyebrow: `${BRAND_UPPER} · saison 2026`,
@@ -31,26 +31,65 @@ const DISCOVER = {
   ] as IconText[],
 }
 
-/** Discover: figures, reasons, themes. */
+/** Discover: figures, reasons, themes. Sand band: split head, ruled statement of figures, 3×2 ledger. */
 export function HomeDiscover() {
   return (
-    <section data-section="home-discover" className={cx(BAND_TIGHT, TINT)}>
-      <div className={COLUMN}>
-        <SectionHead
-          eyebrow={DISCOVER.eyebrow}
-          title={
-            <>
-              {DISCOVER.titleStart}
-              <Accent>{DISCOVER.titleBlue}</Accent>
-            </>
-          }
-          text={DISCOVER.text}
-        />
-        <StatGrid items={DISCOVER.stats} className="mb-[54px]" />
-        <SectionHead minor title={DISCOVER.subTitle} />
-        <FeatureGrid items={DISCOVER.cards} columns={3} />
-        <ChipRow items={DISCOVER.cats} className="mt-[40px]" />
+    <Section zone="sand" dataSection="home-discover" aria-labelledby="home-discover-title">
+      {/* Head: title left, intro and themes right (stacked below lg). */}
+      <div className="grid gap-x-grid gap-y-6 lg:grid-cols-12 lg:items-end">
+        <header className="flex flex-col lg:col-span-6">
+          <Eyebrow>{DISCOVER.eyebrow}</Eyebrow>
+          <h2 id="home-discover-title" className="mt-4 font-display text-display-md text-z-fg">
+            {DISCOVER.titleStart}
+            <Kw>{DISCOVER.titleBlue}</Kw>
+          </h2>
+        </header>
+        <div className="lg:col-span-6 lg:col-start-7 xl:col-span-5 xl:col-start-8">
+          <p className="max-w-[56ch] font-sans text-lead text-z-soft">{DISCOVER.text}</p>
+          <ul className="m-0 mt-6 flex list-none flex-wrap gap-2 p-0">
+            {DISCOVER.cats.map((c) => (
+              <li key={c.label}>
+                <Chip icon={c.icon}>{c.label}</Chip>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </section>
+
+      {/* Figures: a ruled statement, 2×2 on phone, one row from tablet. */}
+      <ul className="m-0 mt-head grid list-none grid-cols-2 border-y border-z-line p-0 md:grid-cols-4">
+        {DISCOVER.stats.map((s, i) => (
+          <li
+            key={s.label}
+            className={cn(
+              'flex flex-col gap-2.5 border-z-line px-4 py-6 md:px-6 md:py-8',
+              'max-md:even:border-l max-md:[&:nth-child(n+3)]:border-t',
+              'md:border-l md:first:border-l-0 md:first:pl-0',
+              i === 0 && 'max-md:pl-0',
+              i === 2 && 'max-md:pl-0',
+            )}
+          >
+            <span className="price-num text-stat-lg text-z-fg">{s.value}</span>
+            <span className="font-sans text-meta font-semibold text-z-muted">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Reasons: ledger rows, no box, ink rule on top. */}
+      <div className="mt-section-sm">
+        <h3 className="max-w-[24ch] font-display text-display-sm text-z-fg">{DISCOVER.subTitle}</h3>
+        <ul className="m-0 mt-10 grid list-none gap-x-6 gap-y-10 p-0 md:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
+          {DISCOVER.cards.map((c, i) => (
+            <Reveal as="li" key={c.title} index={i % 3} className="ledger">
+              <div className="flex items-start justify-between gap-4">
+                <h4 className="font-display text-title text-z-fg">{c.title}</h4>
+                <i className={cn('ti', c.icon, 'mt-0.5 shrink-0 text-[22px] text-evergreen-700')} aria-hidden="true" />
+              </div>
+              <p className="mt-2 max-w-[38ch] font-sans text-small text-z-soft">{c.text}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </Section>
   )
 }
