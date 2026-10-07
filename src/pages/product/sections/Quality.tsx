@@ -1,6 +1,6 @@
+import { ChannelMosaic, Chip, DeviceFrame, Kw, QualityLadder, Reveal, Section, SectionHead } from '@/components/brand'
+import type { QualityTier } from '@/components/brand'
 import type { IconText } from '../data'
-import { PANEL, SECTION, WRAP } from '../styles'
-import { SectionHead } from '../ui'
 
 const QUALITY = {
   title: ['Tout un', 'univers'] as [string, string],
@@ -9,7 +9,7 @@ const QUALITY = {
     { value: 'FHD', label: '1080p' },
     { value: 'HD', label: '720p' },
     { value: 'SD', label: '480p' },
-  ],
+  ] as { value: QualityTier; label: string }[],
   categories: [
     { icon: 'ti-ball-football', text: 'Sports' },
     { icon: 'ti-movie', text: 'Films' },
@@ -20,28 +20,44 @@ const QUALITY = {
   ] as IconText[],
 }
 
-// Picture quality and categories
+// Picture quality and categories: head, then a TV showing the six universes (chips below) beside the quality ladder.
 export function Quality() {
   return (
-    <section data-section="product-quality" className={`${SECTION} bg-lp-soft`}>
-      <div className={WRAP}>
-        <SectionHead title={QUALITY.title} />
-        <div className="mb-[22px] grid grid-cols-4 gap-3.5 [@media(max-width:900px)]:grid-cols-2">
-          {QUALITY.tiles.map((q) => (
-            <div key={q.value} className={`${PANEL} rounded-[14px] p-5 text-center`}>
-              <b className="block font-archivo text-[26px] font-black text-lp-blue">{q.value}</b>
-              <span className="text-[13.5px] font-bold text-lp-muted">{q.label}</span>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {QUALITY.categories.map((c) => (
-            <span key={c.text} className={`${PANEL} flex items-center gap-2 rounded-[12px] px-[18px] py-[11px] text-[14.5px] font-bold`}>
-              <i className={`ti ${c.icon} text-lp-blue`} /> {c.text}
-            </span>
-          ))}
-        </div>
+    <Section zone="paper" dataSection="product-quality">
+      <div className="grid gap-y-10 md:gap-y-12 lg:grid-cols-12 lg:gap-x-grid lg:gap-y-0">
+        <SectionHead
+          title={
+            <>
+              {QUALITY.title[0]} <Kw>{QUALITY.title[1]}</Kw>
+            </>
+          }
+          className="lg:col-span-7 lg:row-start-1"
+        />
+
+        <Reveal className="lg:col-span-4 lg:col-start-9 lg:row-start-2 lg:mt-head lg:self-center">
+          <QualityLadder
+            as="p"
+            rows={QUALITY.tiles.map((q) => ({ tier: q.value, name: q.label }))}
+            className="md:grid md:grid-cols-2 md:gap-x-grid md:border-b-0 lg:block lg:border-b"
+          />
+        </Reveal>
+
+        <Reveal index={1} className="lg:col-span-7 lg:col-start-1 lg:row-start-2 lg:mt-head">
+          <DeviceFrame kind="tv" className="w-full md:max-w-[640px] lg:max-w-none">
+            <ChannelMosaic icons={QUALITY.categories.map((c) => c.icon)} />
+          </DeviceFrame>
+        </Reveal>
+
+        <Reveal index={2} className="lg:col-span-7 lg:col-start-1 lg:row-start-3 lg:mt-10">
+          <ul className="flex flex-wrap gap-2">
+            {QUALITY.categories.map((c) => (
+              <li key={c.text}>
+                <Chip icon={c.icon}>{c.text}</Chip>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
-    </section>
+    </Section>
   )
 }
