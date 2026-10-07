@@ -1,38 +1,43 @@
-import { Link } from 'react-router'
+import { ButtonLink, NoSignal, Reveal, Rosette, Section } from '@/components/brand'
 
-// Theme 404 template (#Error_404): big theme-coloured icon on the left, title, subtitle and a home button,
-// absolutely centred on desktop and stacked under 960px. The original template is a bare page; here it sits
-// inside the site frame, so the block is centred in the space between header and footer. Placeholder copy.
-// Utilities overriding the `.bt` base heading/link styles need `!` (the base layer is unlayered CSS).
+// 404 (DIRECTION §9.9): a vault band, centred, between the header and the vault footer (a brass hairline
+// separates the two dark grounds). A TV frame showing calm test-card bars ("no signal") sits in the upper
+// area with the guilloché rosette behind it, then the serif title, the subtitle and the way back home.
+// Also rendered by Product.tsx for unknown product slugs.
 export default function NotFound() {
   return (
-    <div data-section="notfound" className="bt relative min-h-[max(520px,calc(100vh-110px))] max-[960px]:min-h-0 max-[960px]:pb-[50px]">
-      <div className="absolute top-1/2 left-[30px] -mt-[150px] overflow-hidden max-[960px]:static max-[960px]:mt-0 min-[768px]:max-[960px]:pt-[50px] max-[768px]:pt-[20px]">
-        <div className="relative mx-auto box-content flow-root max-w-[1220px] min-[1240px]:max-w-[1260px] min-[960px]:max-[1240px]:max-w-[940px] min-[768px]:max-[960px]:max-w-[708px] max-[768px]:max-w-[550px] max-[768px]:px-[33px]">
-          <div className="float-left w-[30%] text-center text-[250px] leading-[250px] text-[#0026ff] min-[960px]:max-[1240px]:text-[220px] min-[960px]:max-[1240px]:leading-[260px] max-[960px]:float-none max-[960px]:w-full min-[768px]:max-[960px]:text-[260px] min-[768px]:max-[960px]:leading-[260px] max-[768px]:text-[160px] max-[768px]:leading-[160px]">
-            <i className="ti ti-traffic-cone" aria-hidden="true" />
-          </div>
-          <div className="float-left w-[70%] pt-[40px] max-[960px]:float-none max-[960px]:w-full max-[960px]:pt-[20px] max-[960px]:text-center">
-            <h2 className="text-[45px]! leading-[45px]! max-[768px]:text-[30px]! max-[768px]:leading-[30px]!">
-              Oups... Erreur 404
-            </h2>
-            <h4 className="text-[26px]! leading-[30px]! max-[768px]:text-[19px]! max-[768px]:leading-[25px]!">
-              Cette adresse ne mène à aucune page de notre site.
-            </h4>
-            <p>
-              <span className="text-[16px] leading-[45px] max-[768px]:mb-[15px] max-[768px]:block max-[768px]:leading-[22px]">
-                Vérifiez le lien saisi puis réessayez <em>ou</em>
-              </span>{' '}
-              <Link
-                to="/"
-                className="relative ml-[20px] inline rounded-[12px] border border-solid border-[#f2e2d8] bg-transparent px-[32px] py-[16px] font-zen text-[16px] leading-[16px] font-bold text-[#1d367b]! transition-colors duration-100 ease-in-out hover:border-[#251a8e] hover:bg-[#1f1a8e] hover:text-white!"
-              >
-                Revenir à l’accueil
-              </Link>
-            </p>
-          </div>
+    <Section
+      zone="vault"
+      dataSection="notfound"
+      className="flex min-h-[70svh] items-center border-b border-brass-500/40"
+      containerClassName="flex flex-col items-center text-center"
+    >
+      {/* Upper area: the rosette sits behind the TV only, never behind the text below. */}
+      <div aria-hidden="true" className="pointer-events-none relative grid w-full place-items-center">
+        <Rosette className="absolute top-1/2 left-1/2 w-[380px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[.10] md:w-[460px] lg:w-[480px]" />
+        <NoSignal className="relative max-w-[280px] md:max-w-[360px] lg:max-w-[420px]" />
+      </div>
+
+      <div className="relative mt-12 flex max-w-[640px] flex-col items-center md:mt-14 lg:mt-16">
+        <Reveal>
+          <span aria-hidden="true" className="mx-auto mb-6 block h-px w-7 bg-brass-500" />
+          <h2 className="font-display text-display-sm text-z-fg md:text-display-md">Oups... Erreur 404</h2>
+        </Reveal>
+        <Reveal index={1}>
+          <p className="mx-auto mt-4 max-w-[48ch] font-sans text-lead text-on-vault-muted">
+            Cette adresse ne mène à aucune page de notre site.
+          </p>
+        </Reveal>
+
+        <div className="mt-8 flex w-full flex-col items-center gap-4 border-t border-z-line pt-8 sm:w-auto sm:flex-row sm:gap-6 md:mt-10">
+          <p className="font-sans text-copy text-z-muted">
+            Vérifiez le lien saisi puis réessayez <em className="font-display text-[1.125rem] font-normal text-brass-300 italic">ou</em>
+          </p>{' '}
+          <ButtonLink to="/" variant="ivory" size="md" full className="sm:w-auto">
+            Revenir à l’accueil
+          </ButtonLink>
         </div>
       </div>
-    </div>
+    </Section>
   )
 }
