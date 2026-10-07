@@ -1,142 +1,174 @@
 import type { ReactNode } from 'react'
+import { AppMock, ChannelMosaic, DeviceFrame, Kw, Rosette, Section } from '@/components/brand'
 import { BRAND_UPPER } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import { Attr, Col, Hr, Section, SepBadge, SepDashes, Wrap, type Frac } from './builder'
-import { HeroBlob, HeroWord } from './art'
 
-// Heroes of the four theme pages: the shared hero layout, then one component per page with its
-// exact title markup (shop, reseller, downloads, contact).
+// Heroes of the four inner pages (shop, reseller, downloads, contact), « Réserve » direction §9.3–9.6:
+// paper ground, a two-line page H1 in display-lg on the left of a 7/5 split, and one quiet decorative
+// object on the right (TV frame, app mock, chat phone) held in brass crop marks, or a rosette in the corner.
 
 type HeroProps = {
-  /** data-section id of the hero. */
+  /** data-section id of the hero (kept from the original). */
   dataSection: string
-  variant: 'phone' | 'target' | 'duo' | 'smile'
-  /** Title block content (badge, heading, dashes…). */
-  children: ReactNode
-  /** 'shop': 2/3 title + 1/3 photo; 'centered': 1/6 spacer + 1/2 title + 1/3 photo. */
-  layout: 'shop' | 'centered'
-  /** Tablet widths of the title / photo wraps. */
-  tablet: [Frac, Frac]
-  /** Alignment of the photo block on phones. */
-  photoMobileAlign?: 'left' | 'center'
-  className?: string
-  bottomPad?: number
-  decor?: ReactNode
+  /** The H1 content (exact title text). */
+  title: ReactNode
+  /** Decorative object of the right column (aria-hidden). */
+  visual?: ReactNode
+  /** Visibility and sizing of the visual column. */
+  visualClassName?: string
+  /** Guilloché rosette in the top-right corner (shop, reseller). */
+  rosette?: boolean
 }
 
-/** Hero: optional 1/6 spacer, title wrap (120px top padding) and the blob photo on the right. */
-function HeroSection({
-  dataSection,
-  variant,
-  children,
-  layout,
-  tablet,
-  photoMobileAlign = 'center',
-  className,
-  bottomPad,
-  decor,
-}: HeroProps) {
+/** Shared hero: brass rule, H1, and the decorative right column. Nothing in it is revealed on scroll. */
+function InnerHero({ dataSection, title, visual, visualClassName, rosette }: HeroProps) {
   return (
     <Section
-      full
-      nmh
-      nmv
-      rev
-      className={cn('mfp-hero', className)}
-      style={bottomPad ? { paddingBottom: bottomPad } : undefined}
-      before={decor}
+      zone="paper"
+      rhythm="hero"
       dataSection={dataSection}
+      containerClassName={cn('grid items-center gap-x-grid gap-y-10 md:gap-y-12 lg:grid-cols-12', visual && 'lg:min-h-[22rem]')}
     >
-      {layout === 'centered' && (
-        <Wrap d="1-6" t="1-6">
-          <Col kind="placeholder" />
-        </Wrap>
+      {rosette && (
+        <Rosette
+          className={cn(
+            'absolute max-md:hidden',
+            'md:-top-56 md:-right-72 md:w-[560px] md:opacity-[.10]',
+            'lg:-top-24 lg:-right-40 lg:w-[640px] lg:opacity-[.12]',
+          )}
+        />
       )}
-      <Wrap d={layout === 'shop' ? '2-3' : '1-2'} t={tablet[0]} middle style={{ padding: '120px 5% 0' }}>
-        <Col>
-          <Attr mobileAlign="center">{children}</Attr>
-        </Col>
-      </Wrap>
-      <Wrap d="1-3" t={tablet[1]}>
-        <Col>
-          <Attr align="right" mobileAlign={photoMobileAlign}>
-            <HeroBlob variant={variant} />
-          </Attr>
-        </Col>
-      </Wrap>
+      <div className="relative lg:col-span-7">
+        <span aria-hidden="true" className="block h-px w-12 bg-brass-500" />
+        <h1 className="mt-6 font-display text-display-lg text-z-fg md:mt-8">{title}</h1>
+      </div>
+      {visual && (
+        <div aria-hidden="true" className={cn('pointer-events-none relative lg:col-span-5', visualClassName)}>
+          {visual}
+        </div>
+      )}
     </Section>
   )
 }
 
-/** Hero title: badge, heading and the two dashes underneath. */
-function HeroTitle({ children, badge = true }: { children: ReactNode; badge?: boolean }) {
+/** One line of the two-line H1 (each line balances on its own if it has to wrap). */
+function Line({ children }: { children: ReactNode }) {
+  return <span className="block">{children}</span>
+}
+
+/** Four 1px brass crop marks around a decorative object (certificate framing, never a box). */
+function CropMarks({ children, className }: { children: ReactNode; className?: string }) {
+  const mark = 'absolute size-4 border-brass-500'
   return (
-    <>
-      {badge && <SepBadge />}
-      <Hr />
-      <h1>{children}</h1>
-      <SepDashes />
-    </>
+    <div className={cn('relative p-5 md:p-6', className)}>
+      <span className={cn(mark, 'top-0 left-0 border-t border-l')} />
+      <span className={cn(mark, 'top-0 right-0 border-t border-r')} />
+      <span className={cn(mark, 'bottom-0 left-0 border-b border-l')} />
+      <span className={cn(mark, 'right-0 bottom-0 border-r border-b')} />
+      {children}
+    </div>
   )
 }
 
-/** Shop ("Boutique"): 2/3 title next to the phone photo. */
+/** Contact visual: a phone showing an abstract conversation (three bars, no text). */
+function ChatPhone() {
+  const bar = 'h-9 rounded-card'
+  return (
+    <DeviceFrame kind="phone" className="mx-auto w-[176px] xl:w-[188px]">
+      <div className="flex size-full flex-col px-3 pt-10 pb-3">
+        <div className="flex items-center gap-2 border-b border-vault-line pb-3">
+          <span className="size-6 rounded-full bg-evergreen-700" />
+          <span className="h-1.5 w-16 rounded-full bg-vault-line" />
+          <span className="ml-auto size-2 rounded-full bg-evergreen-600" />
+        </div>
+        <div className="flex flex-1 flex-col justify-end gap-3 pb-4">
+          <span className={cn(bar, 'h-14 w-[74%] self-start rounded-bl-tag bg-evergreen-100')} />
+          <span className={cn(bar, 'w-[56%] self-end rounded-br-tag bg-ivory')} />
+          <span className={cn(bar, 'h-20 w-[78%] self-start rounded-bl-tag bg-evergreen-100')} />
+        </div>
+        <div className="flex h-9 items-center gap-2 rounded-control bg-vault-raised px-3">
+          <span className="h-1.5 flex-1 rounded-full bg-vault-line" />
+          <span className="size-5 rounded-full bg-brass-500" />
+        </div>
+      </div>
+    </DeviceFrame>
+  )
+}
+
+/** Shop ("Boutique"): H1 left, the TV frame with the channel mosaic right (lg), rosette corner. */
 export function ShopHero() {
   return (
-    <HeroSection dataSection="shop-hero" variant="phone" layout="shop" tablet={['2-3', '1-3']} bottomPad={100}>
-      <HeroTitle>
-        Des formules pensées <span className="mfp-themecolor">pour chaque salon.</span>
-      </HeroTitle>
-    </HeroSection>
+    <InnerHero
+      dataSection="shop-hero"
+      rosette
+      title={
+        <>
+          <Line>Des formules pensées</Line> <Kw className="block">pour chaque salon.</Kw>
+        </>
+      }
+      visualClassName="hidden lg:block"
+      visual={
+        <CropMarks className="ml-auto max-w-[520px]">
+          <DeviceFrame kind="tv" className="w-full">
+            <ChannelMosaic step />
+          </DeviceFrame>
+        </CropMarks>
+      }
+    />
   )
 }
 
-/** Reseller ("Revendeur"): centred title, the photo aligns left on phones. */
+/** Reseller ("Revendeur"): the H1 alone on paper, the rosette in the corner. */
 export function ResellerHero() {
   return (
-    <HeroSection
+    <InnerHero
       dataSection="reseller-hero"
-      variant="target"
-      layout="centered"
-      tablet={['1-2', '1-3']}
-      photoMobileAlign="left"
-    >
-      <HeroTitle>
-        Vendez avec <span className="mfp-themecolor">NOVASTREAM</span>
-      </HeroTitle>
-    </HeroSection>
+      rosette
+      title={
+        <>
+          <Line>Vendez avec</Line> <Kw className="block">NOVASTREAM</Kw>
+        </>
+      }
+    />
   )
 }
 
-/** Downloads ("Télécharger"). */
+/** Downloads ("Télécharger"): H1, then the app mock (right from lg, under the title on tablet, hidden on phone). */
 export function DownloadHero() {
   return (
-    <HeroSection dataSection="download-hero" variant="duo" layout="centered" tablet={['1-3', '1-2']}>
-      <HeroTitle>
-        Vos Applications <span className="mfp-themecolor">{BRAND_UPPER}</span>
-      </HeroTitle>
-    </HeroSection>
+    <InnerHero
+      dataSection="download-hero"
+      title={
+        <>
+          <Line>Vos Applications</Line> <Kw className="block">{BRAND_UPPER}</Kw>
+        </>
+      }
+      visualClassName="hidden md:-mt-28 md:block lg:mt-0"
+      visual={
+        <CropMarks className="max-w-[380px] md:ml-auto lg:max-w-[440px]">
+          <AppMock />
+        </CropMarks>
+      }
+    />
   )
 }
 
-/** Contact: no badge above the title, and the giant pale word behind the section. */
+/** Contact: the keyword line, then the promise; the chat phone on the right (lg). */
 export function ContactHero() {
   return (
-    <HeroSection
+    <InnerHero
       dataSection="contact-hero"
-      variant="smile"
-      layout="centered"
-      tablet={['1-3', '1-2']}
-      decor={<HeroWord word="contact" />}
-    >
-      <Hr />
-      <h1>
-        <span className="mfp-themecolor">Besoin d'aide ?</span>
-        <br />
-        Notre équipe vous répond
-      </h1>
-      <SepDashes />
-      <Hr mb={70} />
-    </HeroSection>
+      title={
+        <>
+          <Kw className="block">{'Besoin d\'aide ?'}</Kw> <Line>Notre équipe vous répond</Line>
+        </>
+      }
+      visualClassName="hidden lg:block"
+      visual={
+        <CropMarks className="ml-auto w-full max-w-[400px]">
+          <ChatPhone />
+        </CropMarks>
+      }
+    />
   )
 }
