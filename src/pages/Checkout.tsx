@@ -1,20 +1,22 @@
+import { Section } from '@/components/brand'
 import { useChrome } from '@/components/site/chrome-context'
 import { CheckoutForm } from './checkout/CheckoutForm'
 import { EmptyCart } from './checkout/EmptyCart'
-import './checkout/checkout.css'
 
-// WooCommerce checkout inside the theme's page template. No archived capture exists: layout follows the
-// theme's WooCommerce stylesheet ("cart step 2") and the site's custom checkout rule.
+// Checkout (DIRECTION §9.8): paper ground, billing form in an ivory card, light order summary in sand (7/5 from lg).
+// The filled checkout starts close under the header so the total, the payment choice and "Commander" share the
+// first desktop viewport.
 export default function Checkout() {
   const { cartItems } = useChrome()
   const empty = cartItems.length === 0
   return (
-    <div className="bt co-page" data-section="checkout">
-      <div className={`co-section${empty ? ' is-empty' : ''}`}>
-        <div className="co-wrapper">
-          <div className="co-content">{empty ? <EmptyCart /> : <CheckoutForm items={cartItems} />}</div>
-        </div>
-      </div>
-    </div>
+    <Section
+      zone="paper"
+      dataSection="checkout"
+      rhythm={empty ? 'section' : 'none'}
+      className={empty ? undefined : 'pt-section-sm pb-hero'}
+    >
+      {empty ? <EmptyCart /> : <CheckoutForm items={cartItems} />}
+    </Section>
   )
 }

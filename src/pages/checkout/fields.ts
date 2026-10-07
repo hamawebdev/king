@@ -6,7 +6,7 @@ export type CheckoutField = {
   label: string
   kind: FieldKind
   required: boolean
-  /** form-row-first / form-row-last sit side by side; wide rows take the full width. */
+  /** first / last sit side by side from md (2-column grid); wide rows take the full width. */
   row: 'first' | 'last' | 'wide'
   placeholder?: string
   autoComplete?: string
@@ -38,10 +38,10 @@ export const BILLING_FIELDS: CheckoutField[] = [
     autoComplete: 'address-line2',
     hiddenLabel: true,
   },
-  { id: 'billing_postcode', label: 'Code postal', kind: 'postcode', required: true, row: 'wide', autoComplete: 'postal-code' },
-  { id: 'billing_city', label: 'Ville', kind: 'text', required: true, row: 'wide', autoComplete: 'address-level2' },
-  { id: 'billing_phone', label: 'Téléphone', kind: 'tel', required: true, row: 'wide', autoComplete: 'tel' },
-  { id: 'billing_email', label: 'Adresse e-mail', kind: 'email', required: true, row: 'wide', autoComplete: 'email' },
+  { id: 'billing_postcode', label: 'Code postal', kind: 'postcode', required: true, row: 'first', autoComplete: 'postal-code' },
+  { id: 'billing_city', label: 'Ville', kind: 'text', required: true, row: 'last', autoComplete: 'address-level2' },
+  { id: 'billing_phone', label: 'Téléphone', kind: 'tel', required: true, row: 'first', autoComplete: 'tel' },
+  { id: 'billing_email', label: 'Adresse e-mail', kind: 'email', required: true, row: 'last', autoComplete: 'email' },
 ]
 
 export const COUNTRIES = [

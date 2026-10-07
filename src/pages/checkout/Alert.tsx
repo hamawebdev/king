@@ -1,32 +1,23 @@
 import type { ReactNode } from 'react'
+import { noticeClass } from '@/components/brand'
+import { cn } from '@/lib/utils'
 
 export type AlertType = 'error' | 'info' | 'success'
 
-// Theme alert box (BeTheme prints WooCommerce notices with its own alert markup). Icons are original drawings.
-function AlertIcon({ type }: { type: AlertType }) {
-  return (
-    <svg viewBox="0 0 30 30" fill="none" aria-hidden="true">
-      <circle className="path" cx="15" cy="15" r="11.5" strokeWidth="1.5" />
-      {type === 'success' ? (
-        <path className="path" d="M10 15.4l3.4 3.4L20.2 12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      ) : type === 'info' ? (
-        <path className="path" d="M15 13.5v7M15 9.5v1" strokeWidth="1.6" strokeLinecap="round" />
-      ) : (
-        <path className="path" d="M15 9v7.5M15 20v1" strokeWidth="1.6" strokeLinecap="round" />
-      )}
-    </svg>
-  )
+const ICON: Record<AlertType, string> = {
+  error: 'ti-alert-circle',
+  info: 'ti-info-circle',
+  success: 'ti-circle-check',
 }
 
+// Checkout notice (DIRECTION §6.14): errors on alert-100, information and success on evergreen-100.
 export function Alert({ type, children, onClose }: { type: AlertType; children: ReactNode; onClose: () => void }) {
   return (
-    <div className={`co-alert co-alert--${type}`} role="alert">
-      <div className="co-alert__icon">
-        <AlertIcon type={type} />
-      </div>
-      <div className="co-alert__wrapper">{children}</div>
+    <div className={cn(noticeClass[type === 'error' ? 'error' : 'success'], 'items-start')} role="alert">
+      <i className={cn('ti mt-0.5 shrink-0 text-[18px]', ICON[type])} aria-hidden="true" />
+      <div className="min-w-0 flex-1">{children}</div>
       <a
-        className="co-alert__close"
+        className="-my-1 -mr-1.5 grid size-8 shrink-0 place-items-center rounded-control text-[16px] transition-colors duration-180 ease-calm hover:bg-current/10"
         href="#"
         aria-label="Fermer"
         onClick={(e) => {
@@ -34,9 +25,7 @@ export function Alert({ type, children, onClose }: { type: AlertType; children: 
           onClose()
         }}
       >
-        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path className="path" d="M1.5 1.5l9 9M10.5 1.5l-9 9" strokeWidth="1.5" />
-        </svg>
+        <i className="ti ti-x" aria-hidden="true" />
       </a>
     </div>
   )

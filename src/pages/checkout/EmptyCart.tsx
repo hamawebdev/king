@@ -1,19 +1,16 @@
-import { Link } from 'react-router'
-import { CartIcon } from '@/components/site/icons'
+import { ButtonLink, ChannelMosaic, DeviceFrame } from '@/components/brand'
 
-// WooCommerce empty-cart state as the theme lays it out: faded cart icon, notice, "return to shop" button.
+// Empty checkout: a dark, unselected channel screen (nothing in the cart yet), the notice, the way back to the shop.
 export function EmptyCart() {
   return (
-    <div className="co-empty">
-      <div className="co-empty__icon">
-        <CartIcon />
-      </div>
-      <p className="co-empty__notice">Votre panier est actuellement vide.</p>
-      <p className="co-empty__return">
-        <Link to="/pricing/" className="bt-button">
-          Retour à la boutique
-        </Link>
-      </p>
+    <div className="mx-auto flex max-w-[560px] flex-col items-center text-center">
+      <DeviceFrame className="w-[min(100%,240px)] md:w-[280px]">
+        <ChannelMosaic selected={0} osd={false} className="opacity-45" />
+      </DeviceFrame>
+      <p className="mt-12 font-display text-display-sm text-ink">Votre panier est actuellement vide.</p>
+      <ButtonLink to="/pricing/" size="lg" className="mt-8 w-full sm:w-auto">
+        Retour à la boutique
+      </ButtonLink>
     </div>
   )
 }
