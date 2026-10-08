@@ -31,8 +31,6 @@ export function CookieBar() {
     <div
       className={cn(
         cookieBarClass,
-        // Rise above a phone buy bar that is not the kit BuyBar yet (no html.has-buybar): same 88px offset.
-        '[:root:has([data-section=home-floating-buybar])_&]:max-md:bottom-[88px] [:root:has([data-section=product-stickybar])_&]:max-md:bottom-[88px]',
         'flex flex-col gap-4 max-md:px-5 md:flex-row md:items-center md:gap-5',
       )}
       role="region"

@@ -1,3 +1,0 @@
-/* Site chrome (header, side menu, cart drawer, footer, cookie bar) is now built from the brand kit
-   (src/components/brand, DIRECTION « Réserve » §9.0) with Tailwind utilities only. The legacy sc-* rules
-   that lived here were removed with the redesign; nothing else referenced them. */

@@ -6,7 +6,6 @@ import { CartDrawer } from './CartDrawer'
 import { SiteFooter } from './SiteFooter'
 import { CookieBar } from './CookieBar'
 import { ChromeContext, type CartItem, type ChromeState } from './chrome-context'
-import './chrome.css'
 
 export function SiteLayout() {
   const { pathname } = useLocation()

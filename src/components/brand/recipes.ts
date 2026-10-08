@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import type { ButtonSize, ButtonVariant, ContainerSize, Rhythm, Zone } from './types'
 
-/** Reset scope: redesigned markup starts from brand defaults even inside .bt / .mfp / .co-page wrappers. */
+/** Reset scope: markup inside starts from brand defaults (see .brand-scope in src/index.css). */
 export const SCOPE = 'brand-scope'
 
 /**

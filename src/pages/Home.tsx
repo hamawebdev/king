@@ -15,12 +15,11 @@ import { HomeReviews } from './home/sections/Reviews'
 import { HomeSport } from './home/sections/Sport'
 import { HomeVod } from './home/sections/Vod'
 import { HomeWhy } from './home/sections/Why'
-import './home/decor.css'
 
 /** Home landing page: every band lives in its own module under ./home/sections, in page order here. */
 export default function Home() {
   return (
-    <div className="overflow-x-clip scroll-smooth bg-paper font-sans leading-[1.65] text-ink-body antialiased [:root:not(.has-buybar)_&]:lp-md:pb-[76px]">
+    <div className="overflow-x-clip scroll-smooth bg-paper font-sans leading-[1.65] text-ink-body antialiased">
       <HomeHero />
       <HomeFeatures />
       <HomeApp />

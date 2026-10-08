@@ -5,11 +5,11 @@ import { ShopTrial } from './pricing/TrialTeaser'
 import { ShopBand } from './theme/bands'
 
 // Shop page ("Boutique"): hero, three plan cards, reseller teaser, free-trial teaser and the
-// question form on the navy band. All copy is placeholder text.
+// question form on the sand band. All copy is placeholder text.
 
 export default function Pricing() {
   return (
-    <div className="bt mfp mfp-pricing">
+    <div className="overflow-x-clip bg-paper font-sans leading-[1.65] text-ink-body antialiased">
       <ShopHero />
       <ShopPlans />
       <ShopReseller />
