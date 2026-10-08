@@ -1,5 +1,6 @@
 import type { ElementType, HTMLAttributes, MouseEvent, ReactNode } from 'react'
 import { Link } from 'react-router'
+import { routeHref } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { ButtonA, CtaButton } from './Button'
 import { Chip, IconTile, Monogram, Ribbon, Stars, StatusDot, Tag } from './Labels'
@@ -335,7 +336,7 @@ export function RelatedCard({ visual, title, to, old, price, rating, action, as:
       <Price old={old} value={price} size="md" className="mt-3" />
       <div className="mt-auto pt-5">
         <ButtonA
-          href={action.href ?? to}
+          href={action.href ?? routeHref(to)}
           rel="nofollow"
           aria-label={action.ariaLabel}
           onClick={action.onClick}

@@ -1,5 +1,6 @@
 import { ButtonA, ChannelMosaic, DeviceFrame, Reveal, Rosette, Section } from '@/components/brand'
 import type { Product } from '../data'
+import { routeHref } from '@/lib/site'
 
 const FINAL_CTA = {
   title: 'Vos soirées télé méritent mieux',
@@ -22,7 +23,7 @@ export function FinalCta({ product: p, onBuy }: { product: Product; onBuy: (e: R
           <p className="mt-4 max-w-[46ch] font-sans text-lead text-z-soft">{FINAL_CTA.text}</p>
         </Reveal>
         <div className="mt-8 md:mt-10">
-          <ButtonA href="/checkout/" onClick={onBuy} variant="brass" size="lg" iconEnd="arrow" full className="sm:w-auto">
+          <ButtonA href={routeHref('/checkout/')} onClick={onBuy} variant="brass" size="lg" iconEnd="arrow" full className="sm:w-auto">
             Acheter maintenant — {p.price}€
           </ButtonA>
         </div>

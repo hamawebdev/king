@@ -1,5 +1,5 @@
 import { BuyBar } from '@/components/brand'
-import { WHATSAPP_HREF } from '@/lib/site'
+import { WHATSAPP_HREF, routeHref } from '@/lib/site'
 import { barAccentClass } from '../home/FloatingActions.parts'
 import type { Product } from './data'
 
@@ -14,7 +14,7 @@ export function StickyBar({ product: p, onBuy }: { product: Product; onBuy: (e: 
       waLabel="WhatsApp"
       waHref={WHATSAPP_HREF}
       waProps={{ target: '_blank', rel: 'noopener' }}
-      cta={{ label: p.barCta, href: '/checkout/', onClick: onBuy }}
+      cta={{ label: p.barCta, href: routeHref('/checkout/'), onClick: onBuy }}
       className={barAccentClass}
     />
   )

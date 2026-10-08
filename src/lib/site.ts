@@ -36,6 +36,11 @@ export const LEGAL_NAV: NavItem[] = [
 export const WHATSAPP_HREF = '#whatsapp'
 export const SUPPORT_EMAIL_HREF = '#email'
 
+/** href for a route rendered as a plain <a> (not a router Link): prefixed with the deploy base path. */
+export function routeHref(path: string) {
+  return import.meta.env.BASE_URL.replace(/\/$/, '') + path
+}
+
 export function isCurrent(pathname: string, to: string) {
   return to === '/' ? pathname === '/' : pathname.startsWith(to)
 }

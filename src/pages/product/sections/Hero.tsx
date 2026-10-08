@@ -3,6 +3,7 @@ import type { StatItem } from '@/components/brand'
 import { cn } from '@/lib/utils'
 import { BoxShot } from '../BoxShot'
 import type { IconText, Product } from '../data'
+import { routeHref } from '@/lib/site'
 
 const RATING_TEXT = '4.8/5 — 40 000+ foyers équipés'
 
@@ -60,7 +61,7 @@ function BuyBox({ product: p, onBuy, className }: { product: Product; onBuy: (e:
       saving={`−${pct}%`}
       info={`Remise ${save}€ — ${SAVE_TAIL}`}
       features={BUY_FEATURES}
-      cta={{ label: 'Acheter maintenant', href: '/checkout/', onClick: onBuy }}
+      cta={{ label: 'Acheter maintenant', href: routeHref('/checkout/'), onClick: onBuy }}
       guarantees={GUARANTEES.map((g) => ({ icon: g.icon, label: g.text }))}
       payment={{ label: PAY_LABEL, methods: PAY_METHODS }}
       className={className}
