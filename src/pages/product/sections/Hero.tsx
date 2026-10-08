@@ -123,7 +123,8 @@ export function Hero({ product: p, onBuy }: { product: Product; onBuy: (e: React
           </div>
 
           {/* Box shot */}
-          <div className="relative flex min-w-0 justify-center md:col-start-1 md:row-start-2 md:justify-start lg:col-span-7 lg:row-start-2 xl:col-span-3">
+          {/* At tablet the box shot sits beside the taller buy box: centre it on that row instead of leaving a gap below. */}
+          <div className="relative flex min-w-0 justify-center md:col-start-1 md:row-start-2 md:justify-start md:max-lg:self-center lg:col-span-7 lg:row-start-2 xl:col-span-3">
             <BoxShot
               label={p.title.join(' ').replace(/ [—–] /, ' ')}
               months={months}
