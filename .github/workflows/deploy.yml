@@ -30,8 +30,17 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-      # Single-page app: Pages serves 404.html for unknown paths, so deep links (/pricing/, /produit/…) load the app.
-      - run: cp dist/index.html dist/404.html
+      # Single-page app on static hosting: every real route gets its own index.html (served with HTTP 200), and
+      # 404.html serves anything else, which the app renders as its 404 page. Keep the list in sync with App.tsx.
+      - name: Route entry pages
+        run: |
+          cp dist/index.html dist/404.html
+          for route in pricing services muffin-builder-83 contact checkout \
+            conditions-dutilisation conditions-generales-de-vente politique-de-confidentialite politique-de-remboursement \
+            produit/abonnement-3-mois produit/abonnement-6-mois produit/abonnement-12-mois \
+            produit/abonnement-12-mois-seul-acces produit/abonnement-24-mois produit/renouvellement-12-mois; do
+            mkdir -p "dist/$route" && cp dist/index.html "dist/$route/index.html"
+          done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
