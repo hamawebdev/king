@@ -3,7 +3,7 @@ import { ArrowRight, ChevronRight, Clock, Headset, MonitorSmartphone, RotateCcw 
 import { Card, WaButton } from '@/components/kit'
 import { WHATSAPP_DISPLAY } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import { HUB_ASIDE } from './content'
+import { useInstallCopy } from './content'
 import { DEVICES, setupHelpMessage, tutorialMessage, type Device, type DeviceId } from './devices'
 import { GuideBlocks } from './GuideBlocks'
 import { nb } from './text'
@@ -12,10 +12,11 @@ const INDICATOR_ICONS = [Clock, MonitorSmartphone, Headset]
 
 /** « Un Souci Pendant la Configuration ? » — direct WhatsApp help card. */
 function HelpCard({ device, className }: { device?: Device; className?: string }) {
+  const aside = useInstallCopy().aside
   return (
     <Card className={cn('p-5', className)}>
-      <p className="text-base font-semibold text-heading">{nb(HUB_ASIDE.helpTitle)}</p>
-      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">{HUB_ASIDE.helpText}</p>
+      <p className="text-base font-semibold text-heading">{nb(aside.helpTitle)}</p>
+      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">{aside.helpText}</p>
       <WaButton message={setupHelpMessage(device?.name)} fullWidth className="mt-4">
         {WHATSAPP_DISPLAY}
       </WaButton>
@@ -25,11 +26,12 @@ function HelpCard({ device, className }: { device?: Device; className?: string }
 
 /** Left column: title, the 3 indicators, and (desktop) the help card. Sticky on large screens. */
 function HubAside({ device }: { device?: Device }) {
+  const aside = useInstallCopy().aside
   return (
     <div className="lg:sticky lg:top-24">
-      <h3 className="text-xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-2xl">{HUB_ASIDE.title}</h3>
+      <h3 className="text-xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-2xl">{aside.title}</h3>
       <ul className="mt-5 hidden lg:grid lg:divide-y lg:divide-line lg:border-y lg:border-line">
-        {HUB_ASIDE.indicators.map((item, i) => {
+        {aside.indicators.map((item, i) => {
           const Icon = INDICATOR_ICONS[i]
           return (
             <li
@@ -49,8 +51,9 @@ function HubAside({ device }: { device?: Device }) {
 }
 
 function DeviceGrid({ onPick }: { onPick: (id: DeviceId, button: HTMLButtonElement) => void }) {
+  const t = useInstallCopy().hub
   return (
-    <ul className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3" aria-label="Choisissez votre appareil">
+    <ul className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3" aria-label={t.chooseDevice}>
       {DEVICES.map((device) => (
         <li key={device.id}>
           <button
@@ -86,6 +89,7 @@ function DeviceGrid({ onPick }: { onPick: (id: DeviceId, button: HTMLButtonEleme
 }
 
 function DeviceGuide({ device, index, onBack, headingRef }: { device: Device; index: number; onBack: () => void; headingRef: Ref<HTMLHeadingElement> }) {
+  const t = useInstallCopy()
   return (
     <Card className="max-sm:rounded-none max-sm:border-0 max-sm:bg-transparent max-sm:p-0 max-sm:shadow-none sm:p-6 lg:p-7">
       <button
@@ -94,7 +98,7 @@ function DeviceGuide({ device, index, onBack, headingRef }: { device: Device; in
         data-change-device=""
         className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-300 bg-canvas px-4 text-[0.9375rem] font-semibold text-heading shadow-card transition-colors duration-150 hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
       >
-        {HUB_ASIDE.changeDevice}
+        {t.aside.changeDevice}
         <RotateCcw className="size-4 text-brand" aria-hidden="true" />
       </button>
 
@@ -106,7 +110,7 @@ function DeviceGuide({ device, index, onBack, headingRef }: { device: Device; in
           {device.emoji}
         </span>
         <div className="min-w-0">
-          <p className="text-xs font-semibold tracking-[0.08em] text-brand uppercase">Appareil {index + 1}</p>
+          <p className="text-xs font-semibold tracking-[0.08em] text-brand uppercase">{t.hub.deviceKicker(index + 1)}</p>
           <h3 ref={headingRef} tabIndex={-1} className="mt-1 text-2xl leading-tight font-bold tracking-tight text-heading outline-none">
             {device.guideTitle}
           </h3>
@@ -126,6 +130,7 @@ function DeviceGuide({ device, index, onBack, headingRef }: { device: Device; in
  * grid for that device's guide, with « Changer d'appareil ↺ » on top to come back. Exported for the Downloads page.
  */
 export function InstallHub({ className }: { className?: string }) {
+  const aside = useInstallCopy().aside
   const [selected, setSelected] = useState<DeviceId | null>(null)
   const lastPicked = useRef<DeviceId | null>(null)
   const pendingFocus = useRef<'guide' | 'grid' | null>(null)
@@ -182,7 +187,7 @@ export function InstallHub({ className }: { className?: string }) {
           fullWidth
           className="mt-4 justify-between text-left sm:min-h-13"
         >
-          <span>{HUB_ASIDE.tutorial}</span>
+          <span>{aside.tutorial}</span>
           <ArrowRight className="size-4.5 shrink-0 text-brand" aria-hidden="true" />
         </WaButton>
 

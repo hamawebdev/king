@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { GUARANTEES } from './content'
+import { useInstallCopy } from './content'
 import { nb } from './text'
 
 /**
@@ -7,6 +7,7 @@ import { nb } from './text'
  * One bordered band split by hairlines (stacked on phones). Exported for the Shop page.
  */
 export function GuaranteeStrip({ className }: { className?: string }) {
+  const t = useInstallCopy()
   return (
     <ul
       className={cn(
@@ -14,7 +15,7 @@ export function GuaranteeStrip({ className }: { className?: string }) {
         className,
       )}
     >
-      {GUARANTEES.map((item) => (
+      {t.guarantees.map((item) => (
         <li key={item.title} className="flex gap-4 p-5 sm:p-6">
           <span
             aria-hidden="true"

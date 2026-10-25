@@ -2,6 +2,7 @@ import { useId, useState } from 'react'
 import { Ban, ChevronDown, Info, MonitorPlay } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { CodeCard, ObsoleteCodes } from './CodeCard'
+import { useInstallCopy } from './content'
 import type { AppEntry, BadgeTone, CalloutTone, DownloaderCode, GuideBlock } from './devices'
 import { Rich } from './Rich'
 import { nb } from './text'
@@ -57,6 +58,7 @@ function BlockTitle({ text }: { text: string }) {
 }
 
 function Steps({ block }: { block: Extract<GuideBlock, { type: 'steps' }> }) {
+  const t = useInstallCopy().hub
   return (
     <div>
       {block.title ? <BlockTitle text={block.title} /> : null}
@@ -70,7 +72,7 @@ function Steps({ block }: { block: Extract<GuideBlock, { type: 'steps' }> }) {
               {i + 1}
             </span>
             <p className="pt-1 text-[0.9375rem] leading-relaxed text-body">
-              <span className="sr-only">Étape {i + 1} : </span>
+              <span className="sr-only">{t.stepPrefix(i + 1)}</span>
               <Rich text={step} />
             </p>
           </li>

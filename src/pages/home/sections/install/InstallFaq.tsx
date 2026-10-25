@@ -1,11 +1,11 @@
 import { useId, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { INSTALL_FAQ, INSTALL_FAQ_TITLE } from './content'
+import { useInstallCopy } from './content'
 import { Rich } from './Rich'
 import { nb } from './text'
 
-function FaqItem({ q, a }: { q: string; a: string }) {
+function FaqItem({ q, a, answerLabel }: { q: string; a: string; answerLabel: string }) {
   const [open, setOpen] = useState(false)
   const id = useId()
   return (
@@ -34,7 +34,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
       </h4>
       <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-button`} hidden={!open} className="pb-5 sm:pr-12">
         <p className="text-[0.9375rem] leading-relaxed text-body">
-          <em className="text-slate-500">Réponse&nbsp;:</em> <Rich text={a} />
+          <em className="text-slate-500">{answerLabel}</em> <Rich text={a} />
         </p>
       </div>
     </li>
@@ -43,12 +43,13 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 /** The 4 installation FAQs (spec S11 §5), accordion. */
 export function InstallFaq({ className }: { className?: string }) {
+  const t = useInstallCopy()
   return (
     <div className={cn('mx-auto max-w-3xl', className)}>
-      <h3 className="text-center text-2xl leading-tight font-bold tracking-tight text-heading sm:text-[1.75rem]">{INSTALL_FAQ_TITLE}</h3>
+      <h3 className="text-center text-2xl leading-tight font-bold tracking-tight text-heading sm:text-[1.75rem]">{t.faqTitle}</h3>
       <ul className="mt-6 rounded-2xl border border-line bg-canvas px-5 shadow-card sm:px-7">
-        {INSTALL_FAQ.map((item) => (
-          <FaqItem key={item.q} q={item.q} a={item.a} />
+        {t.faq.map((item) => (
+          <FaqItem key={item.q} q={item.q} a={item.a} answerLabel={t.faqAnswer} />
         ))}
       </ul>
     </div>

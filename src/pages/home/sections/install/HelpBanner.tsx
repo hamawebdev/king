@@ -1,11 +1,12 @@
 import { ArrowRight } from 'lucide-react'
 import { ButtonLink, WaButton } from '@/components/kit'
 import { cn } from '@/lib/utils'
-import { HELP_BANNER } from './content'
+import { HELP_BANNER_PLANS_TO, HELP_BANNER_WA_MESSAGE, useInstallCopy } from './content'
 import { nb } from './text'
 
 /** « Bannière Finale d'Assistance Conciergerie WhatsApp » (spec S11 §6). */
 export function HelpBanner({ className }: { className?: string }) {
+  const t = useInstallCopy().helpBanner
   return (
     <div
       className={cn(
@@ -18,14 +19,14 @@ export function HelpBanner({ className }: { className?: string }) {
         className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-brand/10 blur-3xl"
       />
       <div className="relative mx-auto max-w-2xl">
-        <h3 className="text-2xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-[2rem]">{nb(HELP_BANNER.title)}</h3>
-        <p className="mt-4 text-base leading-relaxed text-pretty text-body sm:text-lg">{nb(HELP_BANNER.subtitle)}</p>
+        <h3 className="text-2xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-[2rem]">{nb(t.title)}</h3>
+        <p className="mt-4 text-base leading-relaxed text-pretty text-body sm:text-lg">{nb(t.subtitle)}</p>
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-          <WaButton message={HELP_BANNER.whatsappMessage} size="lg" icon={false}>
-            {HELP_BANNER.whatsappCta}
+          <WaButton message={HELP_BANNER_WA_MESSAGE} size="lg" icon={false}>
+            {t.whatsappCta}
           </WaButton>
-          <ButtonLink to={HELP_BANNER.plansTo} size="lg">
-            {HELP_BANNER.plansCta}
+          <ButtonLink to={HELP_BANNER_PLANS_TO} size="lg">
+            {t.plansCta}
             <ArrowRight className="size-4.5" aria-hidden="true" />
           </ButtonLink>
         </div>

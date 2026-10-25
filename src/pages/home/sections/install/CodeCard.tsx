@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, Copy, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useInstallCopy } from './content'
 import type { DownloaderCode } from './devices'
 
 async function copyText(text: string) {
@@ -27,6 +28,7 @@ async function copyText(text: string) {
  * `size="lg"` for a single code, `md` when several sit side by side.
  */
 export function CodeCard({ label, code, size = 'lg' }: DownloaderCode & { size?: 'lg' | 'md' }) {
+  const t = useInstallCopy().hub
   const [copied, setCopied] = useState(false)
   const timer = useRef<number | undefined>(undefined)
   useEffect(() => () => window.clearTimeout(timer.current), [])
@@ -59,7 +61,7 @@ export function CodeCard({ label, code, size = 'lg' }: DownloaderCode & { size?:
       <button
         type="button"
         onClick={onCopy}
-        aria-label={`Copier le code ${code} (${label})`}
+        aria-label={t.copyAria(code, label)}
         className={cn(
           size === 'md' && 'sm:w-full',
           'inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 rounded-lg border px-3 text-sm font-semibold transition-colors duration-150',
@@ -71,11 +73,11 @@ export function CodeCard({ label, code, size = 'lg' }: DownloaderCode & { size?:
       >
         {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
         <span aria-hidden="true">
-          {copied ? 'Copié' : 'Copier'}
+          {copied ? t.copied : t.copy}
         </span>
       </button>
       <span className="sr-only" aria-live="polite">
-        {copied ? `Code ${code} copié` : ''}
+        {copied ? t.copiedAnnounce(code) : ''}
       </span>
     </div>
   )
