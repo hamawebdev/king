@@ -1,4 +1,4 @@
-import { ArrowDownToLine, MonitorSmartphone, Star, Tv } from 'lucide-react'
+import { ArrowDownToLine, MonitorSmartphone, Tv } from 'lucide-react'
 import { ButtonLink, Card, Section, SectionHeading } from '@/components/kit'
 import { routeHref } from '@/lib/site'
 import { cn } from '@/lib/utils'
@@ -12,7 +12,7 @@ type AppVersion = {
   targetNote?: string
   description: string
   cta: string
-  /** « Mise en avant » — the featured card. */
+  /** Spec « [Mise en avant] »: the featured card (visual emphasis only, no label). */
   featured?: boolean
   tvOnly?: boolean
 }
@@ -83,14 +83,7 @@ export function AppsMatrix({
               app.featured && 'border-brand ring-1 ring-brand shadow-card-hover md:-my-3 md:py-9',
             )}
           >
-            {app.featured ? (
-              <span className="absolute -top-3 left-6 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white uppercase shadow-cta">
-                <Star aria-hidden="true" className="size-3 fill-current" />
-                Mise en avant
-              </span>
-            ) : null}
-
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-start gap-4">
               <span
                 aria-hidden="true"
                 className={cn(
