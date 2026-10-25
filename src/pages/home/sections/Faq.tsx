@@ -45,7 +45,7 @@ const COPY: Localized<typeof fr> = {
     eyebrow: 'NOVASTREAM-APU JA -TUKI',
     title: 'Usein kysytyt kysymykset – NOVASTREAM',
     subtitle:
-      'Kaikki, mitä sinun tarvitsee tietää ennen King 365 TV\u00a0-tilauksesi tekemistä, sen aikana ja sen jälkeen – valtuutetulta jälleenmyyjältäsi NovaStreamilta.',
+      'Kaikki, mitä sinun tarvitsee tietää ennen King\u00a0365\u00a0TV\u00a0-\u2060tilauksesi tekemistä, sen aikana ja sen jälkeen – valtuutetulta jälleenmyyjältäsi NovaStreamilta.',
     contact: 'Ota yhteyttä',
   },
 }

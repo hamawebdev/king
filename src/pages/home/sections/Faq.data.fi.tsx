@@ -6,10 +6,10 @@ import { Install, Wa } from './Faq.links'
 // Compounds after a name take a non-breaking space before the hyphen (\u00a0 in strings, &nbsp; in JSX).
 export const fi: Record<FaqId, FaqText> = {
   commander: {
-    question: 'Miten tilaan King 365 TV -paketin NovaStreamilta?',
+    question: 'Miten tilaan King 365 TV -⁠paketin NovaStreamilta?',
     answer: (
       <p>
-        Napsauta ”Osta nyt”&nbsp;-painiketta (se vie sinut suoraan tilauspakettiemme luo), valitse haluamasi kesto, täytä tietosi
+        Napsauta ”Osta nyt”&nbsp;-&#x2060;painiketta (se vie sinut suoraan tilauspakettiemme luo), valitse haluamasi kesto, täytä tietosi
         ja vahvista tilauksesi tiimimme kanssa WhatsAppissa (<Wa>wa.me/33751299176</Wa>), niin aktivointi tapahtuu heti.
       </p>
     ),
@@ -33,17 +33,17 @@ export const fi: Record<FaqId, FaqText> = {
     ),
   },
   'autres-apps': {
-    question: 'Voinko käyttää King 365 TV -tilaustani muissa IPTV-sovelluksissa?',
+    question: 'Voinko käyttää King 365 TV -⁠tilaustani muissa IPTV-sovelluksissa?',
     answer: (
       <p>
-        Kyllä, ehdottomasti! Virallisten King 365&nbsp;-sovellusten lisäksi NovaStream suosittelee lämpimästi erinomaisia
+        Kyllä, ehdottomasti! Virallisten King&nbsp;365&nbsp;-&#x2060;sovellusten lisäksi NovaStream suosittelee lämpimästi erinomaisia
         maksullisia soittimia, kuten IBO Player, IBO Player Smarter, Hot Player tai Bob Player, niiden huomattavan sujuvan toiston
         vuoksi. Voit käyttää myös sovelluskaupoista löytyviä ilmaisia sovelluksia, kuten IPTV Smarters Pro tai Smarters Lite.
       </p>
     ),
   },
   renouveler: {
-    question: 'Miten uusin King 365 TV -tilaukseni NovaStreamilla?',
+    question: 'Miten uusin King 365 TV -⁠tilaukseni NovaStreamilla?',
     answer: (
       <p>
         Valitse uusimisvaihtoehto, kerro laitteesi, rastita uusimisruutu ja ilmoita nykyinen käyttäjätunnuksesi – tai napsauta
@@ -63,7 +63,7 @@ export const fi: Record<FaqId, FaqText> = {
     ),
   },
   'telecharger-v3': {
-    question: 'Miten lataan King 365 TV Box V3 -sovelluksen (APK)?',
+    question: 'Miten lataan King 365 TV Box V3 -⁠sovelluksen (APK)?',
     answer: (
       <p>
         Siirry suoraan latausosioomme <Install>napsauttamalla tästä</Install> (heti yllä tällä sivulla), syötä version 3 uusi
@@ -76,14 +76,14 @@ export const fi: Record<FaqId, FaqText> = {
     answer: (
       <p>
         <Install>Napsauta tästä</Install> avataksesi virallisen asennusoppaamme. Versio 4 (Downloader-koodi: 2763945) on suunniteltu
-        Android TV&nbsp;-televisioille, uusille Google TV&nbsp;-laitteille, Android-TV-bokseille ja Amazon Fire TV Stick&nbsp;-laitteille,
+        Android TV&nbsp;-&#x2060;televisioille, uusille Google TV&nbsp;-&#x2060;laitteille, Android-TV-bokseille ja Amazon Fire TV Stick&nbsp;-&#x2060;laitteille,
         joissa toimii Downloader-sovellus (paitsi toisen sukupolven Fire TV Stick HD, jossa on APK-tiedostot estävä suljettu Vega
-        OS&nbsp;-järjestelmä).
+        OS&nbsp;-&#x2060;järjestelmä).
       </p>
     ),
   },
   'versions-officielles': {
-    question: 'Tärkeä tiedote: mitkä viralliset King 365 TV -versiot pitää asentaa ja mitkä vanhat koodit poistaa?',
+    question: 'Tärkeä tiedote: mitkä viralliset King 365 TV -⁠versiot pitää asentaa ja mitkä vanhat koodit poistaa?',
     answer: (
       <>
         <p>
@@ -103,7 +103,7 @@ export const fi: Record<FaqId, FaqText> = {
     ),
   },
   pays: {
-    question: 'Toimiiko King 365 TV -tilaus Ranskassa, Kanadassa, Belgiassa ja ulkomailla?',
+    question: 'Toimiiko King 365 TV -⁠tilaus Ranskassa, Kanadassa, Belgiassa ja ulkomailla?',
     answer: (
       <p>
         Kyllä, tilaus toimii kaikkialla maailmassa, kunhan sinulla on internetyhteys (Ranska, Kanada, Belgia, Sveitsi, Algeria,
@@ -126,8 +126,8 @@ export const fi: Record<FaqId, FaqText> = {
     question: 'Voinko ostaa King 365 TV:n ilman satelliittiantennia?',
     answer: (
       <p>
-        Ehdottomasti! King 365 TV&nbsp;-IPTV-palvelu toimii 100 % internetin kautta, ilman satelliittiantennia. Riittää, että sinulla
-        on vakaa laajakaistayhteys (suosittelemme vähintään 30 Mbps sujuvaan 4K HDR&nbsp;-katseluun).
+        Ehdottomasti! King&nbsp;365&nbsp;TV&nbsp;-&#x2060;IPTV-palvelu toimii 100 % internetin kautta, ilman satelliittiantennia. Riittää, että sinulla
+        on vakaa laajakaistayhteys (suosittelemme vähintään 30 Mbps sujuvaan 4K HDR&nbsp;-&#x2060;katseluun).
       </p>
     ),
   },
@@ -177,18 +177,18 @@ export const fi: Record<FaqId, FaqText> = {
     answer: (
       <p>
         IBO Player, IBO Player Smarter, Hot Player ja Bob Player ovat itsenäisiä maksullisia soittimia, jotka vaativat aktivoinnin
-        kokeilujakson jälkeen. Asenna Androidilla maksuton virallinen King 365 TV&nbsp;-sovelluksemme, niin vältät nämä maksut. Jos
+        kokeilujakson jälkeen. Asenna Androidilla maksuton virallinen King&nbsp;365&nbsp;TV&nbsp;-&#x2060;sovelluksemme, niin vältät nämä maksut. Jos
         sinulla ei ole Android-televisiota (esim. Samsungin tai LG:n Smart TV), NovaStream aktivoi soittimesi suoraan hintaan noin
         8 € / vuosi: ota yhteyttä tukeemme <Wa>WhatsAppissa</Wa>.
       </p>
     ),
   },
   'licence-payante': {
-    question: '9Xtream- tai IPTV Smarters Pro -sovellus pyytää maksua tai ilmoittaa, että aktivointini on vanhentunut?',
+    question: '9Xtream- tai IPTV Smarters Pro -⁠sovellus pyytää maksua tai ilmoittaa, että aktivointini on vanhentunut?',
     answer: (
       <p>
-        9Xtream ja jotkin IPTV Smarters Pro&nbsp;-versiot ovat maksullisia palveluita, jotka vaativat ohjelmistolisenssin. Käytä
-        virallisia King 365 TV&nbsp;-sovelluksiamme (V2, V3, V4) maksutta Android TV&nbsp;-laitteilla / bokseilla tai ota yhteyttä{' '}
+        9Xtream ja jotkin IPTV Smarters Pro&nbsp;-&#x2060;versiot ovat maksullisia palveluita, jotka vaativat ohjelmistolisenssin. Käytä
+        virallisia King&nbsp;365&nbsp;TV&nbsp;-&#x2060;sovelluksiamme (V2, V3, V4) maksutta Android TV&nbsp;-&#x2060;laitteilla / bokseilla tai ota yhteyttä{' '}
         <Wa>WhatsApp-tukeemme</Wa>, niin aktivoimme yhteensopivan maksullisen sovelluksen muille näytöillesi.
       </p>
     ),
@@ -202,7 +202,7 @@ export const fi: Record<FaqId, FaqText> = {
           palvelimistamme vaan itse sovelluksesta.
         </p>
         <p>
-          ⬇️ Ratkaisu: kehittäjät pyytävät siirtymään uuteen versioon. Lataa uusi Smarters Pro&nbsp;-versio television
+          ⬇️ Ratkaisu: kehittäjät pyytävät siirtymään uuteen versioon. Lataa uusi Smarters Pro&nbsp;-&#x2060;versio television
           sovelluskaupasta: nykyiset tunnuksesi pysyvät täsmälleen samoina.
         </p>
       </>

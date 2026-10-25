@@ -4,7 +4,7 @@ import type { ActivationCopy } from './Activation.data'
 export const fi: ActivationCopy = {
   head: {
     badge: 'LÄPINÄKYVÄ ASIAKASPOLKU · OPASTETTU AKTIVOINTI',
-    title: 'Näin aktivoit King 365 TV -käyttöoikeutesi 4 vaiheessa',
+    title: 'Näin aktivoit käyttöoikeutesi King 365 TV:hen 4 vaiheessa',
     subtitle:
       'Sujuva, luottamuksellinen ja alusta loppuun tuettu prosessi. Asiakasneuvojamme opastavat sinua vaihe vaiheelta paketin valinnasta ensimmäiseen katselukertaan.',
   },
@@ -26,13 +26,13 @@ export const fi: ActivationCopy = {
       num: '03',
       title: 'Xtream- ja M3U-tunnukset heti',
       chip: { emoji: '⚡', label: 'Suora toimitus' },
-      text: 'Saat täydelliset tunnuksesi heti WhatsAppiin ja sähköpostiin: Xtream API -koodit (käyttäjätunnus, salasana, palvelimen URL) sekä optimoidun M3U-linkin, joka käyttää omaa DNS:ää operaattoriestoja vastaan.',
+      text: 'Saat täydelliset tunnuksesi heti WhatsAppiin ja sähköpostiin: Xtream API -⁠koodit (käyttäjätunnus, salasana, palvelimen URL) sekä optimoidun M3U-linkin, joka käyttää omaa DNS:ää operaattoriestoja vastaan.',
     },
     {
       num: '04',
       title: 'Asennus ja 4K-kanavasurffailu',
       chip: { emoji: '🚀', label: 'Heti käyttöön' },
-      text: 'Syötä tunnuksesi viralliseen King 365 TV -sovellukseen tai suosikkimediasoittimeesi. Seuraa yksityiskohtaista opastamme tai anna tukemme määrittää näyttösi etänä.',
+      text: 'Syötä tunnuksesi viralliseen King 365 TV -⁠sovellukseen tai suosikkimediasoittimeesi. Seuraa yksityiskohtaista opastamme tai anna tukemme määrittää näyttösi etänä.',
     },
   ],
   reassuranceTitle: 'Avoin ekosysteemi ja sitoumuksemme',
@@ -69,14 +69,14 @@ export const fi: ActivationCopy = {
     },
   ],
   pricingHead: {
-    badge: 'VIRALLISET HINNAT · VALTUUTETTU KING 365 TV -JÄLLEENMYYJÄ',
-    title: 'Valitse virallinen King 365 TV -tilauksesi',
+    badge: 'VIRALLISET HINNAT · VALTUUTETTU KING 365 TV -⁠JÄLLEENMYYJÄ',
+    title: 'Valitse virallinen tilauksesi King 365 TV:hen',
     subtitle:
-      'Halusitpa aktivoida uuden King 365 -tilauksen tai uusia nykyisen King 365 -tilauksesi, nautit tehokkaasta ja katkeamattomasta lähetyksestä ilman piilotettuja sitoumuksia.',
+      'Halusitpa aktivoida uuden King 365 -⁠tilauksen tai uusia nykyisen King 365 -⁠tilauksesi, nautit tehokkaasta ja katkeamattomasta lähetyksestä ilman piilotettuja sitoumuksia.',
   },
   includedHead: {
     badge: 'KAIKISSA NOVASTREAM-PAKETEISSA',
-    title: 'Kaikki, mitä King 365 TV -tilauksesi sisältää NovaStreamilla',
+    title: 'Kaikki, mitä King 365 TV -⁠tilauksesi sisältää NovaStreamilla',
   },
   includedMetrics: [
     { value: '+5 700', label: 'Suoraa ohjelmaa ja kanavaa' },
@@ -93,19 +93,19 @@ export const fi: ActivationCopy = {
     { emoji: '💻', label: 'Windows-PC ja Mac' },
     { emoji: '📡', label: 'Formuler (MyTVOnline)' },
     { emoji: '📟', label: 'MAG Box' },
-    { emoji: '⚡', label: 'Xtream API -soitin' },
+    { emoji: '⚡', label: 'Xtream API -⁠soitin' },
     { emoji: '🔗', label: 'M3U-soittolista' },
   ],
   protocols: [
     {
       num: '1',
-      title: 'King 365 TV -sovellukset NovaStreamin kautta',
+      title: 'King 365 TV -⁠sovellukset NovaStreamin kautta',
       tag: 'Suositeltu · Maksuton',
       text: 'Suora käyttö Androidilla, Google TV:llä, boksilla ja Firestickillä versioilla V2, V3 ja V4 NovaStreamin aktivoimilla tunnuksilla.',
     },
     {
       num: '2',
-      title: 'NovaStream Xtream API -soitin',
+      title: 'NovaStream Xtream API -⁠soitin',
       tag: 'Suosittu · Ei monimutkaisia asetuksia',
       text: 'Nopea yhteys NovaStreamin toimittamalla käyttäjätunnuksella, salasanalla ja palvelimen URL-osoitteella sekä EPG-ohjelmaoppaan automaattisella synkronoinnilla.',
     },

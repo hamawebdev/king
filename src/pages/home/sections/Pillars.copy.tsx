@@ -247,26 +247,26 @@ export const PILLARS_COPY: Localized<PillarsCopy> = {
     ],
   },
   fi: {
-    eyebrow: 'NOVASTREAM · VALTUUTETTU KING 365 TV -JÄLLEENMYYJÄ',
+    eyebrow: 'NOVASTREAM · VALTUUTETTU KING 365 TV -⁠JÄLLEENMYYJÄ',
     title: 'Tämä erottaa NovaStreamin muista!',
     subtitle:
-      'Tuhannet kotitaloudet Ranskassa, Belgiassa, Sveitsissä ja Kanadassa luottavat TV-illoissaan NovaStreamiin, valtuutettuun King 365 TV -jälleenmyyjään. Katso, miksi tilaajamme pysyvät kanssamme vuodesta toiseen.',
+      'Tuhannet kotitaloudet Ranskassa, Belgiassa, Sveitsissä ja Kanadassa luottavat TV-illoissaan NovaStreamiin, valtuutettuun King 365 TV -⁠jälleenmyyjään. Katso, miksi tilaajamme pysyvät kanssamme vuodesta toiseen.',
     pillars: [
       {
         emoji: '👑',
         title: 'NovaStreamin laatulupaus (kiitetty palvelu)',
-        text: 'Tilaajamme kiittävät NovaStreamin läpinäkyvää tukea ja King 365 TV -lähetysten esimerkillistä tasaisuutta ilta illan jälkeen – aktivoinnin ensimmäisestä päivästä lähtien.',
+        text: 'Tilaajamme kiittävät NovaStreamin läpinäkyvää tukea ja King 365 TV -⁠lähetysten esimerkillistä tasaisuutta ilta illan jälkeen – aktivoinnin ensimmäisestä päivästä lähtien.',
         wide: true,
       },
       {
         emoji: '📱',
         title: 'Toimii kaikilla näytöilläsi',
-        text: 'Käytitpä King 365 -sovelluksia (V2, V3, V4) tai maksullista soitinta (IBO Player, Bob Player, Hot Player), NovaStreamin aktivoima tilauksesi toimii Smart TV:ssä, Android-boksissa, Firestickissä, Applen laitteissa ja PC:llä.',
+        text: 'Käytitpä King 365 -⁠sovelluksia (V2, V3, V4) tai maksullista soitinta (IBO Player, Bob Player, Hot Player), NovaStreamin aktivoima tilauksesi toimii Smart TV:ssä, Android-boksissa, Firestickissä, Applen laitteissa ja PC:llä.',
       },
       {
         emoji: '✨',
         title: 'Huippulaadukas kuva aina 4K HDR:ään asti',
-        text: 'Datansäästävästä 480p:stä 1080p:n kautta aitoon 4K Ultra HD -kuvaan 60 FPS:llä: NovaStreamin lähetys mukautuu automaattisesti nettiyhteytesi nopeuteen ilman rajua pakkausta.',
+        text: 'Datansäästävästä 480p:stä 1080p:n kautta aitoon 4K Ultra HD -⁠kuvaan 60 FPS:llä: NovaStreamin lähetys mukautuu automaattisesti nettiyhteytesi nopeuteen ilman rajua pakkausta.',
       },
       {
         emoji: '🌐',
