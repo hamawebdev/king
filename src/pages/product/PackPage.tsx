@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { Aura, ButtonLink, Card, Container, Eyebrow, Section, SectionHeading, WaButton } from '@/components/kit'
 import { PACKS, productPath, type Pack } from '@/lib/packs'
 import { WHATSAPP_DISPLAY } from '@/lib/site'
+import { usePageTitle } from '@/lib/usePageTitle'
 import { cn } from '@/lib/utils'
 import { ActivationSteps } from '../home/sections/Activation'
 import { ACTIVATION_HEAD, PACK_CTA } from '../home/sections/Activation.data'
@@ -92,6 +93,7 @@ function OtherPacks({ current }: { current: Pack }) {
 
 /** One product page per pack, built from PACKS (spec S10 values). */
 export function PackPage({ pack }: { pack: Pack }) {
+  usePageTitle(`${pack.name} ${pack.duration} — King 365 TV Abonnement | NovaStream`)
   return (
     <>
       <section className="relative isolate overflow-hidden bg-canvas pt-8 pb-16 md:pt-10 md:pb-24">
@@ -105,11 +107,11 @@ export function PackPage({ pack }: { pack: Pack }) {
             <div className="flex flex-col items-start gap-5 lg:pt-6">
               <Eyebrow>Distributeur Agréé King 365 TV · Activation Instantanée 24/7</Eyebrow>
               <h1 className="text-[2.125rem] leading-[1.08] font-bold tracking-tight text-heading sm:text-5xl lg:text-[3.5rem]">
-                <span className="whitespace-nowrap">
+                <span className="block">
                   {pack.name}
-                  {pack.highlighted ? ' ⭐' : ''}
-                </span>{' '}
-                <span className="whitespace-nowrap text-brand">· {pack.duration}</span>
+                  {pack.highlighted ? '\u00a0⭐' : ''}
+                </span>
+                <span className="block text-brand">{pack.duration}</span>
               </h1>
               <p className="max-w-xl text-lg leading-relaxed text-body">
                 King 365 TV abonnement officiel de {pack.duration} chez NovaStream : {lowerFirst(pack.inclusions)}

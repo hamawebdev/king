@@ -5,6 +5,7 @@ import { WHATSAPP_DISPLAY, WA_CONTACT_MESSAGE, waLink } from '@/lib/site'
 import { FaqBlock } from './theme/FaqBlock'
 import { PageHero } from './theme/PageHero'
 import { PaymentNote } from './theme/PaymentNote'
+import { usePageTitle } from '@/lib/usePageTitle'
 
 const RESELLER_MESSAGE = 'Bonjour NovaStream, je souhaite des informations sur le programme Revendeur'
 
@@ -16,6 +17,7 @@ const SHORTCUTS = [
 
 // Contact: WhatsApp is the only channel (spec: « Ligne WhatsApp Dédiée 1-to-1 »). No e-mail form.
 export default function Contact() {
+  usePageTitle('Contact WhatsApp 24/7 | NovaStream')
   return (
     <div className="overflow-x-clip">
       <PageHero

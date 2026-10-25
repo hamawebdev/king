@@ -3,10 +3,12 @@ import { AppsMatrix } from './home/sections/AppsMatrix'
 import { InstallFaq, InstallHelpBanner, InstallHub } from './home/sections/Installation'
 import { INSTALL_HEAD, INSTALL_KPIS } from './home/sections/install/content'
 import { PageHero } from './theme/PageHero'
+import { usePageTitle } from '@/lib/usePageTitle'
 
 // Downloads (« Télécharger »): the official King 365 TV apps (S3 cards), then the 9-device installation
 // hub, the install FAQ and the WhatsApp help banner (S11).
 export default function Download() {
+  usePageTitle('Télécharger l’application King 365 TV | NovaStream')
   return (
     <div className="overflow-x-clip">
       <PageHero

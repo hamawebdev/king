@@ -1,9 +1,11 @@
 import { Home } from 'lucide-react'
 import { Aura, ButtonLink, Container, Eyebrow, WaButton } from '@/components/kit'
+import { usePageTitle } from '@/lib/usePageTitle'
 
 // 404: white canvas with the aura, the error, the way back home and the WhatsApp line.
 // Also rendered by Product.tsx for unknown product slugs.
 export default function NotFound() {
+  usePageTitle('Page introuvable | NovaStream')
   return (
     <section className="relative isolate flex min-h-[70svh] items-center overflow-hidden bg-canvas py-20">
       <Aura variant="hero" />

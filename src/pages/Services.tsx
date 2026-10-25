@@ -2,6 +2,7 @@ import { Handshake, MessagesSquare, Headset } from 'lucide-react'
 import { Card, Section, SectionHeading, WaButton } from '@/components/kit'
 import { IncludedMetrics } from './home/sections/PricingTable'
 import { PageHero } from './theme/PageHero'
+import { usePageTitle } from '@/lib/usePageTitle'
 
 /** Spec S15 footer: the reseller WhatsApp message, word for word. */
 const RESELLER_MESSAGE = 'Bonjour NovaStream, je souhaite des informations sur le programme Revendeur'
@@ -26,6 +27,7 @@ const STEPS = [
 
 // Reseller page (« Revendeur »): the programme is handled 1-to-1 on WhatsApp.
 export default function Services() {
+  usePageTitle('Programme Revendeur King 365 TV | NovaStream')
   return (
     <div className="overflow-x-clip">
       <PageHero

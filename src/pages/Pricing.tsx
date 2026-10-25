@@ -7,10 +7,12 @@ import { GuaranteeStrip } from './home/sections/Installation'
 import { PricingTable } from './home/sections/PricingTable'
 import { FaqBlock } from './theme/FaqBlock'
 import { Breadcrumbs } from './theme/PageHero'
+import { usePageTitle } from '@/lib/usePageTitle'
 
 // Shop (« Boutique »): the official 4-pack table (S10) with the guarantee strip (S11) under it, the
 // 4-step activation protocol, the 6 included commitments, a FAQ subset (S14) and the reseller link.
 export default function Pricing() {
+  usePageTitle('Boutique — King 365 TV Abonnement Officiel | NovaStream')
   return (
     <div className="overflow-x-clip">
       <section className="relative isolate overflow-hidden bg-canvas pt-8 pb-16 md:pt-10 md:pb-24">
