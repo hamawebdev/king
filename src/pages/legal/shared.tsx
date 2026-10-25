@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { AlertTriangle } from 'lucide-react'
 import { Aura, Container, WhatsAppIcon } from '@/components/kit'
+import { useCopy, type Localized } from '@/lib/i18n'
 import { BRAND, WA_CONTACT_MESSAGE, WHATSAPP_DISPLAY, waLink } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { usePageTitle } from '@/lib/usePageTitle'
@@ -31,11 +32,35 @@ export function Wa({ bare }: { bare?: boolean }) {
 
 type TocItem = { id: string; label: string }
 
+// Layout labels: breadcrumb root and table-of-contents name (visible label and nav aria-label).
+const LAYOUT_COPY: Localized<{ home: string; toc: string }> = {
+  fr: { home: 'Accueil', toc: 'Sommaire' },
+  en: { home: 'Home', toc: 'Contents' },
+  de: { home: 'Startseite', toc: 'Inhalt' },
+  es: { home: 'Inicio', toc: 'Índice' },
+  pt: { home: 'Início', toc: 'Índice' },
+  fi: { home: 'Etusivu', toc: 'Sisällys' },
+}
+
 const TOC_OFFSET = 140
 
-/** One legal document: its name is the h1, the breadcrumb's last item and the page title. */
-export function DocLayout({ title, lead, children }: { title: string; lead?: ReactNode; children: ReactNode }) {
+/**
+ * One legal document: its name is the h1, the breadcrumb's last item and the page title. `heading` overrides the h1
+ * text only, e.g. a long German compound with a soft hyphen (U+00AD) so it can break at 375 px.
+ */
+export function DocLayout({
+  title,
+  heading,
+  lead,
+  children,
+}: {
+  title: string
+  heading?: string
+  lead?: ReactNode
+  children: ReactNode
+}) {
   usePageTitle(`${title} | ${BRAND}`)
+  const t = useCopy(LAYOUT_COPY)
   const bodyRef = useRef<HTMLDivElement>(null)
   const [toc, setToc] = useState<TocItem[]>([])
   const [current, setCurrent] = useState<string | undefined>()
@@ -73,9 +98,11 @@ export function DocLayout({ title, lead, children }: { title: string; lead?: Rea
       <header className="relative isolate overflow-hidden bg-canvas pt-8 pb-12 md:pt-10 md:pb-16">
         <Aura variant="hero" />
         <Container>
-          <Breadcrumbs items={[{ label: 'Accueil', to: '/' }, { label: title }]} className="mb-10 md:mb-14" />
+          <Breadcrumbs items={[{ label: t.home, to: '/' }, { label: title }]} className="mb-10 md:mb-14" />
           <div className="max-w-3xl">
-            <h1 className="text-[2.125rem] leading-[1.08] font-bold tracking-tight text-balance text-heading sm:text-5xl">{title}</h1>
+            <h1 className="text-[2.125rem] leading-[1.08] font-bold tracking-tight text-balance text-heading sm:text-5xl">
+              {heading ?? title}
+            </h1>
             {lead ? <div className="mt-5 max-w-2xl text-lg leading-relaxed text-body">{lead}</div> : null}
           </div>
         </Container>
@@ -85,8 +112,8 @@ export function DocLayout({ title, lead, children }: { title: string; lead?: Rea
         <div className="border-t border-line pt-10 md:pt-14 xl:grid xl:grid-cols-12 xl:gap-x-8">
           <aside className="hidden xl:col-span-3 xl:block">
             {toc.length > 0 ? (
-              <nav aria-label="Sommaire" className="sticky top-28 pr-6">
-                <p className="mb-3 text-xs font-semibold tracking-[0.08em] text-slate-500 uppercase">Sommaire</p>
+              <nav aria-label={t.toc} className="sticky top-28 pr-6">
+                <p className="mb-3 text-xs font-semibold tracking-[0.08em] text-slate-500 uppercase">{t.toc}</p>
                 <ol className="grid border-l border-line">
                   {toc.map((item) => {
                     const on = item.id === current
@@ -182,5 +209,34 @@ export function HelpCard({ id, heading, children }: { id: string; heading: React
         <div className="mt-3">{children}</div>
       </div>
     </div>
+  )
+}
+
+/**
+ * Numbered requirement. The numeral stays in the item's own text, exactly as written; ::first-letter
+ * (the digit) sets it in the brand blue.
+ */
+export function NumberedItem({ children }: { children: ReactNode }) {
+  return (
+    <li className="border-b border-line py-4 last:border-b-0 last:pb-0 first-letter:pr-1 first-letter:font-semibold first-letter:text-brand">
+      {children}
+    </li>
+  )
+}
+
+/** Refund schedule set like a statement: period on the left, share returned on the right. */
+export function ScheduleList({ rows, suffix }: { rows: [string, string][]; suffix: string }) {
+  return (
+    <ul className="mt-6 max-w-[68ch] border-t border-heading">
+      {rows.map(([when, pct]) => (
+        <li key={when} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4">
+          <span className="text-base text-body">{when}</span>
+          <span className="text-right">
+            <span className="text-2xl font-bold tracking-tight text-heading tabular-nums">{pct}</span>{' '}
+            <span className="text-sm font-medium text-slate-500">{suffix}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
   )
 }
