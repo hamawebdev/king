@@ -1,9 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <title>NovaStream</title>
-  <rect width="64" height="64" rx="12" fill="#0A1F19"/>
-  <rect x="4.5" y="4.5" width="55" height="55" rx="8" fill="none" stroke="#C8A258" stroke-opacity=".35"/>
-  <g transform="translate(10.84 46.72) scale(0.4332)">
-    <path d="M11.41 -4.55V-62.98L2.67 -66.71V-68.5H26.22L64.32 -15.55L61.11 -11.26V-63.94L52.62 -66.55V-68.5H73.84V-66.55L66.05 -63.94V0.56H58.91L14.36 -61.83L16.24 -63.45V-4.55L24.73 -1.95V0H3.62V-1.95Z" fill="#F6F2EA"/>
-    <circle cx="87" cy="-8" r="8" fill="#C8A258"/>
-  </g>
+  <rect width="64" height="64" rx="14" fill="#0066FF"/>
+  <path d="M17 45V19L40 45V19" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="44.5" r="4.5" fill="#BFDBFE"/>
 </svg>

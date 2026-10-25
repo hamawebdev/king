@@ -35,8 +35,10 @@ jobs:
       - name: Route entry pages
         run: |
           cp dist/index.html dist/404.html
+          # Old product slugs and /checkout stay listed: the app redirects them (lib/packs LEGACY_PRODUCT_REDIRECTS).
           for route in pricing services muffin-builder-83 contact checkout \
             conditions-dutilisation conditions-generales-de-vente politique-de-confidentialite politique-de-remboursement \
+            produit/pack-flex-6-mois produit/pack-essentiel-12-mois produit/pack-signature-12-mois produit/pack-serenite-24-mois \
             produit/abonnement-3-mois produit/abonnement-6-mois produit/abonnement-12-mois \
             produit/abonnement-12-mois-seul-acces produit/abonnement-24-mois produit/renouvellement-12-mois; do
             mkdir -p "dist/$route" && cp dist/index.html "dist/$route/index.html"
