@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Button, ButtonLink, IconTile, cookieBarClass, linkClass } from '@/components/brand'
+import { Link } from 'react-router'
+import { Cookie } from 'lucide-react'
+import { buttonClasses } from '@/components/kit'
 
 const STORAGE_KEY = 'sc-gdpr-accepted'
 
@@ -12,8 +13,8 @@ function readAccepted() {
   }
 }
 
-// Cookie consent card pinned to the bottom of the viewport until accepted (DIRECTION §9.0 chrome-cookie).
-// Plain vault (no texture); on phone it rises above the buy bar when one is mounted (cookieBarClass).
+// Cookie consent card pinned to the bottom-left of the viewport until accepted (bottom-right is the floating
+// WhatsApp button). White card, 1px line, soft shadow.
 export function CookieBar() {
   const [accepted, setAccepted] = useState(readAccepted)
   if (accepted) return null
@@ -29,29 +30,30 @@ export function CookieBar() {
 
   return (
     <div
-      className={cn(
-        cookieBarClass,
-        'flex flex-col gap-4 max-md:px-5 md:flex-row md:items-center md:gap-5',
-      )}
       role="region"
       aria-label="Cookies"
       data-section="chrome-cookie"
+      className="fixed inset-x-4 bottom-4 z-50 rounded-2xl border border-line bg-canvas/95 p-4 shadow-card-hover backdrop-blur-md sm:right-auto sm:left-6 sm:bottom-6 sm:max-w-md sm:p-5"
     >
-      <IconTile icon="ti-cookie" size={40} className="hidden md:grid" />
-      <p className="min-w-0 flex-1 font-sans text-meta text-on-vault-muted">
-        Nous utilisons des cookies afin d’optimiser votre navigation ; en poursuivant sur ce site, vous acceptez notre{' '}
-        <a href="#" className={linkClass}>
-          charte de gestion des données
-        </a>
-        .
-      </p>
-      <div className="grid gap-2.5 md:flex md:shrink-0 md:items-center">
-        <ButtonLink to="/conditions-dutilisation/" variant="outline-vault" size="sm" full className="md:w-auto">
+      <div className="flex items-start gap-3">
+        <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+          <Cookie className="size-4.5" />
+        </span>
+        <p className="min-w-0 flex-1 text-sm leading-relaxed text-body">
+          Nous utilisons des cookies afin d’optimiser votre navigation ; en poursuivant sur ce site, vous acceptez notre{' '}
+          <Link to="/politique-de-confidentialite/" className="font-medium text-brand underline underline-offset-2 hover:text-brand-hover">
+            charte de gestion des données
+          </Link>
+          .
+        </p>
+      </div>
+      <div className="mt-4 flex gap-2.5 sm:justify-end">
+        <Link to="/politique-de-confidentialite/" className={buttonClasses({ variant: 'outline', className: 'flex-1 sm:flex-none' })}>
           Lire
-        </ButtonLink>
-        <Button variant="ivory" size="sm" full className="md:w-auto" onClick={accept}>
+        </Link>
+        <button type="button" onClick={accept} className={buttonClasses({ variant: 'brand', className: 'flex-1 sm:flex-none' })}>
           Accepter
-        </Button>
+        </button>
       </div>
     </div>
   )

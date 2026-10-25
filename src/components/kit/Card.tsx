@@ -1,15 +1,17 @@
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 
-type CardProps = ComponentPropsWithoutRef<'div'> & {
+type CardProps<T extends ElementType> = {
   /** Hover lift + deeper shadow (CleanShot card). */
   interactive?: boolean
-  /** Element to render (default div): 'article', 'li', 'a' … */
-  as?: ElementType
-}
+  /** Element or component to render (default div): 'article', 'li', 'a', react-router Link … (its props are accepted). */
+  as?: T
+  className?: string
+} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'className'>
 
 /** White card: rounded-2xl, 1px line border, soft layered shadow. No padding — add your own (e.g. p-6). */
-export function Card({ interactive, as: Tag = 'div', className, ...props }: CardProps) {
+export function Card<T extends ElementType = 'div'>({ interactive, as, className, ...props }: CardProps<T>) {
+  const Tag: ElementType = as ?? 'div'
   return (
     <Tag
       className={cn(
