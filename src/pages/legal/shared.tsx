@@ -3,6 +3,7 @@ import { AlertTriangle } from 'lucide-react'
 import { Aura, Container, WhatsAppIcon } from '@/components/kit'
 import { BRAND, WA_CONTACT_MESSAGE, WHATSAPP_DISPLAY, waLink } from '@/lib/site'
 import { cn } from '@/lib/utils'
+import { usePageTitle } from '@/lib/usePageTitle'
 import { Breadcrumbs } from '../theme/PageHero'
 
 /** Bold inline brand mention, as the documents do. */
@@ -10,8 +11,8 @@ export function B() {
   return <strong className="font-semibold text-heading">{BRAND}</strong>
 }
 
-/** The contact channel: the official WhatsApp line (opens a chat in a new tab). */
-export function Wa() {
+/** The contact channel: the official WhatsApp line (opens a chat in a new tab). `bare` drops the « WhatsApp » word. */
+export function Wa({ bare }: { bare?: boolean }) {
   return (
     <a
       href={waLink(WA_CONTACT_MESSAGE)}
@@ -19,7 +20,7 @@ export function Wa() {
       rel="noopener noreferrer"
       className="font-medium whitespace-nowrap text-brand underline underline-offset-2 hover:text-brand-hover"
     >
-      WhatsApp {WHATSAPP_DISPLAY}
+      {bare ? WHATSAPP_DISPLAY : `WhatsApp ${WHATSAPP_DISPLAY}`}
     </a>
   )
 }
@@ -32,7 +33,9 @@ type TocItem = { id: string; label: string }
 
 const TOC_OFFSET = 140
 
-export function DocLayout({ crumb, title, lead, children }: { crumb: string; title: ReactNode; lead?: ReactNode; children: ReactNode }) {
+/** One legal document: its name is the h1, the breadcrumb's last item and the page title. */
+export function DocLayout({ title, lead, children }: { title: string; lead?: ReactNode; children: ReactNode }) {
+  usePageTitle(`${title} | ${BRAND}`)
   const bodyRef = useRef<HTMLDivElement>(null)
   const [toc, setToc] = useState<TocItem[]>([])
   const [current, setCurrent] = useState<string | undefined>()
@@ -70,7 +73,7 @@ export function DocLayout({ crumb, title, lead, children }: { crumb: string; tit
       <header className="relative isolate overflow-hidden bg-canvas pt-8 pb-12 md:pt-10 md:pb-16">
         <Aura variant="hero" />
         <Container>
-          <Breadcrumbs items={[{ label: 'Accueil', to: '/' }, { label: crumb }]} className="mb-10 md:mb-14" />
+          <Breadcrumbs items={[{ label: 'Accueil', to: '/' }, { label: title }]} className="mb-10 md:mb-14" />
           <div className="max-w-3xl">
             <h1 className="text-[2.125rem] leading-[1.08] font-bold tracking-tight text-balance text-heading sm:text-5xl">{title}</h1>
             {lead ? <div className="mt-5 max-w-2xl text-lg leading-relaxed text-body">{lead}</div> : null}

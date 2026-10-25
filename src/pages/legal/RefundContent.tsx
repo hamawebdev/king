@@ -2,38 +2,40 @@ import { BRAND } from '@/lib/site'
 import { Callout, DocLayout, H2, HelpCard, P, Wa } from './shared'
 import { PackList } from './PackList'
 
-// Refund schedule, set like a statement: period on the left, share returned on the right.
+// Refund schedule (days counted from activation), set like a statement: period on the left, share returned on the
+// right. Contiguous ranges: the old schedule left days 15–30 undefined; they take the next tier (65%).
 const SCHEDULE: [string, string][] = [
-  ['Jusqu’à 14 jours :', '85%'],
-  ['Après 30 jours :', '65%'],
-  ['Après 60 jours :', '40%'],
-  ['Après 90 jours :', '25%'],
-  ['Après 120 jours :', '20%'],
-  ['Après 180 jours :', '12%'],
+  ['Jusqu’au 14e jour :', '85%'],
+  ['Du 15e au 60e jour :', '65%'],
+  ['Du 61e au 90e jour :', '40%'],
+  ['Du 91e au 120e jour :', '25%'],
+  ['Du 121e au 180e jour :', '20%'],
+  ['Au-delà de 180 jours :', '12%'],
 ]
 
 // Politique de remboursement.
 export function RefundContent() {
   return (
     <DocLayout
-      crumb="Politique de remboursement"
-      title="Nos règles de remboursement"
+      title="Politique de remboursement"
       lead={
         <p>
-          Merci de prendre connaissance des règles ci-dessous avant toute commande. Elles décrivent les modalités de
-          remboursement appliquées par {BRAND}.
+          Nos règles de remboursement. Merci d’en prendre connaissance avant toute commande : elles décrivent les seules
+          modalités d’annulation et de remboursement appliquées par {BRAND}.
         </p>
       }
     >
-      <P>
-        Nous mettons le plus grand soin à faire fonctionner notre service, mais chaque installation est différente et
-        de nombreux facteurs extérieurs peuvent influencer la qualité de la diffusion chez vous. Si le service ne
-        répond pas à vos attentes ou si un incident technique que nous ne parvenons pas à corriger vous empêche de
-        l’utiliser normalement, nous vous rembourserons la totalité de votre commande dans les 14 jours qui suivent
-        votre premier achat, quel que soit l’appareil utilisé.
-      </P>
       <P>Ces règles s’appliquent aux quatre formules {BRAND} :</P>
       <PackList />
+      <H2 id="garantie-technique">Garantie technique de 14 jours</H2>
+      <P>
+        Nous mettons le plus grand soin à faire fonctionner notre service, mais chaque installation est différente et
+        de nombreux facteurs extérieurs peuvent influencer la qualité de la diffusion chez vous. Si un incident
+        technique que nous ne parvenons pas à corriger vous empêche d’utiliser normalement le service, nous vous
+        rembourserons la totalité de votre commande dans les 14 jours qui suivent votre premier achat, quel que soit
+        l’appareil utilisé.
+      </P>
+      <P>En dehors de ce cas, toute demande de remboursement suit le barème ci-dessous.</P>
       <H2 id="points-a-respecter">Points à respecter</H2>
       <P>
         Une panne liée à votre propre matériel ne peut donner lieu à un remboursement que si vous acceptez notre
@@ -56,6 +58,10 @@ export function RefundContent() {
         </p>
       </Callout>
       <H2 id="bareme">Barème de remboursement</H2>
+      <P>
+        Pour toute autre demande, la part du prix restituée dépend du nombre de jours écoulés depuis l’activation de
+        votre accès :
+      </P>
       <ul className="mt-6 max-w-[68ch] border-t border-heading">
         {SCHEDULE.map(([when, pct]) => (
           <li key={when} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-4">

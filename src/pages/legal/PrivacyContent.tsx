@@ -4,7 +4,8 @@ import { Contact, DocLayout, H2, P, UL, Wa } from './shared'
 // Politique de confidentialité.
 export function PrivacyContent() {
   return (
-    <DocLayout crumb="Politique de confidentialité" title="Les données personnelles recueillies">
+    <DocLayout title="Politique de confidentialité">
+      <H2 id="donnees-recueillies">Les données personnelles recueillies</H2>
       <P>Voici les données que nous pouvons enregistrer :</P>
       <UL cols>
         <li>Nom</li>
@@ -18,10 +19,10 @@ export function PrivacyContent() {
       </UL>
       <P>
         Ces données nous parviennent principalement lors de vos échanges avec nos conseillers sur WhatsApp (commande,
-        activation, assistance). Des cookies et des journaux techniques, présentés plus bas, contribuent
-        également à recueillir certaines informations sur votre navigation et vos habitudes de visite.
+        activation, assistance). Le site enregistre aussi quelques préférences dans votre navigateur, décrites
+        ci-dessous.
       </P>
-      <H2 id="saisie-et-suivi">Saisie et suivi de navigation :</H2>
+      <H2 id="collecte">Collecte et utilisation</H2>
       <P>Les échanges suivants nous permettent d’obtenir vos informations personnelles :</P>
       <UL>
         <li>Conversation WhatsApp avec votre conseiller (commande, renouvellement, activation)</li>
@@ -36,14 +37,16 @@ export function PrivacyContent() {
         <li>Traitement des commandes et des renouvellements</li>
         <li>Assistance technique</li>
       </UL>
-      <P>
-        Certaines informations sont obtenues lors de votre navigation et de vos échanges avec les pages du site,
-        selon les modalités suivantes :
-      </P>
-      <P>Ces informations sont exploitées pour les objectifs mentionnés ci-après :</P>
+      <H2 id="cookies">Cookies et préférences</H2>
+      <P>Lors de votre navigation, le site enregistre uniquement dans votre navigateur (stockage local) :</P>
       <UL>
-        <li>Avis clients</li>
+        <li>Votre acceptation du bandeau cookies, pour ne plus l’afficher</li>
+        <li>La langue choisie dans le sélecteur de langue</li>
       </UL>
+      <P>
+        Ces informations restent sur votre appareil et servent uniquement à mémoriser vos préférences d’affichage. Vous
+        pouvez les effacer à tout moment depuis les réglages de votre navigateur.
+      </P>
       <H2 id="refus-et-suppression">Refus et suppression des données</H2>
       <P>Vous pouvez à tout moment vous opposer à l’utilisation de vos informations ou en demander la suppression.</P>
       <P>
@@ -57,7 +60,7 @@ export function PrivacyContent() {
       <P>Pour faire valoir ces droits, contactez-nous :</P>
       <Contact>
         <p>
-          <span className="lbl">WhatsApp :</span> <Wa />
+          <span className="lbl">WhatsApp :</span> <Wa bare />
         </p>
         <p>
           <span className="lbl">Rubrique en ligne :</span>{' '}
@@ -74,7 +77,7 @@ export function PrivacyContent() {
       <P>Les demandes sont à adresser :</P>
       <Contact>
         <p>
-          <span className="lbl">WhatsApp :</span> <Wa />
+          <span className="lbl">WhatsApp :</span> <Wa bare />
         </p>
         <p>
           <span className="lbl">Rubrique en ligne :</span>{' '}

@@ -1,13 +1,12 @@
 import type { ReactNode } from 'react'
-import { BRAND, BRAND_UPPER } from '@/lib/site'
+import { BRAND_UPPER } from '@/lib/site'
 import { B, DocLayout, H2, HelpCard, P, Wa } from './shared'
 
 // Conditions d'utilisation.
 export function CguContent() {
   return (
     <DocLayout
-      crumb="Conditions d’utilisation"
-      title={<>Votre espace {BRAND}.</>}
+      title="Conditions d’utilisation"
       lead={
         <p>
         Les présentes conditions fixent le cadre dans lequel chaque visiteur peut consulter et utiliser le site
