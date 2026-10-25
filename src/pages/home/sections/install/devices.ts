@@ -6,7 +6,17 @@
  *
  * Note: the spec gives two different Downloader code sets for King 365 TV — Firestick (756917 / 283367 / 2763945)
  * and Android (223650 / 333650 / 443650). Each block is copied exactly as written; reported to the lead.
+ *
+ * Other languages: devices.{en,de,es,pt,fi}.ts, same devices, blocks, apps and codes in the same order (useDevices()).
+ * WhatsApp prefilled texts stay French (the advisors work in French): pass the French device name (DEVICES) to them.
  */
+
+import { useCopy, type Localized } from '@/lib/i18n'
+import { DEVICES_DE } from './devices.de'
+import { DEVICES_EN } from './devices.en'
+import { DEVICES_ES } from './devices.es'
+import { DEVICES_FI } from './devices.fi'
+import { DEVICES_PT } from './devices.pt'
 
 export type DeviceId = 'smart-tv' | 'firestick' | 'android' | 'apple' | 'windows' | 'mac' | 'mag' | 'shield' | 'formuler'
 
@@ -419,3 +429,17 @@ export const DEVICES: Device[] = [
     ],
   },
 ]
+
+const DEVICES_BY_LOCALE: Localized<Device[]> = {
+  fr: DEVICES,
+  en: DEVICES_EN,
+  de: DEVICES_DE,
+  es: DEVICES_ES,
+  pt: DEVICES_PT,
+  fi: DEVICES_FI,
+}
+
+/** The 9 device guides in the current language (same ids and order as DEVICES). */
+export function useDevices(): Device[] {
+  return useCopy(DEVICES_BY_LOCALE)
+}

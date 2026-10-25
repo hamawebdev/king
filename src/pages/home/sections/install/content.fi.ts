@@ -64,7 +64,7 @@ export const fi: InstallCopy = {
     },
     {
       q: 'Millainen internetyhteys tarvitaan sujuvaan katseluun?',
-      a: '**10–20 Mbps:n** yhteys on vähimmäisvaatimus sujuvalle Full HD -suoratoistolle. Suosittelemme nopeampaa yhteyttä (**30 Mbps tai enemmän**), jos haluat nauttia lähetyksistä täysin **aidossa 4K HDR -laadussa 60 FPS:llä** tai jos kotonasi useampi henkilö käyttää samaa internetyhteyttä samanaikaisesti.',
+      a: '**10–20 Mbps:n** yhteys on vähimmäisvaatimus sujuvalle Full HD -suoratoistolle. Suosittelemme nopeampaa yhteyttä (**30 Mbps tai enemmän**), jos haluat nauttia lähetyksistä täysin **aidossa 4K HDR -laadussa 60 FPS:llä** tai jos kotonasi useampi henkilö käyttää samaa internetyhteyttä samanaikaisesti.',
     },
     {
       q: 'Tarvitsenko VPN:n tilaukseni kanssa?',
@@ -72,7 +72,7 @@ export const fi: InstallCopy = {
     },
     {
       q: 'Miksi tarvitsen maksullisen soittimen joillakin laitteilla?',
-      a: 'Maksulliset soittimet (IBO Player, ibo player smarter, vormedia sat, Bob Player, Hot Player) hyödyntävät laitteistoa paljon paremmin. **Smart TV:ssä (Samsung / LG) tai Applen laitteissa** suosittelemme vahvasti maksullista sovellusta (n. 8 € / vuosi 7 päivän ilmaisen kokeilun jälkeen): se toimii paljon sujuvammin kuin ilmaiset sovellukset ja muistaa, mihin jäit elokuvissa ja sarjoissa. **Androidilla, Google TV:llä, TV Boxilla tai Firestickillä** taas viralliset **King 365 TV -sovelluksemme (V2, V3 ja V4)** toimivat erinomaisesti ja ovat **100 % ilmaisia**.',
+      a: 'Maksulliset soittimet (IBO Player, ibo player smarter, vormedia sat, Bob Player, Hot Player) hyödyntävät laitteistoa paljon paremmin. **Smart TV:ssä (Samsung / LG) tai Applen laitteissa** suosittelemme vahvasti maksullista sovellusta (n. 8 € / vuosi 7 päivän ilmaisen kokeilun jälkeen): se toimii paljon sujuvammin kuin ilmaiset sovellukset ja muistaa, mihin jäit elokuvissa ja sarjoissa. **Androidilla, Google TV:llä, TV Boxilla tai Firestickillä** taas viralliset **King 365 TV -sovelluksemme (V2, V3 ja V4)** toimivat erinomaisesti ja ovat **100 % ilmaisia**.',
     },
   ],
 

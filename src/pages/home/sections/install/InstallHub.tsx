@@ -4,20 +4,20 @@ import { Card, WaButton } from '@/components/kit'
 import { WHATSAPP_DISPLAY } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { useInstallCopy } from './content'
-import { DEVICES, setupHelpMessage, tutorialMessage, type Device, type DeviceId } from './devices'
+import { DEVICES, setupHelpMessage, tutorialMessage, useDevices, type Device, type DeviceId } from './devices'
 import { GuideBlocks } from './GuideBlocks'
 import { nb } from './text'
 
 const INDICATOR_ICONS = [Clock, MonitorSmartphone, Headset]
 
-/** « Un Souci Pendant la Configuration ? » — direct WhatsApp help card. */
-function HelpCard({ device, className }: { device?: Device; className?: string }) {
+/** « Un Souci Pendant la Configuration ? » — direct WhatsApp help card. `deviceName` is French (prefilled message). */
+function HelpCard({ deviceName, className }: { deviceName?: string; className?: string }) {
   const aside = useInstallCopy().aside
   return (
     <Card className={cn('p-5', className)}>
       <p className="text-base font-semibold text-heading">{nb(aside.helpTitle)}</p>
       <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">{aside.helpText}</p>
-      <WaButton message={setupHelpMessage(device?.name)} fullWidth className="mt-4">
+      <WaButton message={setupHelpMessage(deviceName)} fullWidth className="mt-4">
         {WHATSAPP_DISPLAY}
       </WaButton>
     </Card>
@@ -25,7 +25,7 @@ function HelpCard({ device, className }: { device?: Device; className?: string }
 }
 
 /** Left column: title, the 3 indicators, and (desktop) the help card. Sticky on large screens. */
-function HubAside({ device }: { device?: Device }) {
+function HubAside({ deviceName }: { deviceName?: string }) {
   const aside = useInstallCopy().aside
   return (
     <div className="lg:sticky lg:top-24">
@@ -45,16 +45,17 @@ function HubAside({ device }: { device?: Device }) {
           )
         })}
       </ul>
-      <HelpCard device={device} className="mt-6 max-lg:hidden" />
+      <HelpCard deviceName={deviceName} className="mt-6 max-lg:hidden" />
     </div>
   )
 }
 
 function DeviceGrid({ onPick }: { onPick: (id: DeviceId, button: HTMLButtonElement) => void }) {
   const t = useInstallCopy().hub
+  const devices = useDevices()
   return (
     <ul className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3" aria-label={t.chooseDevice}>
-      {DEVICES.map((device) => (
+      {devices.map((device) => (
         <li key={device.id}>
           <button
             type="button"
@@ -137,8 +138,11 @@ export function InstallHub({ className }: { className?: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
-  const index = selected ? DEVICES.findIndex((d) => d.id === selected) : -1
-  const device = index >= 0 ? DEVICES[index] : undefined
+  const devices = useDevices()
+  const index = selected ? devices.findIndex((d) => d.id === selected) : -1
+  const device = index >= 0 ? devices[index] : undefined
+  // WhatsApp prefilled messages stay French (the advisors work in French): name the device as the French guide does.
+  const frenchName = selected ? DEVICES.find((d) => d.id === selected)?.name : undefined
 
   // After the view swaps: bring its top into view if it is above the fold, then move focus sensibly.
   useEffect(() => {
@@ -170,7 +174,7 @@ export function InstallHub({ className }: { className?: string }) {
   return (
     <div className={cn('grid gap-8 lg:grid-cols-12 lg:gap-10', className)}>
       <div className="lg:col-span-4">
-        <HubAside device={device} />
+        <HubAside deviceName={frenchName} />
       </div>
 
       <div ref={panelRef} className="min-w-0 scroll-mt-24 lg:col-span-8">
@@ -181,7 +185,7 @@ export function InstallHub({ className }: { className?: string }) {
         )}
 
         <WaButton
-          message={tutorialMessage(device?.name)}
+          message={tutorialMessage(frenchName)}
           variant="outline"
           icon={false}
           fullWidth
@@ -191,7 +195,7 @@ export function InstallHub({ className }: { className?: string }) {
           <ArrowRight className="size-4.5 shrink-0 text-brand" aria-hidden="true" />
         </WaButton>
 
-        <HelpCard device={device} className="mt-6 lg:hidden" />
+        <HelpCard deviceName={frenchName} className="mt-6 lg:hidden" />
       </div>
     </div>
   )
