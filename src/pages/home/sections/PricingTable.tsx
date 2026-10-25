@@ -156,19 +156,20 @@ function PackCard({ pack, titleAs: Title }: { pack: Pack; titleAs: HeadingLevel 
         </ul>
       </div>
 
+      {/* Message above the button so every button sits on the card's bottom edge (aligned across the row). */}
       <div className="mt-auto pt-7">
+        {/* The prefilled message, as the spec's « Lien Direct WhatsApp » column shows it. */}
+        <p className="mb-3 rounded-xl bg-slate-50 px-3 py-2 text-xs leading-relaxed text-slate-500">« {pack.waMessage} »</p>
         <WaButton
           message={pack.waMessage}
           variant={featured ? 'whatsapp' : 'outline'}
           icon
           fullWidth
           aria-label={`${PACK_CTA} — ${pack.name} (${pack.price} / ${pack.duration})`}
-          className={cn('xl:px-3 xl:whitespace-nowrap', !featured && '[&>svg]:text-whatsapp')}
+          className={cn('xl:px-3 xl:whitespace-nowrap', featured ? 'border border-transparent' : '[&>svg]:text-whatsapp')}
         >
           {PACK_CTA}
         </WaButton>
-        {/* The prefilled message, as the spec's « Lien Direct WhatsApp » column shows it. */}
-        <p className="mt-3 text-center text-xs leading-relaxed text-slate-500">« {pack.waMessage} »</p>
       </div>
     </article>
   )
