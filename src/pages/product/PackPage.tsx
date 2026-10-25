@@ -4,6 +4,11 @@ import { Aura, ButtonLink, Card, Container, Eyebrow, Section, SectionHeading, Wa
 import { PACKS, productPath, type Pack } from '@/lib/packs'
 import { WHATSAPP_DISPLAY } from '@/lib/site'
 import { cn } from '@/lib/utils'
+import { ActivationSteps } from '../home/sections/Activation'
+import { ACTIVATION_HEAD, PACK_CTA } from '../home/sections/Activation.data'
+import { GuaranteeStrip } from '../home/sections/Installation'
+import { IncludedMetrics } from '../home/sections/PricingTable'
+import { FaqBlock } from '../theme/FaqBlock'
 import { Breadcrumbs } from '../theme/PageHero'
 import { PaymentNote } from '../theme/PaymentNote'
 
@@ -43,7 +48,7 @@ function PriceCard({ pack }: { pack: Pack }) {
         ))}
       </ul>
       <WaButton message={pack.waMessage} size="lg" fullWidth className="mt-8">
-        Activer sur WhatsApp
+        {PACK_CTA}
       </WaButton>
       <p className="mt-3 text-center text-xs text-body">Conseiller NovaStream · {WHATSAPP_DISPLAY}</p>
       <PaymentNote className="mt-6 border-t border-line pt-5" />
@@ -116,9 +121,18 @@ export function PackPage({ pack }: { pack: Pack }) {
             </div>
             <PriceCard pack={pack} />
           </div>
+          <GuaranteeStrip className="mt-12 md:mt-16" />
         </Container>
       </section>
+      <Section tone="mist">
+        <IncludedMetrics headingAs="h2" />
+      </Section>
+      <Section aria-labelledby="activation-title">
+        <SectionHeading id="activation-title" eyebrow={ACTIVATION_HEAD.badge} title={ACTIVATION_HEAD.title} subtitle={ACTIVATION_HEAD.subtitle} />
+        <ActivationSteps className="mt-12" />
+      </Section>
       <OtherPacks current={pack} />
+      <FaqBlock ids={['commander', 'delai', 'renouveler', 'memes-identifiants', 'multi-ecrans']} />
     </>
   )
 }
