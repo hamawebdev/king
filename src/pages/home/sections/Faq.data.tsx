@@ -1,5 +1,11 @@
 import type { ReactNode } from 'react'
+import { useLocale, type LocaleCode } from '@/lib/i18n'
 import { WHATSAPP_DISPLAY } from '@/lib/site'
+import { de } from './Faq.data.de'
+import { en } from './Faq.data.en'
+import { es } from './Faq.data.es'
+import { fi } from './Faq.data.fi'
+import { pt } from './Faq.data.pt'
 import { Install, Wa } from './Faq.links'
 
 export type FaqItem = {
@@ -10,7 +16,36 @@ export type FaqItem = {
   answer: ReactNode
 }
 
-/** Spec S14 — the 20 approved questions and answers, word for word (Downloader codes as written there). */
+/** The 20 FAQ ids (shared by every language; FaqBlock picks questions by id). */
+export type FaqId =
+  | 'commander'
+  | 'delai'
+  | 'email'
+  | 'autres-apps'
+  | 'renouveler'
+  | 'memes-identifiants'
+  | 'telecharger-v3'
+  | 'telecharger-v4'
+  | 'versions-officielles'
+  | 'pays'
+  | 'multi-ecrans'
+  | 'sans-parabole'
+  | 'televiseur-ancien'
+  | 'confiance'
+  | 'essai'
+  | 'chaines'
+  | 'ibo-expire'
+  | 'licence-payante'
+  | 'failed-to-authorize'
+  | 'lien-serveur'
+
+/** The translatable part of an FAQ item. Other languages live in Faq.data.<lang>.tsx as Record<FaqId, FaqText>. */
+export type FaqText = Pick<FaqItem, 'question' | 'answer'>
+
+/**
+ * Spec S14 — the 20 approved questions and answers, word for word (Downloader codes as written there).
+ * French only: components should use useFaqItems() (same ids, emoji and order, current language).
+ */
 export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'commander',
@@ -279,3 +314,18 @@ export const FAQ_ITEMS: FaqItem[] = [
     ),
   },
 ]
+
+const FAQ_TEXT: Record<Exclude<LocaleCode, 'fr'>, Record<FaqId, FaqText>> = { en, de, es, pt, fi }
+
+/** FAQ_ITEMS in the given language (same ids, emoji and order; same links in every language). */
+export function localizedFaqItems(locale: LocaleCode): FaqItem[] {
+  if (locale === 'fr') return FAQ_ITEMS
+  const text = FAQ_TEXT[locale]
+  return FAQ_ITEMS.map((item) => ({ ...item, ...text[item.id as FaqId] }))
+}
+
+/** The 20 FAQ items in the current site language. Use this (not FAQ_ITEMS) for anything shown on screen. */
+export function useFaqItems(): FaqItem[] {
+  const [locale] = useLocale()
+  return localizedFaqItems(locale)
+}

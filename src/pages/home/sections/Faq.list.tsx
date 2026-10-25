@@ -1,9 +1,10 @@
 import { useId, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { FAQ_ITEMS, type FaqItem } from './Faq.data'
+import { useFaqItems, type FaqItem } from './Faq.data'
 
 type FaqListProps = {
+  /** Default: all 20 items in the current language (useFaqItems). Pass localized items (useFaqItems) for a subset. */
   items?: FaqItem[]
   /** Item ids open on first render (default: the first question). */
   defaultOpen?: string[]
@@ -13,7 +14,9 @@ type FaqListProps = {
 }
 
 /** The FAQ accordion on its own (+ turns into × when open). Reusable on inner pages. */
-export function FaqList({ items = FAQ_ITEMS, defaultOpen, headingLevel: Heading = 'h3', className }: FaqListProps) {
+export function FaqList({ items: itemsProp, defaultOpen, headingLevel: Heading = 'h3', className }: FaqListProps) {
+  const allItems = useFaqItems()
+  const items = itemsProp ?? allItems
   const [open, setOpen] = useState<Set<string>>(() => new Set(defaultOpen ?? (items[0] ? [items[0].id] : [])))
   const baseId = useId()
 
