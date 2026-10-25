@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import { SectionBoundary } from './home/SectionBoundary'
 import { HomeActivation } from './home/sections/Activation'
 import { HomeAppsMatrix } from './home/sections/AppsMatrix'
 import { HomeFaq } from './home/sections/Faq'
@@ -45,7 +46,9 @@ export default function Home() {
   return (
     <div className="overflow-x-clip">
       {visibleSections().map(({ key, Component }) => (
-        <Component key={key} />
+        <SectionBoundary key={key} name={key}>
+          <Component />
+        </SectionBoundary>
       ))}
     </div>
   )
