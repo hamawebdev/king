@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useCopy, type Localized } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { useInView, usePrefersReducedMotion } from './Resolution.motion'
 
-/** Theme tiles on the screen: generic programme themes only (never channel names or logos). */
-const SCREEN_TILES = [
+/** Theme tiles on the screen: generic programme themes only (never channel names or logos). French source; other languages mirror it. */
+const fr = [
   { emoji: '⚽', label: 'Sports', meta: 'Direct' },
   { emoji: '🎬', label: 'Films', meta: 'Box-Office' },
   { emoji: '🍿', label: 'Séries', meta: 'VOD' },
@@ -11,6 +12,50 @@ const SCREEN_TILES = [
   { emoji: '👶', label: 'Jeunesse', meta: 'Univers' },
   { emoji: '🎵', label: 'Musique', meta: 'Divertissement' },
 ]
+
+const SCREEN_TILES: Localized<typeof fr> = {
+  fr,
+  en: [
+    { emoji: '⚽', label: 'Sports', meta: 'Live' },
+    { emoji: '🎬', label: 'Movies', meta: 'Box Office' },
+    { emoji: '🍿', label: 'Series', meta: 'VOD' },
+    { emoji: '📰', label: 'News', meta: '24/7' },
+    { emoji: '👶', label: 'Kids', meta: 'Family' },
+    { emoji: '🎵', label: 'Music', meta: 'Entertainment' },
+  ],
+  de: [
+    { emoji: '⚽', label: 'Sport', meta: 'Live' },
+    { emoji: '🎬', label: 'Filme', meta: 'Kinohits' },
+    { emoji: '🍿', label: 'Serien', meta: 'VOD' },
+    { emoji: '📰', label: 'Nachrichten', meta: '24/7' },
+    { emoji: '👶', label: 'Kinder', meta: 'Familie' },
+    { emoji: '🎵', label: 'Musik', meta: 'Unterhaltung' },
+  ],
+  es: [
+    { emoji: '⚽', label: 'Deportes', meta: 'Directo' },
+    { emoji: '🎬', label: 'Cine', meta: 'Taquilla' },
+    { emoji: '🍿', label: 'Series', meta: 'VOD' },
+    { emoji: '📰', label: 'Noticias', meta: '24/7' },
+    { emoji: '👶', label: 'Infantil', meta: 'Familia' },
+    { emoji: '🎵', label: 'Música', meta: 'Ocio' },
+  ],
+  pt: [
+    { emoji: '⚽', label: 'Desporto', meta: 'Direto' },
+    { emoji: '🎬', label: 'Filmes', meta: 'Bilheteira' },
+    { emoji: '🍿', label: 'Séries', meta: 'VOD' },
+    { emoji: '📰', label: 'Notícias', meta: '24/7' },
+    { emoji: '👶', label: 'Infantil', meta: 'Família' },
+    { emoji: '🎵', label: 'Música', meta: 'Entretenimento' },
+  ],
+  fi: [
+    { emoji: '⚽', label: 'Urheilu', meta: 'Suorana' },
+    { emoji: '🎬', label: 'Elokuvat', meta: 'Hitit' },
+    { emoji: '🍿', label: 'Sarjat', meta: 'VOD' },
+    { emoji: '📰', label: 'Uutiset', meta: '24/7' },
+    { emoji: '👶', label: 'Lapset', meta: 'Perhe' },
+    { emoji: '🎵', label: 'Musiikki', meta: 'Viihde' },
+  ],
+}
 
 const STEP_MS = 2600
 
@@ -23,10 +68,11 @@ export function ResolutionScreen({ className }: { className?: string }) {
   const reduced = usePrefersReducedMotion()
   const [ref, visible] = useInView<HTMLDivElement>({ once: false, threshold: 0.2 })
   const [active, setActive] = useState(0)
+  const tiles = useCopy(SCREEN_TILES)
 
   useEffect(() => {
     if (reduced || !visible) return
-    const id = window.setInterval(() => setActive((i) => (i + 1) % SCREEN_TILES.length), STEP_MS)
+    const id = window.setInterval(() => setActive((i) => (i + 1) % fr.length), STEP_MS)
     return () => window.clearInterval(id)
   }, [reduced, visible])
 
@@ -57,11 +103,11 @@ export function ResolutionScreen({ className }: { className?: string }) {
 
             {/* theme grid */}
             <div className="grid flex-1 grid-cols-3 grid-rows-2 gap-1.5 sm:gap-2.5">
-              {SCREEN_TILES.map((tile, i) => {
+              {tiles.map((tile, i) => {
                 const on = i === active
                 return (
                   <div
-                    key={tile.label}
+                    key={i}
                     className={cn(
                       'relative flex min-w-0 flex-col justify-between overflow-hidden rounded-lg p-2 ring-1 transition-[background-color,box-shadow] duration-500 sm:rounded-xl sm:p-3',
                       on ? 'bg-brand/25 ring-brand/70 shadow-[0_0_28px_-6px_rgb(0_102_255/0.7)]' : 'bg-white/[0.04] ring-white/[0.07]',
