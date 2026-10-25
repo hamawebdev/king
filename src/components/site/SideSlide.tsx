@@ -1,85 +1,105 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router'
-import { MAIN_NAV, isCurrent } from '@/lib/site'
+import { ChevronRight, X } from 'lucide-react'
+import { WaButton } from '@/components/kit'
+import { MAIN_NAV, WHATSAPP_DISPLAY, isCurrent } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import {
-  Button,
-  CartCount,
-  Wordmark,
-  overlayClass,
-  overlayClosedClass,
-  sideLinkClass,
-  sideMenuClass,
-} from '@/components/brand'
-import { formatEuro, useChrome } from './chrome-context'
+import { useChrome } from './chrome-context'
+import { LanguageList } from './LanguageSwitcher'
 import { closedPanel, usePanelFocus } from './SiteLayout.focus'
+import { Wordmark } from './SiteHeader.wordmark'
 
-// Mobile menu sliding in from the right over a vault overlay (DIRECTION §9.0 chrome-side).
+/** Mobile menu drawer (below lg): slides in from the right over a dimmed page. */
 export function SideSlide() {
   const { pathname } = useLocation()
-  const { sideOpen, setSideOpen, setCartOpen, cartItems } = useChrome()
-  const total = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0)
-  const count = cartItems.reduce((sum, i) => sum + i.qty, 0)
+  const { sideOpen, setSideOpen } = useChrome()
   const panel = useRef<HTMLElement>(null)
   const close = useCallback(() => setSideOpen(false), [setSideOpen])
   usePanelFocus(sideOpen, panel, close)
 
+  // Lock the page scroll while the drawer is open.
+  useEffect(() => {
+    if (!sideOpen) return
+    const html = document.documentElement
+    const prev = html.style.overflow
+    html.style.overflow = 'hidden'
+    return () => {
+      html.style.overflow = prev
+    }
+  }, [sideOpen])
+
   return (
     <>
-      <div className={cn(overlayClass, !sideOpen && overlayClosedClass)} onClick={close} aria-hidden="true" />
+      <div
+        aria-hidden="true"
+        onClick={close}
+        className={cn(
+          'fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-[2px] transition-opacity duration-300 motion-reduce:transition-none lg:hidden',
+          sideOpen ? 'opacity-100' : 'pointer-events-none opacity-0',
+        )}
+      />
       <aside
         ref={panel}
-        className={cn(sideMenuClass, 'border-l border-hairline shadow-float', !sideOpen && closedPanel)}
-        aria-label="Menu mobile"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
         aria-hidden={!sideOpen}
         inert={!sideOpen}
         data-section="chrome-side"
+        className={cn(
+          'fixed inset-y-0 right-0 z-50 flex w-[min(22rem,88vw)] flex-col border-l border-line bg-canvas shadow-card-hover',
+          'transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden',
+          !sideOpen && closedPanel,
+        )}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-hairline px-5">
-          <span aria-hidden="true">
-            <Wordmark tone="light" className="h-5" />
-          </span>
-          <Button variant="icon" aria-label="Fermer le menu" onClick={close}>
-            <i className="ti ti-x" aria-hidden="true" />
-          </Button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-5 pt-6 pb-[calc(32px+env(safe-area-inset-bottom))]">
+        <div className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-line px-4">
+          <Wordmark className="text-xl leading-none" />
           <button
             type="button"
-            aria-label="Panier"
-            onClick={() => {
-              setSideOpen(false)
-              setCartOpen(true)
-            }}
-            className={cn(
-              'flex min-h-14 w-full items-center justify-between gap-4 rounded-control border border-hairline bg-paper py-2 pr-4 pl-2',
-              'transition-[border-color,background-color] duration-180 ease-calm hover:border-hairline-strong hover:bg-ivory',
-            )}
+            aria-label="Fermer le menu"
+            onClick={close}
+            className="grid size-11 place-items-center rounded-xl text-heading transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
-            <span className="relative grid size-10 shrink-0 place-items-center rounded-control bg-evergreen-100 text-[20px] text-evergreen-700">
-              <i className="ti ti-shopping-cart" aria-hidden="true" />
-              {count > 0 && <CartCount count={count} />}
-            </span>
-            <span className="font-sans text-[1.0625rem] font-semibold tabular-nums text-ink">{formatEuro(total)}</span>
+            <X aria-hidden="true" className="size-6" />
           </button>
+        </div>
 
-          <nav aria-label="Menu principal" className="mt-8">
-            <ul className="border-t border-hairline">
-              {MAIN_NAV.map((item) => (
-                <li key={item.to}>
-                  <Link
-                    to={item.to}
-                    aria-current={isCurrent(pathname, item.to) ? 'page' : undefined}
-                    className={sideLinkClass}
-                    onClick={close}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+        <div className="flex-1 overflow-y-auto px-4 pt-4 pb-[calc(24px+env(safe-area-inset-bottom))]">
+          <nav aria-label="Menu principal">
+            <ul className="grid gap-0.5">
+              {MAIN_NAV.map((item) => {
+                const current = isCurrent(pathname, item.to)
+                return (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      aria-current={current ? 'page' : undefined}
+                      onClick={close}
+                      className={cn(
+                        'flex min-h-12 items-center justify-between rounded-xl px-3 text-[1.0625rem] font-medium transition-colors',
+                        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+                        current ? 'bg-brand-soft text-brand' : 'text-heading hover:bg-slate-50',
+                      )}
+                    >
+                      {item.label}
+                      <ChevronRight aria-hidden="true" className="size-4 opacity-50" />
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </nav>
+
+          <div className="mt-8 border-t border-line pt-6">
+            <h2 className="mb-3 text-xs font-semibold tracking-[0.12em] text-body uppercase">Langue</h2>
+            <LanguageList />
+          </div>
+
+          <div className="mt-8 border-t border-line pt-6">
+            <WaButton fullWidth size="lg">
+              WhatsApp {WHATSAPP_DISPLAY}
+            </WaButton>
+          </div>
         </div>
       </aside>
     </>
