@@ -33,7 +33,7 @@ export function CookieBar() {
       role="region"
       aria-label="Cookies"
       data-section="chrome-cookie"
-      className="fixed inset-x-4 bottom-4 z-50 rounded-2xl border border-line bg-canvas/95 p-4 shadow-card-hover backdrop-blur-md sm:right-auto sm:left-6 sm:bottom-6 sm:max-w-md sm:p-5"
+      className="fixed bottom-4 left-4 right-20 z-50 rounded-2xl border border-line bg-canvas/95 p-4 shadow-card-hover backdrop-blur-md sm:right-auto sm:left-6 sm:bottom-6 sm:max-w-md sm:p-5"
     >
       <div className="flex items-start gap-3">
         <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
