@@ -1,44 +1,52 @@
-import { MobileBuyBar, WhatsAppBubble } from './home/FloatingActions'
-import { HomeApp } from './home/sections/App'
-import { HomeChannels } from './home/sections/Channels'
-import { HomeCompat } from './home/sections/Compat'
-import { HomeCta } from './home/sections/Cta'
-import { HomeDiscover } from './home/sections/Discover'
+import type { ComponentType } from 'react'
+import { HomeActivation } from './home/sections/Activation'
+import { HomeAppsMatrix } from './home/sections/AppsMatrix'
 import { HomeFaq } from './home/sections/Faq'
-import { HomeFeatures } from './home/sections/Features'
-import { HomeGuides } from './home/sections/Guides'
+import { HomeFeatureGrid } from './home/sections/FeatureGrid'
 import { HomeHero } from './home/sections/Hero'
-import { HomeMilestones } from './home/sections/Milestones'
-import { HomePlans } from './home/sections/Plans'
-import { HomePremium } from './home/sections/Premium'
-import { HomeReviews } from './home/sections/Reviews'
-import { HomeSport } from './home/sections/Sport'
-import { HomeVod } from './home/sections/Vod'
-import { HomeWhy } from './home/sections/Why'
+import { HomeInfoCards } from './home/sections/InfoCards'
+import { HomeInstallation } from './home/sections/Installation'
+import { HomeLiveSport } from './home/sections/LiveSport'
+import { HomePillars } from './home/sections/Pillars'
+import { HomeResolution } from './home/sections/Resolution'
+import { HomeRoadmap } from './home/sections/Roadmap'
+import { HomeTechBar } from './home/sections/TechBar'
+import { HomeTestimonials } from './home/sections/Testimonials'
+import { HomeVodLibrary } from './home/sections/VodLibrary'
 
-/** Home landing page: every band lives in its own module under ./home/sections, in page order here. */
+/** Spec sections 1–14 in spec order (section 15, the footer, is site chrome). Each lives in ./home/sections. */
+const SECTIONS: { key: string; Component: ComponentType }[] = [
+  { key: 's01', Component: HomeHero },
+  { key: 's02', Component: HomeFeatureGrid },
+  { key: 's03', Component: HomeAppsMatrix },
+  { key: 's04', Component: HomeTechBar },
+  { key: 's05', Component: HomeResolution },
+  { key: 's06', Component: HomeInfoCards },
+  { key: 's07', Component: HomeRoadmap },
+  { key: 's08', Component: HomeLiveSport },
+  { key: 's09', Component: HomeVodLibrary },
+  { key: 's10', Component: HomeActivation },
+  { key: 's11', Component: HomeInstallation },
+  { key: 's12', Component: HomePillars },
+  { key: 's13', Component: HomeTestimonials },
+  { key: 's14', Component: HomeFaq },
+]
+
+/** Dev only: `/?only=s05` or `/?only=s05,s08` renders just those sections, for screenshots. */
+function visibleSections() {
+  if (!import.meta.env.DEV || typeof window === 'undefined') return SECTIONS
+  const only = new URLSearchParams(window.location.search).get('only')
+  if (!only) return SECTIONS
+  const keys = only.split(',')
+  return SECTIONS.filter((s) => keys.includes(s.key))
+}
+
 export default function Home() {
   return (
-    <div className="overflow-x-clip scroll-smooth bg-paper font-sans leading-[1.65] text-ink-body antialiased">
-      <HomeHero />
-      <HomeFeatures />
-      <HomeApp />
-      <HomeChannels />
-      <HomeDiscover />
-      <HomeMilestones />
-      <HomeSport />
-      <HomeVod />
-      <HomeCta />
-      <HomePlans />
-      <HomeCompat />
-      <HomePremium />
-      <HomeGuides />
-      <HomeWhy />
-      <HomeReviews />
-      <HomeFaq />
-
-      <WhatsAppBubble />
-      <MobileBuyBar />
+    <div className="overflow-x-clip">
+      {visibleSections().map(({ key, Component }) => (
+        <Component key={key} />
+      ))}
     </div>
   )
 }
