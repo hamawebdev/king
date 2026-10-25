@@ -1,0 +1,22 @@
+import { PACKS } from '@/lib/packs'
+import { Contact } from './shared'
+
+/** The four official packs (lib/packs), as listed in the sales and refund documents. */
+export function PackList() {
+  return (
+    <Contact>
+      <ul className="grid gap-2">
+        {PACKS.map((p) => (
+          <li key={p.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+            <span className="font-medium text-heading">
+              {p.name} — {p.duration}
+            </span>
+            <span className="tabular-nums">
+              {p.price} <span className="text-slate-500">({p.perMonth})</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Contact>
+  )
+}

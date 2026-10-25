@@ -1,10 +1,10 @@
-import { SITE_DOMAIN } from '@/lib/site'
-import { Contact, DocLayout, H2, Mail, P, UL } from './shared'
+import { Link } from 'react-router'
+import { Contact, DocLayout, H2, P, UL, Wa } from './shared'
 
-// Politique de confidentialité: placeholder text, block structure mirrors the original document.
+// Politique de confidentialité.
 export function PrivacyContent() {
   return (
-    <DocLayout title="Les données personnelles recueillies">
+    <DocLayout crumb="Politique de confidentialité" title="Les données personnelles recueillies">
       <P>Voici les données que nous pouvons enregistrer :</P>
       <UL cols>
         <li>Nom</li>
@@ -17,20 +17,24 @@ export function PrivacyContent() {
         <li>Date de naissance</li>
       </UL>
       <P>
-        Ces données nous parviennent principalement par l’intermédiaire des formulaires du site ainsi que lors de vos
-        échanges avec nos services en ligne. Des cookies et des journaux techniques, présentés plus bas, contribuent
+        Ces données nous parviennent principalement lors de vos échanges avec nos conseillers sur WhatsApp (commande,
+        activation, assistance). Des cookies et des journaux techniques, présentés plus bas, contribuent
         également à recueillir certaines informations sur votre navigation et vos habitudes de visite.
       </P>
       <H2 id="saisie-et-suivi">Saisie et suivi de navigation :</H2>
-      <P>Les formulaires suivants nous permettent d’obtenir vos informations personnelles :</P>
+      <P>Les échanges suivants nous permettent d’obtenir vos informations personnelles :</P>
       <UL>
-        <li>Formulaire de création d’espace client</li>
-        <li>Formulaire de paiement</li>
+        <li>Conversation WhatsApp avec votre conseiller (commande, renouvellement, activation)</li>
+        <li>Envoi de vos identifiants par e-mail</li>
       </UL>
+      <P>
+        Le règlement se fait par PayPal ou par Virement Bancaire Instantané SEPA : aucune donnée de carte bancaire n’est
+        saisie ni conservée par le site.
+      </P>
       <P>Les informations obtenues de cette manière servent aux objectifs ci-dessous :</P>
       <UL>
-        <li>Traitement des achats</li>
-        <li>Échanges</li>
+        <li>Traitement des commandes et des renouvellements</li>
+        <li>Assistance technique</li>
       </UL>
       <P>
         Certaines informations sont obtenues lors de votre navigation et de vos échanges avec les pages du site,
@@ -53,10 +57,13 @@ export function PrivacyContent() {
       <P>Pour faire valoir ces droits, contactez-nous :</P>
       <Contact>
         <p>
-          <span className="lbl">Courriel :</span> <Mail />
+          <span className="lbl">WhatsApp :</span> <Wa />
         </p>
         <p>
-          <span className="lbl">Rubrique en ligne :</span> <span className="font-medium text-ink">{SITE_DOMAIN}</span>
+          <span className="lbl">Rubrique en ligne :</span>{' '}
+          <Link to="/contact/" className="font-medium text-brand underline underline-offset-2 hover:text-brand-hover">
+            page Contact
+          </Link>
         </p>
       </Contact>
       <H2 id="consultation">Consultation</H2>
@@ -67,10 +74,13 @@ export function PrivacyContent() {
       <P>Les demandes sont à adresser :</P>
       <Contact>
         <p>
-          <span className="lbl">Courriel :</span> <Mail />
+          <span className="lbl">WhatsApp :</span> <Wa />
         </p>
         <p>
-          <span className="lbl">Rubrique en ligne :</span> <span className="font-medium text-ink">{SITE_DOMAIN}</span>
+          <span className="lbl">Rubrique en ligne :</span>{' '}
+          <Link to="/contact/" className="font-medium text-brand underline underline-offset-2 hover:text-brand-hover">
+            page Contact
+          </Link>
         </p>
       </Contact>
       <H2 id="stockage">Stockage</H2>

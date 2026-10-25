@@ -1,5 +1,4 @@
 import type { ComponentType } from 'react'
-import { Section } from '@/components/brand'
 import { CguContent } from './legal/CguContent'
 import { CgvContent } from './legal/CgvContent'
 import { PrivacyContent } from './legal/PrivacyContent'
@@ -14,12 +13,12 @@ const DOCS: Record<LegalDoc, ComponentType> = {
   refund: RefundContent,
 }
 
-// One paper section holding the document (DIRECTION §9.7): title, then a sticky table of contents from xl.
+// One legal document: aura header with the title, then a sticky table of contents from xl.
 export default function Legal({ doc }: { doc: LegalDoc }) {
   const Content = DOCS[doc]
   return (
-    <Section zone="paper" dataSection="legal-doc" data-doc={doc} rhythm="none" container={false}>
+    <div data-section="legal-doc" data-doc={doc} className="overflow-x-clip bg-canvas">
       <Content />
-    </Section>
+    </div>
   )
 }

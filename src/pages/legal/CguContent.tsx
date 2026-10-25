@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react'
 import { BRAND, BRAND_UPPER } from '@/lib/site'
-import { B, DocLayout, H2, HelpCard, Mail, P } from './shared'
+import { B, DocLayout, H2, HelpCard, P, Wa } from './shared'
 
-// Conditions d'utilisation: placeholder text, block structure mirrors the original document.
+// Conditions d'utilisation.
 export function CguContent() {
   return (
     <DocLayout
+      crumb="Conditions d’utilisation"
       title={<>Votre espace {BRAND}.</>}
       lead={
         <p>
@@ -16,9 +17,9 @@ export function CguContent() {
         </p>
       }
     >
-      <H2 id="droits-sur-les-contenus" tone="label">DROITS SUR LES CONTENUS</H2>
+      <H2 id="droits-sur-les-contenus">DROITS SUR LES CONTENUS</H2>
       <P>
-        © 2025 <B /> – tous droits réservés. Les textes, visuels et éléments graphiques publiés ici appartiennent
+        © 2026 <B /> – tous droits réservés. Les textes, visuels et éléments graphiques publiés ici appartiennent
         à <B /> ou à ses partenaires et peuvent comporter des signes distinctifs enregistrés par <B /> ou par des tiers.
         Vous êtes libre d’afficher, d’imprimer ou de sauvegarder certaines pages pour un usage strictement privé, sous
         réserve de laisser intactes et parfaitement lisibles toutes les mentions de propriété qui y figurent.
@@ -33,7 +34,7 @@ export function CguContent() {
         L’ensemble des contenus est mis à disposition en l’état, sans engagement de disponibilité permanente, et leur
         consultation comme leur utilisation se font sous votre seule et entière responsabilité, à vos propres risques.
       </P>
-      <H2 id="obligations-de-chaque-membre" tone="label">OBLIGATIONS DE CHAQUE MEMBRE</H2>
+      <H2 id="obligations-de-chaque-membre">OBLIGATIONS DE CHAQUE MEMBRE</H2>
       <P>
         Chaque membre répond personnellement des actions réalisées depuis son compte. Il est interdit d’utiliser le
         site d’une manière que <B /> jugerait contraire à sa vocation, et notamment : à des fins illicites ou
@@ -62,17 +63,16 @@ export function CguContent() {
         outre de ne pas faire valoir, à l’encontre de cette exploitation, les prérogatives dont vous disposez ou
         pourriez disposer en tant qu’auteur.
       </P>
-      <H2 id="signalement-d-un-abus" tone="label">SIGNALEMENT D’UN ABUS</H2>
+      <H2 id="signalement-d-un-abus">SIGNALEMENT D’UN ABUS</H2>
       <P>
         Si vous estimez qu’un contenu présent sur le site porte atteinte à vos droits ou à votre réputation, et que
-        vous résidez hors de l’Union européenne, vous pouvez adresser un signalement détaillé à <B /> par courrier
-        électronique. Chaque demande est examinée avec attention par notre équipe et donne lieu aux suites jugées
+        vous résidez hors de l’Union européenne, vous pouvez adresser un signalement détaillé à <B /> par écrit sur <Wa />. Chaque demande est examinée avec attention par notre équipe et donne lieu aux suites jugées
         pertinentes selon la nature et la gravité des faits rapportés.
       </P>
-      <H2 id="reclamation-procedure-de-retrait" tone="label">RÉCLAMATION – PROCÉDURE DE RETRAIT</H2>
+      <H2 id="reclamation-procedure-de-retrait">RÉCLAMATION – PROCÉDURE DE RETRAIT</H2>
       <P>
         Lorsqu’une œuvre vous appartenant semble reproduite sur le site sans votre accord, vous pouvez en
-        informer <B /> en écrivant à <Mail />. Après vérification, nous pourrons retirer l’élément concerné,
+        informer <B /> en écrivant sur <Wa />. Après vérification, nous pourrons retirer l’élément concerné,
         prévenir le membre qui l’a publié et lui permettre de présenter ses observations dans le cadre d’une
         contestation. L’élément retiré pourra être remis en ligne si cette contestation apparaît fondée. Nous
         conservons une trace écrite de chaque réclamation reçue ainsi que des mesures prises en retour. Une
@@ -83,9 +83,9 @@ export function CguContent() {
         Pour être recevable, toute réclamation transmise à <B /> doit être formulée par écrit et réunir au minimum
         les informations listées ci-dessous :
       </P>
-      <ol className="mt-5 max-w-[68ch] border-t border-hairline font-sans text-copy leading-[1.7] text-ink-body">
+      <ol className="mt-5 max-w-[68ch] border-t border-line text-base leading-[1.75] text-body">
         <Item>
-          1.La signature manuscrite ou numérique du titulaire des droits invoqués, ou celle d’un mandataire dûment
+          1. La signature manuscrite ou numérique du titulaire des droits invoqués, ou celle d’un mandataire dûment
           habilité à agir en son nom.
         </Item>
         <Item>2. La désignation précise de l’œuvre ou du contenu dont la protection est revendiquée.</Item>
@@ -109,7 +109,7 @@ export function CguContent() {
           que le demandeur est bien le titulaire des droits concernés ou qu’il est habilité à le représenter.
         </Item>
       </ol>
-      <H2 id="identifiants-personnels" tone="label">IDENTIFIANTS PERSONNELS</H2>
+      <H2 id="identifiants-personnels">IDENTIFIANTS PERSONNELS</H2>
       <P>
         Certaines fonctionnalités du site sont réservées aux membres disposant d’un identifiant et d’un mot de passe.
         Il vous appartient de garder ces éléments secrets et de choisir un mot de passe robuste, difficile à deviner,
@@ -119,7 +119,7 @@ export function CguContent() {
         réalisée par vous. En cas de perte, de vol ou de doute sur la confidentialité de vos accès, prévenez sans
         attendre <B /> afin que votre compte soit sécurisé.
       </P>
-      <H2 id="exclusions" tone="label">EXCLUSIONS</H2>
+      <H2 id="exclusions">EXCLUSIONS</H2>
       <P>
         L’ensemble des engagements pris par <B /> figure dans le présent document. Aucune garantie supplémentaire,
         qu’elle soit expresse ou tacite, ne saurait être déduite d’un autre support, y compris en matière de
@@ -136,14 +136,14 @@ export function CguContent() {
         déterminant de l’équilibre du contrat et restent applicables même dans l’hypothèse où une autre clause serait
         jugée inefficace ou viendrait à ne pas produire ses effets.
       </P>
-      <H2 id="loi-et-tribunaux" tone="label">LOI ET TRIBUNAUX</H2>
+      <H2 id="loi-et-tribunaux">LOI ET TRIBUNAUX</H2>
       <P>
         Les présentes conditions sont soumises au droit français, à l’exclusion de toute règle de conflit de lois qui
         conduirait à appliquer une autre législation. En cas de différend relatif à leur interprétation ou à leur
         exécution, les parties rechercheront d’abord une solution amiable. À défaut d’accord, toute action dirigée
         contre <B /> sera portée devant les juridictions compétentes du ressort de son siège.
       </P>
-      <H2 id="sites-tiers" tone="label">SITES TIERS</H2>
+      <H2 id="sites-tiers">SITES TIERS</H2>
       <P>
         Le site peut renvoyer vers des pages externes que <B /> ne gère pas. <B /> n’intervient pas dans les ventes
         réalisées par ces tiers et n’en assure aucune garantie. Ces pages externes peuvent proposer leurs propres
@@ -153,30 +153,30 @@ export function CguContent() {
         chacun de ces sites. <B /> propose ces renvois pour votre confort de navigation
         uniquement et leur présence ne vaut en rien approbation de la part de <B />.
       </P>
-      <H2 id="vie-privee" tone="label">VIE PRIVÉE</H2>
+      <H2 id="vie-privee">VIE PRIVÉE</H2>
       <P>
         Le traitement de vos données est décrit dans notre Politique de confidentialité, qui fait partie intégrante
         de ce texte.
       </P>
-      <H2 id="caractere-indicatif" tone="label">CARACTÈRE INDICATIF</H2>
+      <H2 id="caractere-indicatif">CARACTÈRE INDICATIF</H2>
       <P>
         Les informations présentées sur ce site ont une valeur purement indicative et ne constituent pas une
         proposition commerciale.
       </P>
-      <H2 id="mise-a-jour" tone="label">MISE À JOUR DU PRÉSENT TEXTE</H2>
+      <H2 id="mise-a-jour">MISE À JOUR DU PRÉSENT TEXTE</H2>
       <P>
         <B /> se réserve la possibilité d’adapter ce texte à tout moment. La version en vigueur a été mise à jour le
-        18 avril 2025.
+        25 octobre 2026.
       </P>
-      <H2 id="engagement" tone="label" caps={false}>
+      <H2 id="engagement">
         Engagement
       </H2>
       <P>
         Aucun contenu de ce site ne constitue une invitation à investir dans <B /> ici.
       </P>
-      <HelpCard id="aide" tone="label" heading={<>AIDE {BRAND_UPPER}</>}>
+      <HelpCard id="aide" heading={<>AIDE {BRAND_UPPER}</>}>
         <P>
-          <B /> reste joignable par écrit : <Mail />
+          <B /> reste joignable par écrit, 7j/7 : <Wa />
         </P>
       </HelpCard>
     </DocLayout>
@@ -185,11 +185,11 @@ export function CguContent() {
 
 /**
  * Numbered requirement. The numeral stays in the item's own text, exactly as written; ::first-letter
- * (the digit and its full stop) sets it as a brass ledger index.
+ * (the digit) sets it in the brand blue.
  */
 function Item({ children }: { children: ReactNode }) {
   return (
-    <li className="border-b border-hairline py-4 last:border-b-0 last:pb-0 first-letter:pr-2 first-letter:font-display first-letter:text-[1.1875rem] first-letter:leading-none first-letter:font-semibold first-letter:text-brass-700 first-letter:italic">
+    <li className="border-b border-line py-4 last:border-b-0 last:pb-0 first-letter:pr-1 first-letter:font-semibold first-letter:text-brand">
       {children}
     </li>
   )
