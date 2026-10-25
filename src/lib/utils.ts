@@ -12,7 +12,7 @@ export const cn = createCn({
         'meta', 'micro', 'badge', 'faq', 'price-xl', 'price-lg', 'price-md', 'price-sm', 'stat-lg', 'stat-md',
       ],
       radius: ['tag', 'control', 'card', 'panel'],
-      shadow: ['lift', 'float', 'bar'],
+      shadow: ['lift', 'float', 'bar', 'card', 'card-hover', 'cta', 'cta-wa'],
       spacing: ['gutter', 'section', 'section-sm', 'hero', 'head', 'grid', 'card'],
       container: ['content', 'wide', 'text'],
       ease: ['calm', 'drawer'],

@@ -1,4 +1,4 @@
-// Shared site constants. All copy is placeholder text for the layout clone.
+// Shared site constants (brand, WhatsApp concierge, navigation).
 
 export const BRAND = 'NovaStream'
 export const BRAND_UPPER = 'NOVASTREAM'
@@ -32,9 +32,23 @@ export const LEGAL_NAV: NavItem[] = [
   { label: 'Contactez-nous', to: '/contact/' },
 ]
 
-// Placeholder contact targets: links look real but go nowhere.
-export const WHATSAPP_HREF = '#whatsapp'
-export const SUPPORT_EMAIL_HREF = '#email'
+/** Official WhatsApp line (spec: every order, renewal, activation and support request goes through it). */
+export const WHATSAPP_NUMBER = '33751299176'
+export const WHATSAPP_DISPLAY = '+33 7 51 29 91 76'
+
+/** wa.me link, optionally with a prefilled message (spec copy, used word for word). Open with target="_blank". */
+export function waLink(message?: string): string {
+  const base = `https://wa.me/${WHATSAPP_NUMBER}`
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base
+}
+
+/** Generic contact message used where the spec gives no specific one. */
+export const WA_CONTACT_MESSAGE = 'Bonjour NovaStream, je souhaite des informations sur vos abonnements King 365 TV'
+
+/** Kept for existing imports: the plain WhatsApp link. */
+export const WHATSAPP_HREF = waLink()
+/** Kept for existing imports: support goes through WhatsApp too. */
+export const SUPPORT_EMAIL_HREF = WHATSAPP_HREF
 
 /** href for a route rendered as a plain <a> (not a router Link): prefixed with the deploy base path. */
 export function routeHref(path: string) {
