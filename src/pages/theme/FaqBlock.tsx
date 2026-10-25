@@ -1,5 +1,5 @@
 import { Section, SectionHeading, WaButton } from '@/components/kit'
-import { FAQ_ITEMS } from '@/pages/home/sections/Faq.data'
+import { useFaqItems } from '@/pages/home/sections/Faq.data'
 import { FaqList } from '@/pages/home/sections/Faq.list'
 import type { SectionTone } from '@/components/kit'
 import { useCopy, type Localized } from '@/lib/i18n'
@@ -26,7 +26,8 @@ type FaqBlockProps = {
 /** A band with a subset of the 20 approved FAQ answers (spec S14), plus a WhatsApp way out. */
 export function FaqBlock({ ids, title, eyebrow, tone = 'white' }: FaqBlockProps) {
   const t = useCopy(COPY)
-  const items = ids.map((id) => FAQ_ITEMS.find((i) => i.id === id)).filter((i) => i !== undefined)
+  const all = useFaqItems()
+  const items = ids.map((id) => all.find((i) => i.id === id)).filter((i) => i !== undefined)
   return (
     <Section tone={tone} aria-labelledby="faq-title">
       <SectionHeading id="faq-title" eyebrow={eyebrow ?? t.eyebrow} title={title ?? t.title} />
