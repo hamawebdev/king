@@ -66,8 +66,8 @@ const NAV_COPY: Localized<NavLabels> = {
     legal: {
       cgu: 'Käyttöehdot',
       cgv: 'Yleiset myyntiehdot',
-      privacy: 'Tietosuojakäytäntö',
-      refund: 'Hyvityskäytäntö',
+      privacy: 'Tietosuojaseloste',
+      refund: 'Palautuskäytäntö',
       contactUs: 'Ota yhteyttä',
     },
   },
