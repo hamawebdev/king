@@ -40,6 +40,7 @@ export function SideSlide() {
       />
       <aside
         ref={panel}
+        id="mobile-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Menu"

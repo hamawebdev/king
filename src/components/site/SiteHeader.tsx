@@ -19,7 +19,7 @@ const navLinkClass =
  */
 export function SiteHeader() {
   const { pathname } = useLocation()
-  const { setSideOpen } = useChrome()
+  const { sideOpen, setSideOpen } = useChrome()
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -80,6 +80,8 @@ export function SiteHeader() {
             type="button"
             aria-label="Ouvrir le menu"
             aria-haspopup="dialog"
+            aria-expanded={sideOpen}
+            aria-controls="mobile-menu"
             onClick={() => setSideOpen(true)}
             className="grid size-11 place-items-center rounded-xl text-heading transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
           >
