@@ -15,16 +15,18 @@ export { HelpBanner as InstallHelpBanner } from './install/HelpBanner'
 /** Section 11 — guarantee strip, installation hub (9 devices), 4 FAQs and the WhatsApp help banner. */
 export function HomeInstallation() {
   return (
-    <Section id="installation" className="scroll-mt-20 pt-10 md:pt-14" aria-labelledby="installation-title">
+    <Section className="pt-10 md:pt-14" aria-labelledby="installation-title">
       <GuaranteeStrip />
 
-      <SectionHeading
-        id="installation-title"
-        className="mt-20 md:mt-28"
-        eyebrow={INSTALL_HEAD.eyebrow}
-        title={nb(INSTALL_HEAD.title)}
-        subtitle={INSTALL_HEAD.subtitle}
-      />
+      {/* #installation (footer, S3 APK buttons, FAQ links) lands on the hub header, not on the guarantee strip above it. */}
+      <div id="installation" className="mt-20 scroll-mt-20 md:mt-28">
+        <SectionHeading
+          id="installation-title"
+          eyebrow={INSTALL_HEAD.eyebrow}
+          title={nb(INSTALL_HEAD.title)}
+          subtitle={INSTALL_HEAD.subtitle}
+        />
+      </div>
 
       <dl className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-2.5 sm:gap-4">
         {INSTALL_KPIS.map((kpi) => (
