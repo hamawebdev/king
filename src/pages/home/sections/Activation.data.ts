@@ -1,5 +1,12 @@
 // Spec S10 (Issue 10) — « Spécifications et textes français approuvés », word for word (spec p.10–12).
 // The four packs themselves live in @/lib/packs (PACKS) — never re-type prices here.
+// Other languages: Activation.data.<lang>.ts, typed against ActivationCopy. Components use useActivationCopy().
+import { useCopy, type Localized } from '@/lib/i18n'
+import { de } from './Activation.data.de'
+import { en } from './Activation.data.en'
+import { es } from './Activation.data.es'
+import { fi } from './Activation.data.fi'
+import { pt } from './Activation.data.pt'
 
 /** Keeps « King 365 TV » on one line in headings (non-breaking spaces; the words are unchanged). */
 export function keepKing(text: string): string {
@@ -167,3 +174,59 @@ export const PACK_CTA = 'Activer sur WhatsApp'
 
 /** Payment line under the packs — Étape 02's sentence, word for word. No card payment anywhere. */
 export const PAYMENT_NOTE = 'Transactions protégées via PayPal (avec protection acheteur) ou par Virement Bancaire Instantané SEPA.'
+
+/* ------------------------------------------------------------------------------------------------------------ */
+/* Localized copy. French = the constants above (spec text); other languages in Activation.data.<lang>.ts.        */
+/* ------------------------------------------------------------------------------------------------------------ */
+
+export type ActivationCopy = {
+  head: { badge: string; title: string; subtitle: string }
+  /** Word on the step tiles and in their screen-reader prefix (« Étape 01 »). */
+  stepLabel: string
+  steps: ActivationStep[]
+  reassuranceTitle: string
+  pillars: Pillar[]
+  pricingHead: { badge: string; title: string; subtitle: string }
+  includedHead: { badge: string; title: string }
+  includedMetrics: { value: string; label: string }[]
+  supportedDevices: { emoji: string; label: string }[]
+  protocols: { num: string; title: string; tag: string; text: string }[]
+  packTableLabels: { formula: string; durationPrice: string; inclusions: string; whatsapp: string }
+  packRecommended: string
+  packCta: string
+  paymentNote: string
+}
+
+const fr: ActivationCopy = {
+  head: ACTIVATION_HEAD,
+  stepLabel: 'Étape',
+  steps: ACTIVATION_STEPS,
+  reassuranceTitle: REASSURANCE_TITLE,
+  pillars: REASSURANCE_PILLARS,
+  pricingHead: PRICING_HEAD,
+  includedHead: INCLUDED_HEAD,
+  includedMetrics: INCLUDED_METRICS,
+  supportedDevices: SUPPORTED_DEVICES,
+  protocols: CONNECTION_PROTOCOLS,
+  packTableLabels: PACK_TABLE_LABELS,
+  packRecommended: PACK_RECOMMENDED,
+  packCta: PACK_CTA,
+  paymentNote: PAYMENT_NOTE,
+}
+
+export const ACTIVATION_COPY: Localized<ActivationCopy> = { fr, en, de, es, pt, fi }
+
+/** All of section 10's copy in the current site language. */
+export function useActivationCopy(): ActivationCopy {
+  return useCopy(ACTIVATION_COPY)
+}
+
+/** « Comment Activer Votre Accès… » heading (badge, title, subtitle) in the current language. */
+export function useActivationHead(): ActivationCopy['head'] {
+  return useActivationCopy().head
+}
+
+/** Pack CTA label (« Activer sur WhatsApp ») in the current language. */
+export function usePackCta(): string {
+  return useActivationCopy().packCta
+}

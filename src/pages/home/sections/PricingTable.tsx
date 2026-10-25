@@ -1,19 +1,8 @@
 import { Check } from 'lucide-react'
 import { Eyebrow, Pill, SectionHeading, WaButton } from '@/components/kit'
-import { PACKS, type Pack } from '@/lib/packs'
+import { usePacks, type Pack } from '@/lib/packs'
 import { cn } from '@/lib/utils'
-import {
-  CONNECTION_PROTOCOLS,
-  INCLUDED_HEAD,
-  keepKing,
-  INCLUDED_METRICS,
-  PACK_CTA,
-  PACK_RECOMMENDED,
-  PACK_TABLE_LABELS,
-  PAYMENT_NOTE,
-  PRICING_HEAD,
-  SUPPORTED_DEVICES,
-} from './Activation.data'
+import { keepKing, useActivationCopy } from './Activation.data'
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4'
 const NEXT_LEVEL: Record<HeadingLevel, HeadingLevel> = { h1: 'h2', h2: 'h3', h3: 'h4', h4: 'h4' }
@@ -36,18 +25,19 @@ type IncludedMetricsProps = {
 export function IncludedMetrics({ headingAs = 'h3', devices = true, protocols = true, className }: IncludedMetricsProps) {
   const Heading = headingAs
   const ProtocolTitle = NEXT_LEVEL[headingAs]
+  const t = useActivationCopy()
   return (
     <div className={className}>
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-        <Eyebrow tone="neutral">{INCLUDED_HEAD.badge}</Eyebrow>
+        <Eyebrow tone="neutral">{t.includedHead.badge}</Eyebrow>
         <Heading className="text-2xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-[1.75rem]">
-          {keepKing(INCLUDED_HEAD.title)}
+          {keepKing(t.includedHead.title)}
         </Heading>
       </div>
 
       {/* One card, four cells split by 1px rules (gap-px over the line colour). */}
       <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line shadow-card lg:grid-cols-4">
-        {INCLUDED_METRICS.map((m) => (
+        {t.includedMetrics.map((m) => (
           <div key={m.value} className="flex flex-col-reverse justify-end gap-2 bg-canvas px-4 py-6 sm:px-6 sm:py-7">
             <dt className="text-[0.8125rem] leading-snug text-body sm:text-sm">{m.label}</dt>
             <dd className="text-[1.625rem] leading-none font-bold tracking-tight text-heading tabular-nums sm:text-4xl">
@@ -59,7 +49,7 @@ export function IncludedMetrics({ headingAs = 'h3', devices = true, protocols = 
 
       {devices ? (
         <ul className="m-0 mt-6 flex list-none flex-wrap justify-center gap-2 p-0">
-          {SUPPORTED_DEVICES.map((d) => (
+          {t.supportedDevices.map((d) => (
             <li key={d.label} className="flex">
               <Pill icon={d.emoji} className="py-1 text-[0.8125rem] sm:text-sm">
                 {d.label}
@@ -71,7 +61,7 @@ export function IncludedMetrics({ headingAs = 'h3', devices = true, protocols = 
 
       {protocols ? (
         <ol className="m-0 mt-10 grid list-none gap-4 p-0 lg:grid-cols-3 lg:gap-5">
-          {CONNECTION_PROTOCOLS.map((p) => (
+          {t.protocols.map((p) => (
             <li key={p.num} className="flex flex-col rounded-2xl border border-line bg-canvas p-5 shadow-card sm:p-6">
               <div className="flex items-center gap-3">
                 <span
@@ -99,12 +89,17 @@ export function IncludedMetrics({ headingAs = 'h3', devices = true, protocols = 
 /* The four packs (the spec's table: Formule / Durée-Tarif / Inclusions Clefs / Lien Direct WhatsApp → cards).   */
 /* ------------------------------------------------------------------------------------------------------------ */
 
-/** « Accès +5700 chaînes, VOD +16k, Replay, compatible toutes apps. » → one check line per comma-separated item. */
+/**
+ * « Accès +5700 chaînes, VOD +16k, Replay, compatible toutes apps. » → one check line per comma-separated item.
+ * Splits on a comma followed by a space only, so decimal commas (« 4,58 ») never split; every language writes
+ * « +5700 » without a thousands separator for the same reason.
+ */
 function inclusionItems(inclusions: string) {
   return inclusions.replace(/\.\s*$/, '').split(/,\s+/)
 }
 
 function PackCard({ pack, titleAs: Title }: { pack: Pack; titleAs: HeadingLevel }) {
+  const t = useActivationCopy()
   const featured = pack.highlighted
   return (
     <article
@@ -118,7 +113,7 @@ function PackCard({ pack, titleAs: Title }: { pack: Pack; titleAs: HeadingLevel 
       {featured ? (
         <p className="absolute -top-3.5 left-6 inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase shadow-cta sm:left-7">
           <span aria-hidden="true">⭐</span>
-          {PACK_RECOMMENDED}
+          {t.packRecommended}
         </p>
       ) : null}
 
@@ -143,12 +138,12 @@ function PackCard({ pack, titleAs: Title }: { pack: Pack; titleAs: HeadingLevel 
       </p>
 
       <div className="mt-6 border-t border-line pt-5">
-        <p className="text-xs font-semibold tracking-[0.08em] text-slate-500 uppercase">{PACK_TABLE_LABELS.inclusions}</p>
+        <p className="text-xs font-semibold tracking-[0.08em] text-slate-500 uppercase">{t.packTableLabels.inclusions}</p>
         <ul className="m-0 mt-3 flex list-none flex-col gap-2.5 p-0">
           {inclusionItems(pack.inclusions).map((item) => (
             <li key={item} className="flex gap-2.5 text-[0.9375rem] leading-snug">
               <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-brand" strokeWidth={2.5} />
-              <span className={cn('block first-letter:uppercase', /DNS Dédié/.test(item) ? 'font-semibold text-heading' : 'text-body')}>
+              <span className={cn('block first-letter:uppercase', /DNS/.test(item) ? 'font-semibold text-heading' : 'text-body')}>
                 {item}
               </span>
             </li>
@@ -158,17 +153,17 @@ function PackCard({ pack, titleAs: Title }: { pack: Pack; titleAs: HeadingLevel 
 
       {/* Message above the button so every button sits on the card's bottom edge (aligned across the row). */}
       <div className="mt-auto pt-7">
-        {/* The prefilled message, as the spec's « Lien Direct WhatsApp » column shows it. */}
-        <p className="mb-3 rounded-xl bg-slate-50 px-3 py-2 text-xs leading-relaxed text-slate-500">« {pack.waMessage} »</p>
+        {/* The prefilled message, as the spec's « Lien Direct WhatsApp » column shows it (always French: advisors work in French). */}
+        <p lang="fr" className="mb-3 rounded-xl bg-slate-50 px-3 py-2 text-xs leading-relaxed text-slate-500">« {pack.waMessage} »</p>
         <WaButton
           message={pack.waMessage}
           variant={featured ? 'whatsapp' : 'outline'}
           icon
           fullWidth
-          aria-label={`${PACK_CTA} — ${pack.name} (${pack.price} / ${pack.duration})`}
+          aria-label={`${t.packCta} — ${pack.name} (${pack.price} / ${pack.duration})`}
           className={cn('xl:px-3 xl:whitespace-nowrap', featured ? 'border border-transparent' : '[&>svg]:text-whatsapp')}
         >
-          {PACK_CTA}
+          {t.packCta}
         </WaButton>
       </div>
     </article>
@@ -198,15 +193,17 @@ export function PricingTable({ id, heading = true, headingAs = 'h2', headingId, 
   const sub = NEXT_LEVEL[headingAs] as 'h2' | 'h3'
   // Pack names sit under the main title (or under the page's heading when the title is hidden).
   const packTitle: HeadingLevel = heading ? sub : 'h3'
+  const t = useActivationCopy()
+  const packs = usePacks()
   return (
     <div className={className}>
       {heading ? (
         <SectionHeading
           as={headingAs}
           id={headingId}
-          eyebrow={PRICING_HEAD.badge}
-          title={keepKing(PRICING_HEAD.title)}
-          subtitle={PRICING_HEAD.subtitle}
+          eyebrow={t.pricingHead.badge}
+          title={keepKing(t.pricingHead.title)}
+          subtitle={t.pricingHead.subtitle}
         />
       ) : null}
 
@@ -214,7 +211,7 @@ export function PricingTable({ id, heading = true, headingAs = 'h2', headingId, 
 
       <div id={id} className={cn('scroll-mt-24', heading || included ? 'mt-14 md:mt-20' : undefined)}>
         <ul className="m-0 grid list-none gap-6 p-0 pt-3.5 md:grid-cols-2 xl:grid-cols-4 xl:gap-5 xl:pt-8">
-          {PACKS.map((pack) => (
+          {packs.map((pack) => (
             <li key={pack.id} className="flex flex-col">
               <PackCard pack={pack} titleAs={packTitle} />
             </li>
@@ -223,7 +220,7 @@ export function PricingTable({ id, heading = true, headingAs = 'h2', headingId, 
 
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-pretty text-body">
           <span aria-hidden="true" className="mr-1.5">🔒</span>
-          {PAYMENT_NOTE}
+          {t.paymentNote}
         </p>
       </div>
     </div>

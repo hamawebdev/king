@@ -2,14 +2,7 @@ import { BookOpen, MonitorSmartphone, Puzzle, RefreshCw, ShieldCheck, type Lucid
 import { Section, SectionHeading, WhatsAppIcon } from '@/components/kit'
 import { WHATSAPP_DISPLAY, waLink } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import {
-  ACTIVATION_HEAD,
-  ACTIVATION_STEPS,
-  REASSURANCE_PILLARS,
-  REASSURANCE_TITLE,
-  keepKing,
-  type PillarIcon,
-} from './Activation.data'
+import { keepKing, useActivationCopy, type PillarIcon } from './Activation.data'
 import { PricingTable } from './PricingTable'
 
 /* ------------------------------------------------------------------------------------------------------------ */
@@ -21,10 +14,11 @@ import { PricingTable } from './PricingTable'
  * text beside it); lg: four columns joined by a horizontal rule through the step tiles.
  */
 export function ActivationSteps({ titleAs: Title = 'h3', className }: { titleAs?: 'h2' | 'h3' | 'h4'; className?: string }) {
-  const last = ACTIVATION_STEPS.length - 1
+  const t = useActivationCopy()
+  const last = t.steps.length - 1
   return (
     <ol className={cn('m-0 grid list-none gap-9 p-0 lg:grid-cols-4 lg:gap-7', className)}>
-      {ACTIVATION_STEPS.map((step, i) => (
+      {t.steps.map((step, i) => (
         <li key={step.num} className="relative flex gap-5 lg:flex-col lg:gap-6">
           {i < last ? (
             <span
@@ -36,7 +30,7 @@ export function ActivationSteps({ titleAs: Title = 'h3', className }: { titleAs?
             aria-hidden="true"
             className="relative grid size-14 shrink-0 place-content-center rounded-2xl border border-line bg-canvas text-center shadow-card"
           >
-            <span className="text-[9px] leading-none font-semibold tracking-[0.12em] text-slate-500 uppercase">Étape</span>
+            <span className="text-[9px] leading-none font-semibold tracking-[0.12em] text-slate-500 uppercase">{t.stepLabel}</span>
             <span className="mt-1 text-lg leading-none font-bold text-brand tabular-nums">{step.num}</span>
           </span>
 
@@ -46,7 +40,7 @@ export function ActivationSteps({ titleAs: Title = 'h3', className }: { titleAs?
               {step.chip.label}
             </p>
             <Title className="mt-3 text-lg leading-snug font-semibold text-heading">
-              <span className="sr-only">Étape {step.num} — </span>
+              <span className="sr-only">{t.stepLabel} {step.num} — </span>
               {step.title}
             </Title>
             <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">{step.text}</p>
@@ -91,6 +85,7 @@ function PillarText({ text }: { text: string }) {
 /** S10-B reassurance box, without a section shell. */
 export function ReassuranceBox({ headingAs: Heading = 'h3', className }: { headingAs?: 'h2' | 'h3'; className?: string }) {
   const PillarTitle = Heading === 'h2' ? 'h3' : 'h4'
+  const t = useActivationCopy()
   return (
     <div className={cn('rounded-3xl border border-line bg-mist/70 p-6 sm:p-8 lg:p-12', className)}>
       <div className="flex items-center gap-3">
@@ -98,12 +93,12 @@ export function ReassuranceBox({ headingAs: Heading = 'h3', className }: { headi
           <ShieldCheck className="size-5" />
         </span>
         <Heading className="text-xl leading-tight font-bold tracking-tight text-balance text-heading sm:text-2xl">
-          {REASSURANCE_TITLE}
+          {t.reassuranceTitle}
         </Heading>
       </div>
 
       <ul className="m-0 mt-8 grid list-none gap-x-10 gap-y-8 p-0 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-y-10">
-        {REASSURANCE_PILLARS.map((pillar) => {
+        {t.pillars.map((pillar) => {
           const Icon = pillar.icon === 'whatsapp' ? null : PILLAR_ICONS[pillar.icon]
           return (
             <li key={pillar.title} className="flex gap-4 sm:flex-col sm:gap-0">
@@ -133,14 +128,15 @@ export function ReassuranceBox({ headingAs: Heading = 'h3', className }: { headi
 
 /** Section 10 — Protocole d'activation en 4 étapes, boîte de réassurance, grille tarifaire des 4 formules. */
 export function HomeActivation() {
+  const t = useActivationCopy()
   return (
     <>
       <Section id="activation" aria-labelledby="activation-title">
         <SectionHeading
           id="activation-title"
-          eyebrow={ACTIVATION_HEAD.badge}
-          title={keepKing(ACTIVATION_HEAD.title)}
-          subtitle={ACTIVATION_HEAD.subtitle}
+          eyebrow={t.head.badge}
+          title={keepKing(t.head.title)}
+          subtitle={t.head.subtitle}
         />
         <ActivationSteps className="mt-12 md:mt-16" />
         <ReassuranceBox className="mt-16 md:mt-24" />
