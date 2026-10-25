@@ -4,12 +4,11 @@ import { InstallFaq, InstallHelpBanner, InstallHub } from './home/sections/Insta
 import { useInstallHead, useInstallKpis } from './home/sections/install/content'
 import { PageHero } from './theme/PageHero'
 import { useCopy, type Localized } from '@/lib/i18n'
+import { useNavLabels } from '@/lib/site'
 import { usePageTitle } from '@/lib/usePageTitle'
 
 const fr = {
   pageTitle: 'Télécharger l’application King 365 TV | NovaStream',
-  home: 'Accueil',
-  crumb: 'Télécharger',
   eyebrow: 'Applications officielles · Distributeur Agréé',
   title: 'Télécharger l’application King 365 TV',
   subtitle:
@@ -21,8 +20,6 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     pageTitle: 'Download the King 365 TV App | NovaStream',
-    home: 'Home',
-    crumb: 'Download',
     eyebrow: 'Official Apps · Authorized Distributor',
     title: 'Download the King 365 TV App',
     subtitle:
@@ -31,8 +28,6 @@ const COPY: Localized<typeof fr> = {
   },
   de: {
     pageTitle: 'King 365 TV App herunterladen | NovaStream',
-    home: 'Startseite',
-    crumb: 'Herunterladen',
     eyebrow: 'Offizielle Apps · Autorisierter Vertriebspartner',
     title: 'King 365 TV App herunterladen',
     subtitle:
@@ -41,8 +36,6 @@ const COPY: Localized<typeof fr> = {
   },
   es: {
     pageTitle: 'Descargar la aplicación King 365 TV | NovaStream',
-    home: 'Inicio',
-    crumb: 'Descargar',
     eyebrow: 'Aplicaciones oficiales · Distribuidor Autorizado',
     title: 'Descargar la aplicación King 365 TV',
     subtitle:
@@ -51,8 +44,6 @@ const COPY: Localized<typeof fr> = {
   },
   pt: {
     pageTitle: 'Transferir a aplicação King 365 TV | NovaStream',
-    home: 'Início',
-    crumb: 'Transferir',
     eyebrow: 'Aplicações oficiais · Distribuidor Autorizado',
     title: 'Transferir a aplicação King 365 TV',
     subtitle:
@@ -62,8 +53,6 @@ const COPY: Localized<typeof fr> = {
   // « King 365 TV -sana »: NBSP before the hyphen and a word joiner (U+2060) after it keep the compound on one line.
   fi: {
     pageTitle: 'Lataa King 365 TV -⁠sovellus | NovaStream',
-    home: 'Etusivu',
-    crumb: 'Lataa',
     eyebrow: 'Viralliset sovellukset · Valtuutettu jälleenmyyjä',
     title: 'Lataa King 365 TV -⁠sovellus',
     subtitle:
@@ -76,13 +65,14 @@ const COPY: Localized<typeof fr> = {
 // hub, the install FAQ and the WhatsApp help banner (S11).
 export default function Download() {
   const t = useCopy(COPY)
+  const nav = useNavLabels()
   usePageTitle(t.pageTitle)
   const installHead = useInstallHead()
   const installKpis = useInstallKpis()
   return (
     <div className="overflow-x-clip">
       <PageHero
-        crumbs={[{ label: t.home, to: '/' }, { label: t.crumb }]}
+        crumbs={[{ label: nav.main.home, to: '/' }, { label: nav.main.download }]}
         eyebrow={t.eyebrow}
         title={t.title}
         subtitle={t.subtitle}

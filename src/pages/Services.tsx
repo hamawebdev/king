@@ -3,6 +3,7 @@ import { Card, Section, SectionHeading, WaButton } from '@/components/kit'
 import { IncludedMetrics } from './home/sections/PricingTable'
 import { PageHero } from './theme/PageHero'
 import { useCopy, type Localized } from '@/lib/i18n'
+import { useNavLabels } from '@/lib/site'
 import { usePageTitle } from '@/lib/usePageTitle'
 
 /** Spec S15 footer: the reseller WhatsApp message, word for word. */
@@ -12,8 +13,6 @@ const STEP_ICONS = [MessagesSquare, Handshake, Headset]
 
 const fr = {
   pageTitle: 'Programme Revendeur King 365 TV | NovaStream',
-  home: 'Accueil',
-  crumb: 'Revendeur',
   eyebrow: 'Programme Revendeur · Distributeur Agréé King 365 TV',
   title: 'Devenez Revendeur King 365 TV avec NovaStream',
   subtitle:
@@ -41,8 +40,6 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     pageTitle: 'King 365 TV Reseller Program | NovaStream',
-    home: 'Home',
-    crumb: 'Reseller',
     eyebrow: 'Reseller Program · Authorized King 365 TV Distributor',
     title: 'Become a King 365 TV Reseller with NovaStream',
     subtitle:
@@ -67,8 +64,6 @@ const COPY: Localized<typeof fr> = {
   },
   de: {
     pageTitle: 'King 365 TV Wiederverkäufer-Programm | NovaStream',
-    home: 'Startseite',
-    crumb: 'Wiederverkäufer',
     eyebrow: 'Wiederverkäufer-Programm · Autorisierter King 365 TV Vertriebspartner',
     title: 'Werden Sie King 365 TV Wiederverkäufer mit NovaStream',
     subtitle:
@@ -93,8 +88,6 @@ const COPY: Localized<typeof fr> = {
   },
   es: {
     pageTitle: 'Programa de Revendedores King 365 TV | NovaStream',
-    home: 'Inicio',
-    crumb: 'Revendedor',
     eyebrow: 'Programa de Revendedores · Distribuidor Autorizado King 365 TV',
     title: 'Hazte revendedor de King 365 TV con NovaStream',
     subtitle:
@@ -119,8 +112,6 @@ const COPY: Localized<typeof fr> = {
   },
   pt: {
     pageTitle: 'Programa de Revendedores King 365 TV | NovaStream',
-    home: 'Início',
-    crumb: 'Revendedor',
     eyebrow: 'Programa de Revendedores · Distribuidor Autorizado King 365 TV',
     title: 'Torne-se revendedor King 365 TV com a NovaStream',
     subtitle:
@@ -146,8 +137,6 @@ const COPY: Localized<typeof fr> = {
   // « King 365 TV -sana »: NBSP before the hyphen and a word joiner (U+2060) after it keep the compound on one line.
   fi: {
     pageTitle: 'King 365 TV -⁠jälleenmyyjäohjelma | NovaStream',
-    home: 'Etusivu',
-    crumb: 'Jälleenmyyjä',
     eyebrow: 'Jälleenmyyjäohjelma · Valtuutettu King 365 TV -⁠jälleenmyyjä',
     title: 'Ryhdy King 365 TV -⁠jälleenmyyjäksi NovaStreamin kanssa',
     subtitle:
@@ -175,12 +164,13 @@ const COPY: Localized<typeof fr> = {
 // Reseller page (« Revendeur »): the programme is handled 1-to-1 on WhatsApp.
 export default function Services() {
   const t = useCopy(COPY)
+  const nav = useNavLabels()
   usePageTitle(t.pageTitle)
   const steps = t.steps.map((step, i) => ({ ...step, icon: STEP_ICONS[i] }))
   return (
     <div className="overflow-x-clip">
       <PageHero
-        crumbs={[{ label: t.home, to: '/' }, { label: t.crumb }]}
+        crumbs={[{ label: nav.main.home, to: '/' }, { label: nav.main.reseller }]}
         eyebrow={t.eyebrow}
         title={t.title}
         subtitle={t.subtitle}

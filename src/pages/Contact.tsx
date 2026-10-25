@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight, Download, Handshake, ShoppingBag } from 'lucide-react'
 import { Card, Section, WaButton, WhatsAppIcon } from '@/components/kit'
-import { WHATSAPP_DISPLAY, WA_CONTACT_MESSAGE, waLink } from '@/lib/site'
+import { WHATSAPP_DISPLAY, WA_CONTACT_MESSAGE, waLink, useNavLabels } from '@/lib/site'
 import { FaqBlock } from './theme/FaqBlock'
 import { PageHero } from './theme/PageHero'
 import { PaymentNote } from './theme/PaymentNote'
@@ -18,8 +18,6 @@ const SHORTCUTS = [
 
 const fr = {
   pageTitle: 'Contact WhatsApp 24/7 | NovaStream',
-  home: 'Accueil',
-  crumb: 'Contact',
   eyebrow: 'Assistance & Activation 7j/7',
   title: 'Contactez NovaStream',
   /** Around the phone number: « …sur WhatsApp ( » number « ) pour toute assistance. » */
@@ -40,8 +38,6 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     pageTitle: 'WhatsApp Contact 24/7 | NovaStream',
-    home: 'Home',
-    crumb: 'Contact',
     eyebrow: 'Support & Activation 7 Days a Week',
     title: 'Contact NovaStream',
     subtitleLead: 'Priority direct access to a French-speaking technical advisor 24/7 on WhatsApp (',
@@ -58,8 +54,6 @@ const COPY: Localized<typeof fr> = {
   },
   de: {
     pageTitle: 'WhatsApp-Kontakt 24/7 | NovaStream',
-    home: 'Startseite',
-    crumb: 'Kontakt',
     eyebrow: 'Support & Aktivierung 7 Tage die Woche',
     title: 'Kontaktieren Sie NovaStream',
     subtitleLead: 'Bevorzugter direkter Zugang zu einem französischsprachigen technischen Berater, rund um die Uhr auf WhatsApp (',
@@ -76,8 +70,6 @@ const COPY: Localized<typeof fr> = {
   },
   es: {
     pageTitle: 'Contacto por WhatsApp 24/7 | NovaStream',
-    home: 'Inicio',
-    crumb: 'Contacto',
     eyebrow: 'Soporte y activación 7 días a la semana',
     title: 'Contacta con NovaStream',
     subtitleLead: 'Acceso directo y prioritario a un asesor técnico de habla francesa 24/7 por WhatsApp (',
@@ -94,8 +86,6 @@ const COPY: Localized<typeof fr> = {
   },
   pt: {
     pageTitle: 'Contacto WhatsApp 24/7 | NovaStream',
-    home: 'Início',
-    crumb: 'Contacto',
     eyebrow: 'Suporte e ativação 7 dias por semana',
     title: 'Contacte a NovaStream',
     subtitleLead: 'Acesso direto e prioritário a um consultor técnico de língua francesa 24/7 no WhatsApp (',
@@ -112,8 +102,6 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     pageTitle: 'Yhteystiedot – WhatsApp 24/7 | NovaStream',
-    home: 'Etusivu',
-    crumb: 'Yhteystiedot',
     eyebrow: 'Tuki ja aktivointi 7 päivää viikossa',
     title: 'Ota yhteyttä NovaStreamiin',
     subtitleLead: 'Suora etuoikeutettu yhteys ranskankieliseen tekniseen asiakasneuvojaan 24/7 WhatsAppissa (',
@@ -133,12 +121,13 @@ const COPY: Localized<typeof fr> = {
 // Contact: WhatsApp is the only channel (spec: « Ligne WhatsApp Dédiée 1-to-1 »). No e-mail form.
 export default function Contact() {
   const t = useCopy(COPY)
+  const nav = useNavLabels()
   usePageTitle(t.pageTitle)
   const shortcuts = SHORTCUTS.map((link, i) => ({ ...link, ...t.shortcuts[i] }))
   return (
     <div className="overflow-x-clip">
       <PageHero
-        crumbs={[{ label: t.home, to: '/' }, { label: t.crumb }]}
+        crumbs={[{ label: nav.main.home, to: '/' }, { label: nav.main.contact }]}
         eyebrow={t.eyebrow}
         title={t.title}
         subtitle={

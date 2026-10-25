@@ -8,12 +8,11 @@ import { PricingTable } from './home/sections/PricingTable'
 import { FaqBlock } from './theme/FaqBlock'
 import { Breadcrumbs } from './theme/PageHero'
 import { useCopy, type Localized } from '@/lib/i18n'
+import { useNavLabels } from '@/lib/site'
 import { usePageTitle } from '@/lib/usePageTitle'
 
 const fr = {
   pageTitle: 'Boutique — King 365 TV Abonnement Officiel | NovaStream',
-  home: 'Accueil',
-  shop: 'Boutique',
   resellerTitle: 'Programme Revendeur NovaStream',
   resellerText: 'Vous souhaitez revendre des abonnements King 365 TV ? Découvrez le programme.',
   more: 'En savoir plus',
@@ -23,32 +22,24 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     pageTitle: 'Shop — Official King 365 TV Subscription | NovaStream',
-    home: 'Home',
-    shop: 'Shop',
     resellerTitle: 'NovaStream Reseller Program',
     resellerText: 'Want to resell King 365 TV subscriptions? Discover the program.',
     more: 'Learn more',
   },
   de: {
     pageTitle: 'Shop — Offizielles King 365 TV Abonnement | NovaStream',
-    home: 'Startseite',
-    shop: 'Shop',
     resellerTitle: 'NovaStream Wiederverkäufer-Programm',
     resellerText: 'Sie möchten King 365 TV Abonnements weiterverkaufen? Entdecken Sie das Programm.',
     more: 'Mehr erfahren',
   },
   es: {
     pageTitle: 'Tienda — Suscripción Oficial King 365 TV | NovaStream',
-    home: 'Inicio',
-    shop: 'Tienda',
     resellerTitle: 'Programa de Revendedores NovaStream',
     resellerText: '¿Quieres revender suscripciones King 365 TV? Descubre el programa.',
     more: 'Más información',
   },
   pt: {
     pageTitle: 'Loja — Subscrição Oficial King 365 TV | NovaStream',
-    home: 'Início',
-    shop: 'Loja',
     resellerTitle: 'Programa de Revendedores NovaStream',
     resellerText: 'Pretende revender subscrições King 365 TV? Conheça o programa.',
     more: 'Saber mais',
@@ -56,8 +47,6 @@ const COPY: Localized<typeof fr> = {
   // « King 365 TV -sana »: NBSP before the hyphen and a word joiner (U+2060) after it keep the compound on one line.
   fi: {
     pageTitle: 'Kauppa — Virallinen King 365 TV -⁠tilaus | NovaStream',
-    home: 'Etusivu',
-    shop: 'Kauppa',
     resellerTitle: 'NovaStreamin jälleenmyyjäohjelma',
     resellerText: 'Haluatko myydä King 365 TV -⁠tilauksia eteenpäin? Tutustu ohjelmaan.',
     more: 'Lue lisää',
@@ -68,6 +57,7 @@ const COPY: Localized<typeof fr> = {
 // 4-step activation protocol, the 6 included commitments, a FAQ subset (S14) and the reseller link.
 export default function Pricing() {
   const t = useCopy(COPY)
+  const nav = useNavLabels()
   usePageTitle(t.pageTitle)
   const activationHead = useActivationHead()
   return (
@@ -75,7 +65,7 @@ export default function Pricing() {
       <section className="relative isolate overflow-hidden bg-canvas pt-8 pb-16 md:pt-10 md:pb-24">
         <Aura variant="hero" />
         <Container>
-          <Breadcrumbs items={[{ label: t.home, to: '/' }, { label: t.shop }]} className="mb-10 flex justify-center md:mb-14" />
+          <Breadcrumbs items={[{ label: nav.main.home, to: '/' }, { label: nav.main.shop }]} className="mb-10 flex justify-center md:mb-14" />
           <PricingTable headingAs="h1" id="formules" />
           <GuaranteeStrip className="mt-8" />
         </Container>

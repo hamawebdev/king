@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { Aura, ButtonLink, Card, Container, Eyebrow, Section, SectionHeading, WaButton } from '@/components/kit'
 import { productPath, usePack, usePacks, type Pack } from '@/lib/packs'
 import { useCopy, type Localized } from '@/lib/i18n'
-import { WHATSAPP_DISPLAY } from '@/lib/site'
+import { WHATSAPP_DISPLAY, useNavLabels } from '@/lib/site'
 import { usePageTitle } from '@/lib/usePageTitle'
 import { cn } from '@/lib/utils'
 import { ActivationSteps } from '../home/sections/Activation'
@@ -35,8 +35,6 @@ function lowerFirst(s: string) {
 // Pack page copy. Functions get the pack already localized (usePack); its waMessage stays French.
 const fr = {
   pageTitle: (p: Pack) => `${p.name} ${p.duration} — King 365 TV Abonnement | NovaStream`,
-  home: 'Accueil',
-  shop: 'Boutique',
   eyebrow: 'Distributeur Agréé King 365 TV · Activation Instantanée 24/7',
   /** Duration line of the h1. */
   headlineDuration: (p: Pack) => p.duration,
@@ -55,8 +53,6 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     pageTitle: (p) => `${p.name} ${p.duration} — King 365 TV Subscription | NovaStream`,
-    home: 'Home',
-    shop: 'Shop',
     eyebrow: 'Authorized King 365 TV Distributor · Instant Activation 24/7',
     headlineDuration: (p) => p.duration,
     intro: (p) => `Official ${p.months}-month King 365 TV subscription from NovaStream: ${lowerFirst(p.inclusions)}`,
@@ -71,8 +67,6 @@ const COPY: Localized<typeof fr> = {
   },
   de: {
     pageTitle: (p) => `${p.name} ${p.duration} — King 365 TV Abonnement | NovaStream`,
-    home: 'Startseite',
-    shop: 'Shop',
     eyebrow: 'Autorisierter King 365 TV Vertriebspartner · Sofortige Aktivierung 24/7',
     headlineDuration: (p) => p.duration,
     // German keeps the inclusions' capitals (nouns), so they follow as their own sentence.
@@ -88,8 +82,6 @@ const COPY: Localized<typeof fr> = {
   },
   es: {
     pageTitle: (p) => `${p.name} ${p.duration} — Suscripción King 365 TV | NovaStream`,
-    home: 'Inicio',
-    shop: 'Tienda',
     eyebrow: 'Distribuidor Autorizado King 365 TV · Activación Instantánea 24/7',
     headlineDuration: (p) => p.duration,
     intro: (p) => `Suscripción oficial King 365 TV de ${p.duration} con NovaStream: ${lowerFirst(p.inclusions)}`,
@@ -104,8 +96,6 @@ const COPY: Localized<typeof fr> = {
   },
   pt: {
     pageTitle: (p) => `${p.name} ${p.duration} — Subscrição King 365 TV | NovaStream`,
-    home: 'Início',
-    shop: 'Loja',
     eyebrow: 'Distribuidor Autorizado King 365 TV · Ativação Instantânea 24/7',
     headlineDuration: (p) => p.duration,
     intro: (p) => `Subscrição oficial King 365 TV de ${p.duration} na NovaStream: ${lowerFirst(p.inclusions)}`,
@@ -121,8 +111,6 @@ const COPY: Localized<typeof fr> = {
   // « King 365 TV -sana »: NBSP before the hyphen and a word joiner (U+2060) after it keep the compound on one line.
   fi: {
     pageTitle: (p) => `${p.name} ${p.months} kuukautta — King 365 TV -⁠tilaus | NovaStream`,
-    home: 'Etusivu',
-    shop: 'Kauppa',
     eyebrow: 'Valtuutettu King 365 TV -⁠jälleenmyyjä · Välitön aktivointi 24/7',
     // The pack data abbreviates months (« 12 kk »); the headline spells them out.
     headlineDuration: (p) => `${p.months} kuukautta`,
@@ -210,6 +198,7 @@ function OtherPacks({ current }: { current: Pack }) {
 export function PackPage({ pack: source }: { pack: Pack }) {
   const pack = usePack(source.id)
   const t = useCopy(COPY)
+  const nav = useNavLabels()
   usePageTitle(t.pageTitle(pack))
   const activationHead = useActivationHead()
   return (
@@ -218,7 +207,7 @@ export function PackPage({ pack: source }: { pack: Pack }) {
         <Aura variant="hero" />
         <Container>
           <Breadcrumbs
-            items={[{ label: t.home, to: '/' }, { label: t.shop, to: '/pricing/' }, { label: pack.name }]}
+            items={[{ label: nav.main.home, to: '/' }, { label: nav.main.shop, to: '/pricing/' }, { label: pack.name }]}
             className="mb-10 md:mb-14"
           />
           <div className="grid items-start gap-10 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-16">
