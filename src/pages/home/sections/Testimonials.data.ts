@@ -1,6 +1,14 @@
 // Spec S13 copy, word for word. To add a WhatsApp screenshot to a card, drop the image in
 // public/testimonials/ and set `screenshot` to its path WITHOUT a leading slash, e.g. 'testimonials/thomas.jpg'
 // (it is resolved with routeHref so it works under the GitHub Pages base path).
+// Other languages: Testimonials.data.<lang>.ts (badge, quote, meta per review, in the same order); names, emoji and
+// screenshots always come from REVIEWS below. Components use useTestimonials().
+import { useCopy, type Localized } from '@/lib/i18n'
+import { de } from './Testimonials.data.de'
+import { en } from './Testimonials.data.en'
+import { es } from './Testimonials.data.es'
+import { fi } from './Testimonials.data.fi'
+import { pt } from './Testimonials.data.pt'
 
 export type Review = {
   /** Spec « Badge » (emoji first). */
@@ -91,3 +99,49 @@ export const REVIEW_PILLS: { emoji: string; label: string }[] = [
   { emoji: '📱', label: 'Tous Les Écrans' },
   { emoji: '⏪', label: 'Rattrapage 15 Jours' },
 ]
+
+/* ------------------------------------------------------------------------------------------------------------ */
+/* Localized copy. French = the constants above (spec text).                                                     */
+/* ------------------------------------------------------------------------------------------------------------ */
+
+/** The translatable part of a review (name, emoji and screenshot stay those of REVIEWS). */
+export type ReviewText = Pick<Review, 'badge' | 'quote' | 'meta'>
+
+export type TestimonialsCopy = {
+  head: { eyebrow: string; title: string; subtitle: string }
+  trustStats: { value: string; label: string; stars?: boolean }[]
+  /** Same order as REVIEWS. */
+  reviews: ReviewText[]
+  pills: { emoji: string; label: string }[]
+  ui: {
+    /** aria-label of the 5 stars. */
+    rating: string
+    screenshotAlt: (name: string) => string
+    /** Empty screenshot frame (decorative). */
+    screenshotPlaceholder: string
+    reviewsLabel: string
+    pillsLabel: string
+  }
+}
+
+const fr: TestimonialsCopy = {
+  head: TESTIMONIALS_COPY,
+  trustStats: TRUST_STATS,
+  reviews: REVIEWS,
+  pills: REVIEW_PILLS,
+  ui: {
+    rating: 'Note : 5 sur 5',
+    screenshotAlt: (name) => `Capture WhatsApp de l'avis de ${name}`,
+    screenshotPlaceholder: 'Capture WhatsApp',
+    reviewsLabel: 'Avis clients NovaStream',
+    pillsLabel: 'Points forts NovaStream',
+  },
+}
+
+const COPY: Localized<TestimonialsCopy> = { fr, en, de, es, pt, fi }
+
+/** Section 13 copy in the current language, reviews merged with REVIEWS (names, emoji, screenshots). */
+export function useTestimonials(): Omit<TestimonialsCopy, 'reviews'> & { reviews: Review[] } {
+  const t = useCopy(COPY)
+  return { ...t, reviews: REVIEWS.map((r, i) => ({ ...r, ...t.reviews[i] })) }
+}
