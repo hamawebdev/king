@@ -1,4 +1,5 @@
-import type { ComponentType } from 'react'
+import { useEffect, type ComponentType } from 'react'
+import { useLocation } from 'react-router'
 import { SectionBoundary } from './home/SectionBoundary'
 import { HomeActivation } from './home/sections/Activation'
 import { HomeAppsMatrix } from './home/sections/AppsMatrix'
@@ -43,6 +44,18 @@ function visibleSections() {
 }
 
 export default function Home() {
+  const { hash } = useLocation()
+
+  // Arriving on /#signature (or any anchor) from another page: scroll there once the sections exist.
+  // Deferred a frame so it runs after the layout's scroll-to-top on route change.
+  useEffect(() => {
+    if (!hash) return
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ block: 'start' })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [hash])
+
   return (
     <div className="overflow-x-clip">
       {visibleSections().map(({ key, Component }) => (
