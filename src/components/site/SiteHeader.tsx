@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { Menu } from 'lucide-react'
 import { WhatsAppIcon, buttonClasses } from '@/components/kit'
-import { BRAND, MAIN_NAV, isCurrent, waLink } from '@/lib/site'
+import { useCopy, type Localized } from '@/lib/i18n'
+import { BRAND, isCurrent, useMainNav, waLink } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { useChrome } from './chrome-context'
 import { LanguageSwitcher } from './LanguageSwitcher'
@@ -13,6 +14,17 @@ const navLinkClass =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand aria-[current=page]:text-heading ' +
   'aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-3 aria-[current=page]:after:bottom-1.5 aria-[current=page]:after:h-0.5 aria-[current=page]:after:rounded-full aria-[current=page]:after:bg-brand'
 
+const fr = { home: `${BRAND} — accueil`, mainMenu: 'Menu principal', openMenu: 'Ouvrir le menu' }
+
+const COPY: Localized<typeof fr> = {
+  fr,
+  en: { home: `${BRAND} — home`, mainMenu: 'Main menu', openMenu: 'Open menu' },
+  de: { home: `${BRAND} — Startseite`, mainMenu: 'Hauptmenü', openMenu: 'Menü öffnen' },
+  es: { home: `${BRAND} — inicio`, mainMenu: 'Menú principal', openMenu: 'Abrir menú' },
+  pt: { home: `${BRAND} — início`, mainMenu: 'Menu principal', openMenu: 'Abrir menu' },
+  fi: { home: `${BRAND} — etusivu`, mainMenu: 'Päävalikko', openMenu: 'Avaa valikko' },
+}
+
 /**
  * Sticky white header: wordmark, main nav (from lg), language menu, WhatsApp CTA and, below lg, the menu toggle.
  * Transparent border at the top of the page; a 1px line, blur and soft shadow once scrolled.
@@ -21,6 +33,8 @@ export function SiteHeader() {
   const { pathname } = useLocation()
   const { sideOpen, setSideOpen } = useChrome()
   const [scrolled, setScrolled] = useState(false)
+  const t = useCopy(COPY)
+  const nav = useMainNav()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -43,15 +57,15 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-2 px-4 sm:px-6 lg:grid lg:grid-cols-[1fr_auto_1fr]">
         <Link
           to="/"
-          aria-label={`${BRAND} — accueil`}
+          aria-label={t.home}
           className="mr-auto inline-flex min-h-11 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:mr-0 lg:justify-self-start"
         >
           <Wordmark className="text-[1.375rem] leading-none sm:text-2xl" />
         </Link>
 
-        <nav aria-label="Menu principal" className="hidden lg:block">
+        <nav aria-label={t.mainMenu} className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {MAIN_NAV.map((item) => (
+            {nav.map((item) => (
               <li key={item.to}>
                 <Link to={item.to} aria-current={isCurrent(pathname, item.to) ? 'page' : undefined} className={navLinkClass}>
                   {item.label}
@@ -78,7 +92,7 @@ export function SiteHeader() {
           </a>
           <button
             type="button"
-            aria-label="Ouvrir le menu"
+            aria-label={t.openMenu}
             aria-haspopup="dialog"
             aria-expanded={sideOpen}
             aria-controls="mobile-menu"

@@ -2,18 +2,32 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router'
 import { ChevronRight, X } from 'lucide-react'
 import { WaButton } from '@/components/kit'
-import { MAIN_NAV, WHATSAPP_DISPLAY, isCurrent } from '@/lib/site'
+import { useCopy, type Localized } from '@/lib/i18n'
+import { WHATSAPP_DISPLAY, isCurrent, useMainNav } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { useChrome } from './chrome-context'
 import { LanguageList } from './LanguageSwitcher'
 import { closedPanel, usePanelFocus } from './SiteLayout.focus'
 import { Wordmark } from './SiteHeader.wordmark'
 
+const fr = { dialog: 'Menu', closeMenu: 'Fermer le menu', mainMenu: 'Menu principal', language: 'Langue' }
+
+const COPY: Localized<typeof fr> = {
+  fr,
+  en: { dialog: 'Menu', closeMenu: 'Close menu', mainMenu: 'Main menu', language: 'Language' },
+  de: { dialog: 'Menü', closeMenu: 'Menü schließen', mainMenu: 'Hauptmenü', language: 'Sprache' },
+  es: { dialog: 'Menú', closeMenu: 'Cerrar menú', mainMenu: 'Menú principal', language: 'Idioma' },
+  pt: { dialog: 'Menu', closeMenu: 'Fechar menu', mainMenu: 'Menu principal', language: 'Idioma' },
+  fi: { dialog: 'Valikko', closeMenu: 'Sulje valikko', mainMenu: 'Päävalikko', language: 'Kieli' },
+}
+
 /** Mobile menu drawer (below lg): slides in from the right over a dimmed page. */
 export function SideSlide() {
   const { pathname } = useLocation()
   const { sideOpen, setSideOpen } = useChrome()
   const panel = useRef<HTMLElement>(null)
+  const t = useCopy(COPY)
+  const nav = useMainNav()
   const close = useCallback(() => setSideOpen(false), [setSideOpen])
   usePanelFocus(sideOpen, panel, close)
 
@@ -43,7 +57,7 @@ export function SideSlide() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label={t.dialog}
         aria-hidden={!sideOpen}
         inert={!sideOpen}
         data-section="chrome-side"
@@ -57,7 +71,7 @@ export function SideSlide() {
           <Wordmark className="text-xl leading-none" />
           <button
             type="button"
-            aria-label="Fermer le menu"
+            aria-label={t.closeMenu}
             onClick={close}
             className="grid size-11 place-items-center rounded-xl text-heading transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
@@ -66,9 +80,9 @@ export function SideSlide() {
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 pt-4 pb-[calc(24px+env(safe-area-inset-bottom))]">
-          <nav aria-label="Menu principal">
+          <nav aria-label={t.mainMenu}>
             <ul className="grid gap-0.5">
-              {MAIN_NAV.map((item) => {
+              {nav.map((item) => {
                 const current = isCurrent(pathname, item.to)
                 return (
                   <li key={item.to}>
@@ -92,7 +106,7 @@ export function SideSlide() {
           </nav>
 
           <div className="mt-8 border-t border-line pt-6">
-            <h2 className="mb-3 text-xs font-semibold tracking-[0.12em] text-body uppercase">Langue</h2>
+            <h2 className="mb-3 text-xs font-semibold tracking-[0.12em] text-body uppercase">{t.language}</h2>
             <LanguageList />
           </div>
 

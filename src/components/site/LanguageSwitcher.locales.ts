@@ -2,8 +2,9 @@ import { useSyncExternalStore } from 'react'
 
 /**
  * Site languages (spec: French by default plus five European languages, no Arabic).
- * Only French copy exists today: picking another language stores the choice and sets <html lang>,
- * the content stays French. Translations plug in here later (read `useLocale()` and pick the strings).
+ * Picking a language stores the choice, sets <html lang> and re-renders every component that reads it:
+ * copy lives next to each component as a `Localized<…>` map (see `@/lib/i18n`, `useCopy`).
+ * French is the source copy and the default.
  */
 export const LOCALES = [
   { code: 'fr', htmlLang: 'fr-FR', label: 'Français', short: 'FR' },

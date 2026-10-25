@@ -1,9 +1,21 @@
 import { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/kit'
+import { useCopy, type Localized } from '@/lib/i18n'
 import { waLink } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { scrollToTop } from './SiteFooter.scroll'
+
+const fr = { top: 'Retour en haut', whatsapp: 'Contacter NovaStream sur WhatsApp' }
+
+const COPY: Localized<typeof fr> = {
+  fr,
+  en: { top: 'Back to top', whatsapp: 'Contact NovaStream on WhatsApp' },
+  de: { top: 'Nach oben', whatsapp: 'NovaStream auf WhatsApp kontaktieren' },
+  es: { top: 'Volver arriba', whatsapp: 'Contactar con NovaStream por WhatsApp' },
+  pt: { top: 'Voltar ao topo', whatsapp: 'Contactar a NovaStream pelo WhatsApp' },
+  fi: { top: 'Takaisin ylös', whatsapp: 'Ota yhteyttä NovaStreamiin WhatsAppissa' },
+}
 
 /**
  * Spec S15 floating buttons, on every page: the WhatsApp bubble pinned bottom-right (#25D366 → #20BA5A)
@@ -11,6 +23,7 @@ import { scrollToTop } from './SiteFooter.scroll'
  */
 export function FloatingButtons() {
   const [showTop, setShowTop] = useState(false)
+  const t = useCopy(COPY)
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 640)
@@ -26,7 +39,7 @@ export function FloatingButtons() {
     >
       <button
         type="button"
-        aria-label="Retour en haut"
+        aria-label={t.top}
         onClick={scrollToTop}
         tabIndex={showTop ? 0 : -1}
         aria-hidden={!showTop}
@@ -44,7 +57,7 @@ export function FloatingButtons() {
         href={waLink()}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contacter NovaStream sur WhatsApp"
+        aria-label={t.whatsapp}
         className={cn(
           'pointer-events-auto grid size-14 place-items-center rounded-full bg-whatsapp text-white shadow-cta-wa',
           'transition-[background-color,transform] duration-200 hover:bg-whatsapp-hover motion-safe:hover:-translate-y-0.5',

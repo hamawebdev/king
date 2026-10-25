@@ -1,12 +1,25 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
+import { useCopy, type Localized } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { Flag } from './LanguageSwitcher.flags'
 import { LOCALES, localeInfo, useLocale } from './LanguageSwitcher.locales'
 
+const fr = { current: 'Langue : ', choose: 'Choisir la langue' }
+
+const COPY: Localized<typeof fr> = {
+  fr,
+  en: { current: 'Language: ', choose: 'Choose language' },
+  de: { current: 'Sprache: ', choose: 'Sprache wählen' },
+  es: { current: 'Idioma: ', choose: 'Elegir idioma' },
+  pt: { current: 'Idioma: ', choose: 'Escolher idioma' },
+  fi: { current: 'Kieli: ', choose: 'Valitse kieli' },
+}
+
 /**
  * Header language menu: flag + short code button, opening a keyboard-operable menu of the six languages
- * (Arrow keys / Home / End move, Enter or Space picks, Esc or Tab closes).
+ * (Arrow keys / Home / End move, Enter or Space picks, Esc or Tab closes). Language names stay in their own
+ * language; the menu's aria-labels follow the current language.
  */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const [code, setCode] = useLocale()
@@ -16,6 +29,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const items = useRef<(HTMLButtonElement | null)[]>([])
   const menuId = useId()
   const active = localeInfo(code)
+  const t = useCopy(COPY)
 
   // Close on outside click.
   useEffect(() => {
@@ -61,7 +75,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label={`Langue : ${active.label}`}
+        aria-label={t.current + active.label}
         onClick={() => setOpen((o) => !o)}
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -83,7 +97,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       <div
         id={menuId}
         role="menu"
-        aria-label="Choisir la langue"
+        aria-label={t.choose}
         hidden={!open}
         onKeyDown={onMenuKey}
         className="absolute top-full right-0 z-50 mt-2 w-52 rounded-2xl border border-line bg-canvas p-1.5 shadow-card-hover"

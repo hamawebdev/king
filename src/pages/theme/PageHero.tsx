@@ -2,14 +2,25 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { Aura, Container, SectionHeading } from '@/components/kit'
+import { useCopy, type Localized } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 export type Crumb = { label: string; to?: string }
 
+const BREADCRUMB_LABEL: Localized<string> = {
+  fr: 'Fil d’Ariane',
+  en: 'Breadcrumb',
+  de: 'Brotkrümelnavigation',
+  es: 'Ruta de navegación',
+  pt: 'Trilho de navegação',
+  fi: 'Murupolku',
+}
+
 /** Breadcrumb trail (last item = current page). */
 export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: string }) {
+  const label = useCopy(BREADCRUMB_LABEL)
   return (
-    <nav aria-label="Fil d’Ariane" className={cn('text-sm text-body', className)}>
+    <nav aria-label={label} className={cn('text-sm text-body', className)}>
       <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
         {items.map((c, i) => {
           const last = i === items.length - 1

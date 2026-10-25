@@ -1,5 +1,7 @@
 import { useEffect, type ComponentType } from 'react'
 import { useLocation } from 'react-router'
+import { useCopy, type Localized } from '@/lib/i18n'
+import { usePageTitle } from '@/lib/usePageTitle'
 import { SectionBoundary } from './home/SectionBoundary'
 import { HomeActivation } from './home/sections/Activation'
 import { HomeAppsMatrix } from './home/sections/AppsMatrix'
@@ -34,6 +36,16 @@ const SECTIONS: { key: string; Component: ComponentType }[] = [
   { key: 's14', Component: HomeFaq },
 ]
 
+/** Homepage document title (French = index.html's static title). */
+const TITLE: Localized<string> = {
+  fr: 'King 365 TV Abonnement Officiel | NovaStream, Distributeur Agréé',
+  en: 'Official King 365 TV Subscription | NovaStream, Authorized Distributor',
+  de: 'Offizielles King 365 TV Abonnement | NovaStream, Autorisierter Vertriebspartner',
+  es: 'Suscripción Oficial King 365 TV | NovaStream, Distribuidor Autorizado',
+  pt: 'Subscrição Oficial King 365 TV | NovaStream, Distribuidor Autorizado',
+  fi: 'Virallinen King 365 TV\u00A0-tilaus | NovaStream, valtuutettu jälleenmyyjä',
+}
+
 /** Dev only: `/?only=s05` or `/?only=s05,s08` renders just those sections, for screenshots. */
 function visibleSections() {
   if (!import.meta.env.DEV || typeof window === 'undefined') return SECTIONS
@@ -45,6 +57,7 @@ function visibleSections() {
 
 export default function Home() {
   const { hash } = useLocation()
+  usePageTitle(useCopy(TITLE))
 
   // Arriving on /#signature (or any anchor) from another page: scroll there once the sections exist.
   // Deferred a frame so it runs after the layout's scroll-to-top on route change.
