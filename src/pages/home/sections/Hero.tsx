@@ -85,11 +85,11 @@ const COPY: Localized<typeof fr> = {
     ],
   },
   fi: {
-    eyebrow: 'Valtuutettu King 365 TV -jälleenmyyjä · Välitön aktivointi 24/7',
-    titleLead: 'Täydellinen TV-elämys: King 365 TV -lähetyksesi ',
-    titleAccent: 'aidossa 4K HDR -laadussa',
+    eyebrow: 'Valtuutettu King 365 TV -⁠jälleenmyyjä · Välitön aktivointi 24/7',
+    titleLead: 'Täydellinen TV-elämys: King 365 TV -⁠lähetyksesi ',
+    titleAccent: 'aidossa 4K HDR -⁠laadussa',
     subtitle:
-      'NovaStreamin tarjoama. Nauti katkeamattomasta lähetyksestä, valtavasta yli 16 000 nimikkeen VOD-kirjastosta ja virallisista King 365 TV -sovelluksista kaikilla näytöilläsi.',
+      'NovaStreamin tarjoama. Nauti katkeamattomasta lähetyksestä, valtavasta yli 16 000 nimikkeen VOD-kirjastosta ja virallisista King 365 TV -⁠sovelluksista kaikilla näytöilläsi.',
     ctaOrder: 'Tilaa Signature-pääsyni (59,99 €)',
     ctaRenew: 'Uusi nykyinen koodini',
     stats: [
