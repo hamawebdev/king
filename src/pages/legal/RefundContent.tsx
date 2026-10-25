@@ -5,11 +5,11 @@ import { PackList } from './PackList'
 // Refund schedule, set like a statement: period on the left, share returned on the right.
 const SCHEDULE: [string, string][] = [
   ['Jusqu’à 14 jours :', '85%'],
-  ['Après 1 mois :', '65%'],
-  ['Après 2 mois :', '40%'],
-  ['Après 3 mois :', '25%'],
-  ['Après 4 mois :', '20%'],
-  ['Après 6 mois :', '12%'],
+  ['Après 30 jours :', '65%'],
+  ['Après 60 jours :', '40%'],
+  ['Après 90 jours :', '25%'],
+  ['Après 120 jours :', '20%'],
+  ['Après 180 jours :', '12%'],
 ]
 
 // Politique de remboursement.
