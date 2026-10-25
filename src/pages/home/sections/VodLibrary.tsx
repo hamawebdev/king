@@ -27,7 +27,7 @@ const COPY: Localized<typeof fr> = {
   fr,
   en: {
     eyebrow: 'MOVIES & SERIES ON DEMAND · UNLIMITED VOD',
-    title: 'The King\xa0365\xa0TV Video Library by NovaStream',
+    title: 'The King 365 TV Video Library by NovaStream',
     subtitle:
       'More than 16,000 titles in ultra high definition, included at no extra cost in your King 365 TV subscription. Discover what your King 365 TV access lets you explore every evening: recent blockbusters, complete series and exclusive documentaries sorted by genre.',
     pills: [
@@ -50,7 +50,7 @@ const COPY: Localized<typeof fr> = {
   },
   de: {
     eyebrow: 'FILME & SERIEN AUF ABRUF · UNBEGRENZTES VOD',
-    title: 'Die King\xa0365\xa0TV Videothek von NovaStream',
+    title: 'Die King 365 TV Videothek von NovaStream',
     subtitle:
       'Mehr als 16.000 Titel in Ultra-HD, ohne Aufpreis in Ihrem King 365 TV Abonnement enthalten. Entdecken Sie, was Ihnen Ihr King 365 TV Zugang jeden Abend zu bieten hat: aktuelle Blockbuster, komplette Serien und exklusive Dokumentationen, sortiert nach Genre.',
     pills: [
@@ -73,7 +73,7 @@ const COPY: Localized<typeof fr> = {
   },
   es: {
     eyebrow: 'CINE Y SERIES A LA CARTA · VOD ILIMITADO',
-    title: 'Videoteca King\xa0365\xa0TV de NovaStream',
+    title: 'Videoteca King 365 TV de NovaStream',
     subtitle:
       'Más de 16.000 títulos en ultra alta definición incluidos sin coste adicional en tu suscripción King 365 TV. Descubre lo que tu acceso King 365 TV te permite explorar cada noche: éxitos de taquilla recientes, series completas y documentales exclusivos clasificados por género.',
     pills: [
@@ -96,7 +96,7 @@ const COPY: Localized<typeof fr> = {
   },
   pt: {
     eyebrow: 'CINEMA E SÉRIES A PEDIDO · VOD ILIMITADO',
-    title: 'Videoteca King\xa0365\xa0TV pela NovaStream',
+    title: 'Videoteca King 365 TV pela NovaStream',
     subtitle:
       'Mais de 16.000 títulos em ultra-alta definição incluídos sem custos adicionais na sua subscrição King 365 TV. Descubra o que o seu acesso King 365 TV lhe permite explorar todas as noites: blockbusters recentes, séries completas e documentários exclusivos organizados por género.',
     pills: [
@@ -119,9 +119,9 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     eyebrow: 'ELOKUVAT JA SARJAT TILAUKSESTA · RAJATON VOD',
-    title: 'NovaStreamin King\xa0365\xa0TV\xa0-videokirjasto',
+    title: 'NovaStreamin King 365 TV -⁠videokirjasto',
     subtitle:
-      'Yli 16 000 nimikettä ultrateräväpiirtona ilman lisämaksua King\xa0365\xa0TV\xa0-tilauksessasi. Katso, mitä King\xa0365\xa0TV\xa0-käyttöoikeutesi antaa sinun tutkia joka ilta: tuoreita menestyselokuvia, kokonaisia sarjoja ja eksklusiivisia dokumentteja lajityypeittäin.',
+      'Yli 16 000 nimikettä ultrateräväpiirtona ilman lisämaksua King 365 TV -⁠tilauksessasi. Katso, mitä King 365 TV -⁠käyttöoikeutesi antaa sinun tutkia joka ilta: tuoreita menestyselokuvia, kokonaisia sarjoja ja eksklusiivisia dokumentteja lajityypeittäin.',
     pills: [
       'Natiivi 4K- ja FHD-laatu',
       'Ranskankielinen ääni ja tekstitetyt versiot',
@@ -129,13 +129,13 @@ const COPY: Localized<typeof fr> = {
       'Tuoreet elokuvateatterihitit',
     ],
     genres: [
-      { name: 'Toiminta ja seikkailu', count: '+2\xa0500' },
-      { name: 'Komedia ja viihde', count: '+2\xa0000' },
-      { name: 'Draama ja trilleri', count: '+2\xa0200' },
-      { name: 'Sci-fi ja fantasia', count: '+1\xa0400' },
-      { name: 'Kauhu ja jännitys', count: '+1\xa0100' },
-      { name: 'Romantiikka ja intohimo', count: '+1\xa0300' },
-      { name: 'Animaatio ja lapset', count: '+1\xa0000' },
+      { name: 'Toiminta ja seikkailu', count: '+2 500' },
+      { name: 'Komedia ja viihde', count: '+2 000' },
+      { name: 'Draama ja trilleri', count: '+2 200' },
+      { name: 'Sci-fi ja fantasia', count: '+1 400' },
+      { name: 'Kauhu ja jännitys', count: '+1 100' },
+      { name: 'Romantiikka ja intohimo', count: '+1 300' },
+      { name: 'Animaatio ja lapset', count: '+1 000' },
       { name: 'Dokumentit ja yhteiskunta', count: '+900' },
     ],
     titlesUnit: 'nimikettä',

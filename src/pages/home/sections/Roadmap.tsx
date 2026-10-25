@@ -183,8 +183,8 @@ const COPY: Localized<typeof fr> = {
       {
         when: '2023',
         phase: 'Kumppanuus',
-        title: 'Valtuutettu King 365 -jälleenmyyjä',
-        text: 'Valittu King 365 TV -infrastruktuurin viralliseksi jakelijaksi. Omat aktivointivälittimet takaavat virallisen, vakaan ja vaatimustenmukaisen pääsyn.',
+        title: 'Valtuutettu King 365 -⁠jälleenmyyjä',
+        text: 'Valittu King 365 TV -⁠infrastruktuurin viralliseksi jakelijaksi. Omat aktivointivälittimet takaavat virallisen, vakaan ja vaatimustenmukaisen pääsyn.',
       },
       {
         when: 'Tänään',
@@ -196,7 +196,7 @@ const COPY: Localized<typeof fr> = {
         when: 'Tähtäimessä 2027',
         phase: 'Innovaatio',
         title: 'Ekosysteemi ja päivitykset',
-        text: 'Seuraavien King 365 TV -sovellusversioiden jatkuva valmistelu, monen näytön oppaiden optimointi ja ennakoivat tukiportaalit.',
+        text: 'Seuraavien King 365 TV -⁠sovellusversioiden jatkuva valmistelu, monen näytön oppaiden optimointi ja ennakoivat tukiportaalit.',
       },
     ],
   },

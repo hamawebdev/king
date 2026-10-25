@@ -253,7 +253,7 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     badge: 'VERSIO 2026 · OMA KAISTANLEVEYS JA KORKEALAATUISET LÄHETYKSET',
-    title: 'TV-kanavat ja viralliset King 365 TV -lähetykset',
+    title: 'TV-kanavat ja viralliset King 365 TV -⁠lähetykset',
     subtitle:
       'NovaStreamin jakelema. Nauti sujuvasta lähetyksestä ilman rajua pakkausta. Lähetyksemme mukautuvat älykkäästi kaistanleveyteesi ja takaavat täysin katkeamattoman katselun.',
     spectrumTitle: 'Resoluutiotasot',

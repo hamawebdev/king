@@ -198,9 +198,9 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     eyebrow: 'SERTIFIOITU EKOSYSTEEMI · OMAT SOVELLUKSET',
-    title: 'King 365 TV -elämys näytöilläsi',
+    title: 'King 365 TV -⁠elämys näytöilläsi',
     subtitle:
-      'NovaStreamin tarjoama. Katso lähetyksiäsi täysin sujuvasti virallisilla King 365 TV -sovelluksilla, jotka on hienosäädetty kullekin laitetyypille.',
+      'NovaStreamin tarjoama. Katso lähetyksiäsi täysin sujuvasti virallisilla King 365 TV -⁠sovelluksilla, jotka on hienosäädetty kullekin laitetyypille.',
     targetLabel: 'Laitteet: ',
     apps: [
       {
@@ -222,7 +222,7 @@ const COPY: Localized<typeof fr> = {
       {
         name: 'King 365 TV Version 4 (V4 - versio 2026)',
         badge: 'Uusin versio 2026 · Vain TV',
-        target: 'Uudet Google TV -laitteet, Android-älytelevisiot, TV-boksit ja yhteensopivat Fire TV Stickit.',
+        target: 'Uudet Google TV -⁠laitteet, Android-älytelevisiot, TV-boksit ja yhteensopivat Fire TV Stickit.',
         targetNote: '(Ei yhteensopiva älypuhelimien kanssa)',
         description:
           'Moderni ja mukaansatempaava elokuvakäyttöliittymä suurille näytöille, erittäin sujuva navigointi, välitön kanavanvaihto ja natiivi 4K-optimointi.',

@@ -338,9 +338,9 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     eyebrow: 'VAHVUUDET · SUORITUSKYKY JA LUOTETTAVUUS',
-    title: 'Kaikki King 365 TV -tilauksestasi',
+    title: 'Kaikki King 365 TV -⁠tilauksestasi',
     subtitle:
-      'Halusitpa aktivoida uuden King 365 -tilauksen tai varmistaa nykyisen koodisi King 365 -uusimisen, tutustu vakaaseen ja nopeasti reagoivaan infrastruktuuriin, joka on suunniteltu jokaisen käyttäjän mukavuutta ajatellen – olohuoneesta puhelimeen.',
+      'Halusitpa aktivoida uuden King 365 -⁠tilauksen tai varmistaa nykyisen koodisi King 365 -⁠uusimisen, tutustu vakaaseen ja nopeasti reagoivaan infrastruktuuriin, joka on suunniteltu jokaisen käyttäjän mukavuutta ajatellen – olohuoneesta puhelimeen.',
     features: [
       {
         emoji: '📺',
@@ -358,7 +358,7 @@ const COPY: Localized<typeof fr> = {
         highlight: true,
         text: (
           <>
-            Yksi ainoa <Kw>{'King 365 TV -tilaus'}</Kw> korvaa kaikki erilliset tilauksesi (urheilu, elokuvat, sarjat, EPG ja
+            Yksi ainoa <Kw>{'King 365 TV -⁠tilaus'}</Kw> korvaa kaikki erilliset tilauksesi (urheilu, elokuvat, sarjat, EPG ja
             Replay) markkinoiden kilpailukykyisimpään hintaan.
           </>
         ),
@@ -383,7 +383,7 @@ const COPY: Localized<typeof fr> = {
         title: 'Välitön toimitus ja uusiminen',
         text: (
           <>
-            Koodit lähetetään heti vahvistuksen jälkeen. Oletko jo asiakas? Valitse <Kw>{'King 365 -uusiminen'}</Kw>, niin sinun ei
+            Koodit lähetetään heti vahvistuksen jälkeen. Oletko jo asiakas? Valitse <Kw>{'King 365 -⁠uusiminen'}</Kw>, niin sinun ei
             tarvitse asentaa sovellusta uudelleen eivätkä asetuksesi katoa.
           </>
         ),
@@ -393,8 +393,8 @@ const COPY: Localized<typeof fr> = {
         title: 'Taattu pääsy ja tuki 24/7',
         text: (
           <>
-            Nopea tuki on apunasi, kun haluat <Kw>{'uusia King 365 -tilauksesi'}</Kw> tai tarvitset{' '}
-            <Kw>{'King 365 -koodin palautuksen'}</Kw> – ilman lisäkuluja.
+            Nopea tuki on apunasi, kun haluat <Kw>{'uusia King 365 -⁠tilauksesi'}</Kw> tai tarvitset{' '}
+            <Kw>{'King 365 -⁠koodin palautuksen'}</Kw> – ilman lisäkuluja.
           </>
         ),
       },

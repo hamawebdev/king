@@ -198,11 +198,11 @@ const COPY: Localized<typeof fr> = {
   },
   fi: {
     badge: 'OMA URHEILUINFRASTRUKTUURI · NOLLA KATKOSTA',
-    title: 'King 365 TV ja suora urheilu: 4K HDR -huippulaatua',
+    title: 'King 365 TV ja suora urheilu: 4K HDR -⁠huippulaatua',
     subtitle:
-      'Miksi NovaStream valitsi yksinomaan King 365 TV:n infrastruktuurin? Koska suuri urheilutapahtuma ei salli yhtään katkosta. Ranskaan ja Eurooppaan optimoidun huipputehokkaan palvelinverkon ansiosta saat lyömättömän sujuvan kuvan 50/60 FPS:n nopeudella, Full HD:sta aitoon 4K HDR -laatuun, jopa suurimpien kansainvälisten otteluiden katsojahuippujen aikana.',
+      'Miksi NovaStream valitsi yksinomaan King 365 TV:n infrastruktuurin? Koska suuri urheilutapahtuma ei salli yhtään katkosta. Ranskaan ja Eurooppaan optimoidun huipputehokkaan palvelinverkon ansiosta saat lyömättömän sujuvan kuvan 50/60 FPS:n nopeudella, Full HD:sta aitoon 4K HDR -⁠laatuun, jopa suurimpien kansainvälisten otteluiden katsojahuippujen aikana.',
     stats: [
-      { value: '4K HDR', label: 'Full HD:sta aitoon 4K HDR -laatuun' },
+      { value: '4K HDR', label: 'Full HD:sta aitoon 4K HDR -⁠laatuun' },
       { value: '50/60 FPS', label: 'Lyömätön sujuvuus' },
       { value: '99,99 %', label: 'Vakaus katsoja\xadhuippujen aikana' },
     ],
