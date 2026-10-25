@@ -1,24 +1,10 @@
 import { createCn } from 'cn/config'
 
-/**
- * Class joining + Tailwind conflict resolution, taught the brand tokens of src/index.css so that
- * e.g. cn('text-display-md', 'text-z-fg') keeps both (size vs colour) and cn('p-card', 'p-4') keeps the last.
- */
+/** Class joining + Tailwind conflict resolution, taught the custom shadows of src/index.css. */
 export const cn = createCn({
   extend: {
     theme: {
-      text: [
-        'display-xl', 'display-lg', 'display-md', 'display-sm', 'title-lg', 'title', 'lead', 'copy', 'small',
-        'meta', 'micro', 'badge', 'faq', 'price-xl', 'price-lg', 'price-md', 'price-sm', 'stat-lg', 'stat-md',
-      ],
-      radius: ['tag', 'control', 'card', 'panel'],
-      shadow: ['lift', 'float', 'bar', 'card', 'card-hover', 'cta', 'cta-wa'],
-      spacing: ['gutter', 'section', 'section-sm', 'hero', 'head', 'grid', 'card'],
-      container: ['content', 'wide', 'text'],
-      ease: ['calm', 'drawer'],
-    },
-    classGroups: {
-      eyebrow: ['eyebrow', 'eyebrow-center'],
+      shadow: ['card', 'card-hover', 'cta', 'cta-wa'],
     },
   },
 })
