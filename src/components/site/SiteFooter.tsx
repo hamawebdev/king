@@ -1,78 +1,111 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router'
-import { BRAND, FOOTER_NAV, LEGAL_NAV, SITE_DOMAIN, type NavItem } from '@/lib/site'
-import { Button, Section, Wordmark } from '@/components/brand'
+import { Container } from '@/components/kit'
+import { BRAND, LEGAL_NAV, waLink } from '@/lib/site'
+import { FloatingButtons } from './FloatingButtons'
+import { ExternalLink, SectionLink } from './SiteFooter.links'
+import { Wordmark } from './SiteHeader.wordmark'
 
-const footerLink =
-  'inline-block py-1 font-sans text-[0.9375rem] leading-6 font-medium text-on-vault-muted underline-offset-4 decoration-1 ' +
-  'transition-colors duration-180 ease-calm hover:text-on-vault hover:underline'
+const REVENDEUR_MESSAGE = 'Bonjour NovaStream, je souhaite des informations sur le programme Revendeur'
 
-/** One link column, headed by a short brass rule (no title words: the content has none). */
-function LinkColumn({ items }: { items: NavItem[] }) {
+const linkClass =
+  'inline-flex min-h-9 items-center rounded-sm text-[0.9375rem] text-slate-400 transition-colors hover:text-white ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400'
+
+type FooterLink = { label: string } & ({ section: string } | { href: string } | { to: string })
+
+// Spec S15, column « Navigation Rapide ».
+const QUICK_NAV: FooterLink[] = [
+  { label: 'Accueil', section: 'hero' },
+  { label: 'Boutique', section: 'signature' },
+  { label: 'Revendeur', href: waLink(REVENDEUR_MESSAGE) },
+  { label: 'Télécharger', section: 'installation' },
+  { label: 'Contact', href: waLink() },
+]
+
+// Spec S15, column « Informations Légales »: the four legal pages, then « Contactez-nous » on WhatsApp.
+const LEGAL: FooterLink[] = [
+  ...LEGAL_NAV.filter((l) => l.to !== '/contact/').map((l) => ({ label: l.label, to: l.to })),
+  { label: 'Contactez-nous', href: waLink() },
+]
+
+function FooterAnchor({ item }: { item: FooterLink }) {
+  if ('section' in item) {
+    return (
+      <SectionLink id={item.section} className={linkClass}>
+        {item.label}
+      </SectionLink>
+    )
+  }
+  if ('href' in item) {
+    return (
+      <ExternalLink href={item.href} className={linkClass}>
+        {item.label}
+      </ExternalLink>
+    )
+  }
   return (
-    <ul className="grid content-start gap-1 before:mb-4 before:block before:h-px before:w-7 before:bg-brass-500 before:content-['']">
-      {items.map((item) => (
-        <li key={item.label}>
-          <Link to={item.to} className={footerLink}>
-            {item.label}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <Link to={item.to} className={linkClass}>
+      {item.label}
+    </Link>
   )
 }
 
-function toTop() {
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+function Column({ title, items }: { title: string; items: FooterLink[] }): ReactNode {
+  return (
+    <nav aria-label={title}>
+      <h2 className="text-xs font-semibold tracking-[0.12em] text-white uppercase">{title}</h2>
+      <ul className="mt-4 grid gap-1">
+        {items.map((item) => (
+          <li key={item.label}>
+            <FooterAnchor item={item} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
 }
 
-// Vault footer band (DIRECTION §9.0 chrome-footer): wordmark, two link columns, ledger-style bottom row
-// and a giant engraved wordmark (pseudo-content, decorative) behind it.
+/** Spec S15 — footer on the dark slate « night » ground with the giant NovaStream watermark. */
 export function SiteFooter() {
   return (
-    <Section
-      as="footer"
-      zone="vault"
-      id="Footer"
-      dataSection="chrome-footer"
-      rhythm="none"
-      container="wide"
-      className="scroll-mt-0 pt-14 pb-8 md:pt-16"
+    <>
+      <footer
+        id="Footer"
+        data-section="chrome-footer"
+        className="relative isolate overflow-hidden bg-night pt-16 pb-24 text-slate-400 [color-scheme:dark] md:pt-20 md:pb-10"
+      >
+        <Container>
+          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <Link
+                to="/"
+                aria-label={`${BRAND} — accueil`}
+                className="inline-flex rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
+              >
+                <Wordmark onDark className="text-[1.75rem] leading-none" />
+              </Link>
+              <p className="mt-4 max-w-xs text-[0.9375rem] leading-relaxed text-slate-400">
+                Distributeur Agréé King 365 TV · Assistance &amp; Activation 7j/7
+              </p>
+            </div>
+            <Column title="Navigation Rapide" items={QUICK_NAV} />
+            <Column title="Informations Légales" items={LEGAL} />
+          </div>
+
+          <p
+            aria-hidden="true"
+            className="pointer-events-none mt-14 -mb-2 text-center text-[min(16.5vw,12.5rem)] leading-[0.85] font-extrabold tracking-[-0.04em] whitespace-nowrap text-slate-800/40 select-none md:mt-20"
           >
-      {/* One grid so the single back-to-top button can sit by the wordmark on phone (clear of the fixed
-          buy bar and WhatsApp bubble) and in the bottom row from md. */}
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-6">
-        <div className="col-[1/2] row-start-1 self-center lg:self-start">
-          <span className="inline-flex" aria-hidden="true">
-            <Wordmark tone="vault" size="footer" className="h-7 md:h-8" />
-          </span>
-        </div>
+            {BRAND}
+          </p>
 
-        <div className="col-[1/-1] row-start-2 mt-12 grid grid-cols-2 gap-x-6 sm:gap-x-grid lg:col-[2/3] lg:row-start-1 lg:mt-0 lg:grid-cols-[repeat(2,minmax(13rem,auto))] lg:gap-x-20">
-          <LinkColumn items={FOOTER_NAV} />
-          <LinkColumn items={LEGAL_NAV} />
-        </div>
-
-        <span
-          aria-hidden="true"
-          data-label={BRAND}
-          className="pointer-events-none col-[1/-1] row-start-3 mt-14 block [contain:inline-size] font-display text-[clamp(4rem,12vw,11rem)] leading-[0.8] font-medium tracking-[-0.02em] whitespace-nowrap text-on-vault/[.07] select-none before:content-[attr(data-label)] md:mt-16"
-        />
-
-        <span aria-hidden="true" className="col-[1/-1] row-start-4 h-px self-start bg-vault-line" />
-        <p className="col-[1/-1] row-start-4 self-center pt-6 font-sans text-micro font-medium text-on-vault-muted md:col-[1/2]">
-          &copy; 2026{' '}
-          <Link to="/" className="text-on-vault-muted underline-offset-4 transition-colors duration-180 ease-calm hover:text-on-vault hover:underline">
-            {SITE_DOMAIN}
-          </Link>{' '}
-          | Tous droits réservés
-        </p>
-        <div className="col-[2/3] row-start-1 self-center justify-self-end md:row-start-4 md:pt-6">
-          <Button variant="icon-vault" aria-label="Retour en haut" onClick={toTop}>
-            <i className="ti ti-arrow-up" aria-hidden="true" />
-          </Button>
-        </div>
-      </div>
-    </Section>
+          <div className="relative border-t border-white/10 pt-6">
+            <p className="text-sm text-slate-500">© 2026 NovaStream | Tous droits réservés</p>
+          </div>
+        </Container>
+      </footer>
+      <FloatingButtons />
+    </>
   )
 }
