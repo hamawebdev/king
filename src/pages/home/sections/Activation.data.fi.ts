@@ -26,7 +26,7 @@ export const fi: ActivationCopy = {
       num: '03',
       title: 'Xtream- ja M3U-tunnukset heti',
       chip: { emoji: '⚡', label: 'Suora toimitus' },
-      text: 'Saat täydelliset tunnuksesi heti WhatsAppiin ja sähköpostiin: Xtream API -koodit (käyttäjätunnus, salasana, palvelimen URL) sekä optimoidun M3U-linkin, joka käyttää omaa DNS:ää operaattoriestoja vastaan.',
+      text: 'Saat täydelliset tunnuksesi heti WhatsAppiin ja sähköpostiin: Xtream API -koodit (käyttäjätunnus, salasana, palvelimen URL) sekä optimoidun M3U-linkin, joka käyttää omaa DNS:ää operaattoriestoja vastaan.',
     },
     {
       num: '04',
@@ -93,7 +93,7 @@ export const fi: ActivationCopy = {
     { emoji: '💻', label: 'Windows-PC ja Mac' },
     { emoji: '📡', label: 'Formuler (MyTVOnline)' },
     { emoji: '📟', label: 'MAG Box' },
-    { emoji: '⚡', label: 'Xtream API -soitin' },
+    { emoji: '⚡', label: 'Xtream API -soitin' },
     { emoji: '🔗', label: 'M3U-soittolista' },
   ],
   protocols: [
@@ -105,7 +105,7 @@ export const fi: ActivationCopy = {
     },
     {
       num: '2',
-      title: 'NovaStream Xtream API -soitin',
+      title: 'NovaStream Xtream API -soitin',
       tag: 'Suosittu · Ei monimutkaisia asetuksia',
       text: 'Nopea yhteys NovaStreamin toimittamalla käyttäjätunnuksella, salasanalla ja palvelimen URL-osoitteella sekä EPG-ohjelmaoppaan automaattisella synkronoinnilla.',
     },

@@ -13,7 +13,7 @@ export const pt: ActivationCopy = {
       num: '01',
       title: 'Escolha da duração',
       chip: { emoji: '⏱️', label: '1 minuto' },
-      text: 'Escolha o período adequado às suas necessidades: 6 meses, 12 meses (Pack Signature recomendado) ou 24 meses. Beneficie de preços degressivos claros, sem fidelizações escondidas.',
+      text: 'Escolha o período adequado às suas necessidades: 6 meses, 12 meses (Pack Signature recomendado) ou 24 meses. Beneficie de preços degressivos claros, sem compromissos ocultos.',
     },
     {
       num: '02',
@@ -71,7 +71,7 @@ export const pt: ActivationCopy = {
     badge: 'PREÇOS OFICIAIS · DISTRIBUIDOR AUTORIZADO KING 365 TV',
     title: 'Escolha a sua subscrição oficial King 365 TV',
     subtitle:
-      'Quer pretenda ativar uma nova subscrição King 365 ou renovar a sua subscrição King 365 atual, desfrute de uma emissão contínua de alto desempenho, sem fidelizações escondidas.',
+      'Quer pretenda ativar uma nova subscrição King 365 ou renovar a sua subscrição King 365 atual, desfrute de uma emissão contínua de alto desempenho, sem compromissos ocultos.',
   },
   includedHead: {
     badge: 'INCLUÍDO EM CADA PLANO NOVASTREAM',

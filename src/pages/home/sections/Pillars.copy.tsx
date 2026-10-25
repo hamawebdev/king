@@ -266,7 +266,7 @@ export const PILLARS_COPY: Localized<PillarsCopy> = {
       {
         emoji: '✨',
         title: 'Huippulaadukas kuva aina 4K HDR:ään asti',
-        text: 'Datansäästävästä 480p:stä 1080p:n kautta aitoon 4K Ultra HD -kuvaan 60 FPS:llä: NovaStreamin lähetys mukautuu automaattisesti nettiyhteytesi nopeuteen ilman rajua pakkausta.',
+        text: 'Datansäästävästä 480p:stä 1080p:n kautta aitoon 4K Ultra HD -kuvaan 60 FPS:llä: NovaStreamin lähetys mukautuu automaattisesti nettiyhteytesi nopeuteen ilman rajua pakkausta.',
       },
       {
         emoji: '🌐',
