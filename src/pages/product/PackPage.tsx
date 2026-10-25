@@ -21,6 +21,11 @@ function inclusionItems(pack: Pack) {
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
 }
 
+/** Display only: keep « 1-to-1 » on one line (non-breaking hyphens); PACKS text is unchanged. */
+function nb(s: string) {
+  return s.replace(/1-to-1/g, '1\u2011to\u20111')
+}
+
 /** Lower-case the first letter for mid-sentence use, unless it starts an acronym (DNS). */
 function lowerFirst(s: string) {
   return /^[A-ZÀ-Ý][a-zà-ÿ]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s
@@ -44,7 +49,7 @@ function PriceCard({ pack }: { pack: Pack }) {
         {inclusionItems(pack).map((item) => (
           <li key={item} className="flex items-start gap-3 text-[0.9375rem] text-heading">
             <Check aria-hidden="true" className="mt-0.5 size-4.5 shrink-0 text-brand" strokeWidth={2.5} />
-            {item}
+            {nb(item)}
           </li>
         ))}
       </ul>
@@ -77,7 +82,7 @@ function OtherPacks({ current }: { current: Pack }) {
                 {p.price} <span className="text-sm font-normal text-body">/ {p.duration}</span>
               </span>
               <span className="mt-1 text-sm text-brand">{p.perMonth}</span>
-              <span className="mt-4 text-sm leading-relaxed text-body">{p.inclusions}</span>
+              <span className="mt-4 text-sm leading-relaxed text-body">{nb(p.inclusions)}</span>
             </Card>
           </li>
         ))}
@@ -110,11 +115,12 @@ export function PackPage({ pack }: { pack: Pack }) {
                 <span className="block">
                   {pack.name}
                   {pack.highlighted ? '\u00a0⭐' : ''}
-                </span>
+                </span>{' '}
+                <span className="sr-only">· </span>
                 <span className="block text-brand">{pack.duration}</span>
               </h1>
               <p className="max-w-xl text-lg leading-relaxed text-body">
-                King 365 TV abonnement officiel de {pack.duration} chez NovaStream : {lowerFirst(pack.inclusions)}
+                King 365 TV abonnement officiel de {pack.duration} chez NovaStream : {nb(lowerFirst(pack.inclusions))}
               </p>
               <p className="max-w-xl text-[0.9375rem] leading-relaxed text-body">
                 Commande, renouvellement et activation se font en direct avec un conseiller NovaStream sur WhatsApp : vos
