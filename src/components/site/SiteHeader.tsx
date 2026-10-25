@@ -15,7 +15,7 @@ const navLinkClass =
 
 /**
  * Sticky white header: wordmark, main nav (from lg), language menu, WhatsApp CTA and, below lg, the menu toggle.
- * Transparent border at the top of the page; a hairline, blur and soft shadow once scrolled.
+ * Transparent border at the top of the page; a 1px line, blur and soft shadow once scrolled.
  */
 export function SiteHeader() {
   const { pathname } = useLocation()
